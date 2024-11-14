@@ -14,20 +14,26 @@
         tools:targetApi="31">
 
         <activity
-            android:name=".MainMenu"
+            android:name=".main.MainMenu"
             android:screenOrientation="sensorLandscape"
             tools:ignore="DiscouragedApi,MissingClass">
 
         </activity>
 
         <activity
-            android:name=".HelpPage"
+            android:name=".main.HelpPage"
             android:screenOrientation="sensorLandscape"
             tools:ignore="DiscouragedApi">
         </activity>
 
         <activity
-            android:name=".SplashPage"
+            android:name=".mgp2d.core.GameActivity"
+            android:screenOrientation="sensorLandscape"
+            tools:ignore="DiscouragedApi">
+        </activity>
+
+        <activity
+            android:name=".main.SplashPage"
             android:exported="true"
             android:screenOrientation="sensorLandscape"
             tools:ignore="DiscouragedApi">

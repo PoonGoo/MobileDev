@@ -1,9 +1,11 @@
-package com.example.dx1221_elearning_wk3;
+package com.example.dx1221_elearning_wk3.main;
 
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+
+import com.example.dx1221_elearning_wk3.R;
 
 
 public class SplashPage extends Activity
