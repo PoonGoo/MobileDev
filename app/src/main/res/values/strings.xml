@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">DX1221_eLearning_wk3</string>
+    <string name="game_title">Game</string>
+    <string name="play_btn_text">PLAY</string>
+    <string name="help_btn_text">Help</string>
+    <string name="back_btn_text">Back</string>
+</resources>
