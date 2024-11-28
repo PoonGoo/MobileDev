@@ -9,7 +9,6 @@ import android.widget.Button; // Corrected import
 import com.example.dx1221_elearning_wk3.R;
 import com.example.dx1221_elearning_wk3.mgp2d.core.GameActivity;
 import com.example.dx1221_elearning_wk3.mgp2d.core.GameScene;
-import com.example.dx1221_elearning_wk3.mgp2d.core.MainGameScene;
 
 public class MainMenu extends Activity implements View.OnClickListener // Corrected typo
 {
