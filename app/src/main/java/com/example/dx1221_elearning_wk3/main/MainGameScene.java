@@ -19,6 +19,11 @@ public class MainGameScene extends GameScene {
     private Bitmap _backgroundBitmap1;
     private float _backgroundPosition;
     private int screenWidth;
+    private int screenHeight;
+
+    public Bitmap leftArrow;
+
+    public Bitmap rightArrow;
 
     Vector<GameEntity> _gameEntities = new Vector<>();
     private MediaPlayer _ringSound;
@@ -28,14 +33,20 @@ public class MainGameScene extends GameScene {
     @Override
     public void onCreate() {
         super.onCreate();
-        int screenHeight = GameActivity.instance.getResources().getDisplayMetrics().heightPixels;
+        screenHeight = GameActivity.instance.getResources().getDisplayMetrics().heightPixels;
         screenWidth = GameActivity.instance.getResources().getDisplayMetrics().widthPixels;
 
         Bitmap bmp = BitmapFactory.decodeResource(GameActivity.instance.getResources(), R.drawable.gamescene);
         _backgroundBitmap = Bitmap.createScaledBitmap(bmp, screenWidth,screenHeight,true);
         _backgroundBitmap1 = Bitmap.createScaledBitmap(bmp, screenWidth,screenHeight,true);
 
-        _gameEntities.add(new BackgroundEntity());
+
+        Bitmap lArrow  = BitmapFactory.decodeResource(GameActivity.instance.getResources(), R.drawable.left_button);
+        Bitmap rArrow = BitmapFactory.decodeResource(GameActivity.instance.getResources(), R.drawable.right_button);
+        leftArrow = Bitmap.createScaledBitmap(lArrow, (int)(screenHeight * 0.2f) ,(int)(screenHeight * 0.2f),true);
+        rightArrow = Bitmap.createScaledBitmap(rArrow, (int)(screenHeight * 0.2f) ,(int)(screenHeight * 0.2f),true);
+
+                _gameEntities.add(new BackgroundEntity());
         _gameEntities.add(new PlayerEntity());
         
         _bgMusic = MediaPlayer.create(GameActivity.instance.getApplicationContext(), R.raw.shinytech);
@@ -60,6 +71,9 @@ public class MainGameScene extends GameScene {
     public void onRender(Canvas canvas) {
         canvas.drawBitmap(_backgroundBitmap, _backgroundPosition, 0, null );
         canvas.drawBitmap(_backgroundBitmap1, _backgroundPosition + screenWidth, 0, null );
+        canvas.drawBitmap(leftArrow, screenWidth * 0.1f, screenHeight * 0.7f, null);
+        canvas.drawBitmap(rightArrow, screenWidth * 0.2f, screenHeight * 0.7f, null);
+
 
         for(GameEntity entity : _gameEntities)
         {
