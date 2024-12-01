@@ -41,6 +41,7 @@ public class TouchHandler extends GameEntity {
         return isPressed2;
     }
 
+
     @Override
     public void onUpdate(float dt) {
         HandleTouch();

@@ -50,14 +50,15 @@ public class PlayerEntity extends GameEntity {
         gameWidth = GameActivity.instance.getResources().getDisplayMetrics().widthPixels;
         gameHeight = GameActivity.instance.getResources().getDisplayMetrics().heightPixels;
 
-        _position.x  = gameWidth / 2;
-        _position.y = gameHeight / 2;
+        _position.x  = gameWidth / 2f;
+        _position.y = gameHeight / 2f;
 
         bmp = BitmapFactory.decodeResource(GameActivity.instance.getResources(), R.drawable.cat_player);
         sprite = Bitmap.createScaledBitmap(bmp, (int) (bmp.getWidth() * 1.5f), (int) (bmp.getHeight() * 1.5f), true);
 
         //FPS for sprites can be in 10, 12, 24, 30
         _animatedSprite = new AnimatedSprite(sprite, 1, 10, 30);
+
 
         _size = new Vector2(bmp.getWidth()/10, bmp.getHeight());
     }
