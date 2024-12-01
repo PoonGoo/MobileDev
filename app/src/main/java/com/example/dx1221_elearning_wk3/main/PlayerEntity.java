@@ -33,9 +33,13 @@ public class PlayerEntity extends GameEntity {
 
     boolean flying;
 
+    public int Health;
+
+
 
     public PlayerEntity()
     {
+
         moveSpeed = 10f;
         fallSpeed = 15f;
         gravity = 9.81f;
@@ -58,6 +62,11 @@ public class PlayerEntity extends GameEntity {
         _size = new Vector2(bmp.getWidth()/7, bmp.getHeight());
     }
 
+    public void TakeDamage()
+    {
+        this.Health--;
+    }
+
     @Override
     public void onUpdate(float dt)
     {
@@ -65,6 +74,20 @@ public class PlayerEntity extends GameEntity {
         _animatedSprite.update(dt);
         Log.d("Sprite Width", " " + sprite.getWidth());
         HandleGravity(dt);
+
+    }
+
+    void HandleDeath()
+    {
+        if(Health <= 0)
+        {
+            //Die
+            Die();
+        }
+    }
+
+    void Die()
+    {
 
     }
 
