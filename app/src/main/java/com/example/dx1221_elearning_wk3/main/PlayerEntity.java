@@ -53,13 +53,13 @@ public class PlayerEntity extends GameEntity {
         _position.x  = gameWidth / 2;
         _position.y = gameHeight / 2;
 
-        bmp = BitmapFactory.decodeResource(GameActivity.instance.getResources(), R.drawable.player_heli_body);
+        bmp = BitmapFactory.decodeResource(GameActivity.instance.getResources(), R.drawable.cat_player);
         sprite = Bitmap.createScaledBitmap(bmp, (int) (bmp.getWidth() * 1.5f), (int) (bmp.getHeight() * 1.5f), true);
 
         //FPS for sprites can be in 10, 12, 24, 30
-        _animatedSprite = new AnimatedSprite(sprite, 1, 7, 24);
+        _animatedSprite = new AnimatedSprite(sprite, 1, 10, 30);
 
-        _size = new Vector2(bmp.getWidth()/7, bmp.getHeight());
+        _size = new Vector2(bmp.getWidth()/10, bmp.getHeight());
     }
 
     public void TakeDamage()
@@ -93,13 +93,13 @@ public class PlayerEntity extends GameEntity {
 
     public void FlipLeft()
     {
-        sprite = Bitmap.createScaledBitmap(bmp, (int) (bmp.getWidth() * 1.5f), (int) (bmp.getHeight() * 1.5f), true);
+        sprite = Bitmap.createScaledBitmap(bmp, (int) -(bmp.getWidth() * 1.5f), (int) (bmp.getHeight() * 1.5f), true);
         _animatedSprite.SetBitMap(sprite);
     }
 
     public void FlipRight()
     {
-        sprite = Bitmap.createScaledBitmap(bmp, (int) -(bmp.getWidth() * 1.5f), (int) (bmp.getHeight() * 1.5f), true);
+        sprite = Bitmap.createScaledBitmap(bmp, (int) (bmp.getWidth() * 1.5f), (int) (bmp.getHeight() * 1.5f), true);
         _animatedSprite.SetBitMap(sprite);
     }
 
