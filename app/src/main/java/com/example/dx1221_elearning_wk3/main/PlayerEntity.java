@@ -4,18 +4,24 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Rect;
+import android.util.Log;
+import android.view.MotionEvent;
 
 import com.example.dx1221_elearning_wk3.R;
 import com.example.dx1221_elearning_wk3.mgp2d.core.GameActivity;
 import com.example.dx1221_elearning_wk3.mgp2d.core.GameEntity;
+import com.example.dx1221_elearning_wk3.mgp2d.core.Vector2;
 import com.example.dx1221_elearning_wk3.mgp2d.extra.AnimatedSprite;
 
 public class PlayerEntity extends GameEntity {
 
     private final AnimatedSprite _animatedSprite;
 
+
+    private float moveSpeed;
     public PlayerEntity()
     {
+        moveSpeed = 10f;
         _position.x = (float) GameActivity.instance.getResources().getDisplayMetrics().widthPixels /2;
         _position.y = (float) GameActivity.instance.getResources().getDisplayMetrics().heightPixels /2;
 
@@ -24,6 +30,8 @@ public class PlayerEntity extends GameEntity {
 
         //FPS for sprites can be in 10, 12, 24, 30
         _animatedSprite = new AnimatedSprite(sprite, 1, 7, 24);
+
+        _size = new Vector2(bmp.getWidth()/7, bmp.getHeight());
     }
 
     @Override
@@ -31,6 +39,21 @@ public class PlayerEntity extends GameEntity {
     {
         super.onUpdate(dt);
         _animatedSprite.update(dt);
+
+
+
+    }
+
+
+
+    public void MoveLeft(double dt)
+    {
+        _position.x -= (float)dt * moveSpeed * 20f;
+    }
+
+    public void MoveRight(double dt)
+    {
+        _position.x += (float)dt * moveSpeed * 20f;
     }
 
     @Override

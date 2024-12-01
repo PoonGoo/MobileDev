@@ -6,11 +6,14 @@ import android.graphics.Canvas;
 import android.media.MediaPlayer;
 import android.os.Vibrator;
 import android.provider.MediaStore;
+import android.util.Log;
+import android.widget.Button;
 
 import com.example.dx1221_elearning_wk3.R;
 import com.example.dx1221_elearning_wk3.mgp2d.core.GameActivity;
 import com.example.dx1221_elearning_wk3.mgp2d.core.GameEntity;
 import com.example.dx1221_elearning_wk3.mgp2d.core.GameScene;
+import com.example.dx1221_elearning_wk3.mgp2d.core.Vector2;
 
 import java.util.Vector;
 
@@ -19,25 +22,59 @@ public class MainGameScene extends GameScene {
     private Bitmap _backgroundBitmap1;
     private float _backgroundPosition;
     private int screenWidth;
+    private int screenHeight;
+
+    public Bitmap leftArrow;
+
+    public Bitmap rightArrow;
 
     Vector<GameEntity> _gameEntities = new Vector<>();
     private MediaPlayer _ringSound;
     private MediaPlayer _bgMusic;
     private Vibrator _vibrator;
 
+    private PlayerEntity player;
+
+
+    private boolean isColliding(GameEntity entityA, GameEntity entityB) {
+        // Calculate boundaries for entityA
+        float aLeft = entityA.getPosition().x - entityA.getSize().x / 2;
+        float aRight = entityA.getPosition().x + entityA.getSize().x / 2;
+        float aTop = entityA.getPosition().y - entityA.getSize().y / 2;
+        float aBtm = entityA.getPosition().y + entityA.getSize().y / 2;
+
+        // Calculate boundaries for entityB
+        float bLeft = entityB.getPosition().x - entityB.getSize().x / 2;
+        float bRight = entityB.getPosition().x + entityB.getSize().x / 2;
+        float bTop = entityB.getPosition().y - entityB.getSize().y / 2;
+        float bBtm = entityB.getPosition().y + entityB.getSize().y / 2;
+
+        // Check for overlap between entityA and entityB
+        return (aLeft < bRight && aRight > bLeft && aTop < bBtm && aBtm > bTop);
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
-        int screenHeight = GameActivity.instance.getResources().getDisplayMetrics().heightPixels;
+        screenHeight = GameActivity.instance.getResources().getDisplayMetrics().heightPixels;
         screenWidth = GameActivity.instance.getResources().getDisplayMetrics().widthPixels;
 
         Bitmap bmp = BitmapFactory.decodeResource(GameActivity.instance.getResources(), R.drawable.gamescene);
         _backgroundBitmap = Bitmap.createScaledBitmap(bmp, screenWidth,screenHeight,true);
         _backgroundBitmap1 = Bitmap.createScaledBitmap(bmp, screenWidth,screenHeight,true);
 
+
+         Bitmap lArrow  = BitmapFactory.decodeResource(GameActivity.instance.getResources(), R.drawable.left_button);
+         Bitmap rArrow = BitmapFactory.decodeResource(GameActivity.instance.getResources(), R.drawable.right_button);
+         leftArrow = Bitmap.createScaledBitmap(lArrow, (int)(screenHeight * 0.2f) ,(int)(screenHeight * 0.2f),true);
+         rightArrow = Bitmap.createScaledBitmap(rArrow, (int)(screenHeight * 0.2f) ,(int)(screenHeight * 0.2f),true);
+         player = new PlayerEntity();
         _gameEntities.add(new BackgroundEntity());
-        _gameEntities.add(new PlayerEntity());
-        
+        _gameEntities.add(new TouchHandler());
+        _gameEntities.add(player);
+        _gameEntities.add(new MovementButton(leftArrow, new Vector2(screenWidth * 0.1f, screenHeight * 0.7f), MovementButton.MovementType.LEFT));
+        _gameEntities.add(new MovementButton(rightArrow, new Vector2(screenWidth * 0.3f, screenHeight * 0.7f), MovementButton.MovementType.RIGHT));
+
         _bgMusic = MediaPlayer.create(GameActivity.instance.getApplicationContext(), R.raw.shinytech);
         _bgMusic.setLooping(true);
 /*
@@ -53,6 +90,23 @@ public class MainGameScene extends GameScene {
         for(GameEntity entity : _gameEntities)
         {
             entity.onUpdate(dt);
+            if(entity instanceof TouchHandler)
+            {
+                for(GameEntity other : _gameEntities)
+                {
+                    if(other instanceof MovementButton && isColliding(entity, other))
+                    {
+                        Log.d("MovementButton", "Movement Button Pressed");
+                        if(((TouchHandler) entity).Pressed())
+                        {
+                            ((MovementButton) other).Move(dt,player);
+                        }
+                    }
+
+                }
+
+
+            }
         }
     }
 
@@ -64,6 +118,7 @@ public class MainGameScene extends GameScene {
         for(GameEntity entity : _gameEntities)
         {
             entity.onRender(canvas);
+
         }
     }
 }
