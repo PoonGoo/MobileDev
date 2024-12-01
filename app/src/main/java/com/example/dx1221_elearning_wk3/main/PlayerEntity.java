@@ -17,12 +17,10 @@ public class PlayerEntity extends GameEntity {
 
     private final AnimatedSprite _animatedSprite;
 
-    private int _currentPointerID;
 
     private float moveSpeed;
     public PlayerEntity()
     {
-        _currentPointerID = -1;
         moveSpeed = 10f;
         _position.x = (float) GameActivity.instance.getResources().getDisplayMetrics().widthPixels /2;
         _position.y = (float) GameActivity.instance.getResources().getDisplayMetrics().heightPixels /2;
@@ -32,6 +30,8 @@ public class PlayerEntity extends GameEntity {
 
         //FPS for sprites can be in 10, 12, 24, 30
         _animatedSprite = new AnimatedSprite(sprite, 1, 7, 24);
+
+        _size = new Vector2(bmp.getWidth()/7, bmp.getHeight());
     }
 
     @Override
@@ -40,53 +40,20 @@ public class PlayerEntity extends GameEntity {
         super.onUpdate(dt);
         _animatedSprite.update(dt);
 
-        HandleTouch();
-
 
 
     }
 
-    private void HandleTouch()
+
+
+    public void MoveLeft(double dt)
     {
-        MotionEvent motionEvent = GameActivity.instance.getMotionEvent();
-        if(motionEvent == null) return;
-
-        int action = motionEvent.getActionMasked();
-        int actionIndex = motionEvent.getActionIndex();
-        int pointerID = motionEvent.getPointerId(actionIndex);
-
-        if(_currentPointerID == -1 &&
-                (action == MotionEvent.ACTION_DOWN || action == MotionEvent.ACTION_POINTER_DOWN))
-        {
-            _currentPointerID = pointerID;
-        }
-        else if (_currentPointerID == pointerID &&
-                (action == MotionEvent.ACTION_UP || action == motionEvent.ACTION_POINTER_UP))
-        {
-            _currentPointerID = -1;
-        }
-
-
-        if(_currentPointerID != -1)
-        {
-            //If there is a finger touching the screen
-            for(int i = 0; i < motionEvent.getPointerCount(); i++)
-            {
-                if(motionEvent.getPointerId(i) != _currentPointerID) continue;
-                _position.x = motionEvent.getX();
-                _position.y = motionEvent.getY();
-            }
-        }
+        _position.x -= (float)dt * moveSpeed * 20f;
     }
 
-    private void MoveLeft(double dt)
+    public void MoveRight(double dt)
     {
-        _position.x -= (float)dt * moveSpeed;
-    }
-
-    private void MoveRight(double dt)
-    {
-        _position.x += (float)dt * moveSpeed;
+        _position.x += (float)dt * moveSpeed * 20f;
     }
 
     @Override
