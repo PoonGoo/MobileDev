@@ -17,16 +17,44 @@ public class PlayerEntity extends GameEntity {
 
     private final AnimatedSprite _animatedSprite;
 
+    private float gravity;
 
     private float moveSpeed;
+
+    private float fallSpeed;
+
+    private float flySpeed;
+
+    private int gameHeight;
+    private int gameWidth;
+
+    Bitmap sprite;
+    Bitmap bmp;
+
+    boolean flying;
+
+    public int Health;
+
+
+
     public PlayerEntity()
     {
-        moveSpeed = 10f;
-        _position.x = (float) GameActivity.instance.getResources().getDisplayMetrics().widthPixels /2;
-        _position.y = (float) GameActivity.instance.getResources().getDisplayMetrics().heightPixels /2;
 
-        Bitmap bmp = BitmapFactory.decodeResource(GameActivity.instance.getResources(), R.drawable.player_heli_body);
-        Bitmap sprite = Bitmap.createScaledBitmap(bmp, (int) (bmp.getWidth() * 1.5f), (int) (bmp.getHeight() * 1.5f), true);
+        moveSpeed = 10f;
+        fallSpeed = 15f;
+        gravity = 9.81f;
+        flySpeed = 20f;
+
+        flying = false;
+
+        gameWidth = GameActivity.instance.getResources().getDisplayMetrics().widthPixels;
+        gameHeight = GameActivity.instance.getResources().getDisplayMetrics().heightPixels;
+
+        _position.x  = gameWidth / 2;
+        _position.y = gameHeight / 2;
+
+        bmp = BitmapFactory.decodeResource(GameActivity.instance.getResources(), R.drawable.player_heli_body);
+        sprite = Bitmap.createScaledBitmap(bmp, (int) (bmp.getWidth() * 1.5f), (int) (bmp.getHeight() * 1.5f), true);
 
         //FPS for sprites can be in 10, 12, 24, 30
         _animatedSprite = new AnimatedSprite(sprite, 1, 7, 24);
@@ -34,26 +62,86 @@ public class PlayerEntity extends GameEntity {
         _size = new Vector2(bmp.getWidth()/7, bmp.getHeight());
     }
 
+    public void TakeDamage()
+    {
+        this.Health--;
+    }
+
     @Override
     public void onUpdate(float dt)
     {
         super.onUpdate(dt);
         _animatedSprite.update(dt);
-
-
+        Log.d("Sprite Width", " " + sprite.getWidth());
+        HandleGravity(dt);
 
     }
 
+    void HandleDeath()
+    {
+        if(Health <= 0)
+        {
+            //Die
+            Die();
+        }
+    }
+
+    void Die()
+    {
+
+    }
+
+    public void FlipLeft()
+    {
+        sprite = Bitmap.createScaledBitmap(bmp, (int) (bmp.getWidth() * 1.5f), (int) (bmp.getHeight() * 1.5f), true);
+        _animatedSprite.SetBitMap(sprite);
+    }
+
+    public void FlipRight()
+    {
+        sprite = Bitmap.createScaledBitmap(bmp, (int) -(bmp.getWidth() * 1.5f), (int) (bmp.getHeight() * 1.5f), true);
+        _animatedSprite.SetBitMap(sprite);
+    }
 
 
     public void MoveLeft(double dt)
     {
-        _position.x -= (float)dt * moveSpeed * 20f;
+        if(_position.x >= 0 + _size.x)
+        {
+            _position.x -= (float)dt * moveSpeed * 20f;
+        }
     }
 
     public void MoveRight(double dt)
     {
-        _position.x += (float)dt * moveSpeed * 20f;
+        if(_position.x <= gameWidth - _size.x)
+        {
+            _position.x += (float)dt * moveSpeed * 20f;
+        }
+    }
+
+    private void HandleGravity(double dt)
+    {
+        if(_position.y <= gameHeight - _size.y && !flying)
+        {
+            _position.y += gravity * (float)dt * fallSpeed;
+        }
+    }
+
+    public void Fly(double dt)
+    {
+        flying = true;
+        if(_position.y >= 0 + _size.y)
+        {
+
+            _position.y -= flySpeed * (float)dt * 20;
+        }
+    }
+
+    public void EndFly()
+    {
+        flying = false;
+
     }
 
     @Override

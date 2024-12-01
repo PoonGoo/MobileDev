@@ -38,12 +38,15 @@ public class MovementButton extends GameEntity
         {
             case LEFT:
                 player.MoveLeft(dt);
+                player.FlipLeft();
                 break;
             case RIGHT:
                 player.MoveRight(dt);
+                player.FlipRight();
                 break;
         }
     }
+
 
 
 }
