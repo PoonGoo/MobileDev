@@ -12,6 +12,6 @@ public class LightningTrap extends Traps
     @Override
     public void DoEffect(double dt)
     {
-
+        _position.x -= MainGameScene.WorldSpeed * dt;
     }
 }
