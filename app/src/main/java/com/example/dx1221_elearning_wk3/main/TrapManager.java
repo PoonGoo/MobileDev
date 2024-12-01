@@ -1,8 +1,12 @@
 package com.example.dx1221_elearning_wk3.main;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.hardware.lights.Light;
 
+import com.example.dx1221_elearning_wk3.R;
+import com.example.dx1221_elearning_wk3.mgp2d.core.GameActivity;
 import com.example.dx1221_elearning_wk3.mgp2d.core.GameEntity;
 
 import java.util.Arrays;
@@ -31,12 +35,13 @@ public class TrapManager extends GameEntity
 
     Bitmap ArrowAsset;
     Bitmap LightningAsset;
-
     Bitmap CoconutAsset;
 
     private TrapManager()
     {
         //TODO: Init trap assets (Animation if have)
+        //ArrowAsset = BitmapFactory.decodeResource(GameActivity.instance.getResources(),);
+
     }
     public static synchronized TrapManager getInstance()
     {
@@ -66,13 +71,13 @@ public class TrapManager extends GameEntity
                 break;
 
             case COCONUT:
-                Traps CoconutTrap = new CoconutTrap(ArrowAsset);
+                Traps CoconutTrap = new CoconutTrap(CoconutAsset);
                 ActiveTraps.add(CoconutTrap);
 
                 break;
 
             case LIGHTNING:
-                Traps LightningTrap = new LightningTrap(ArrowAsset);
+                Traps LightningTrap = new LightningTrap(LightningAsset);
                 ActiveTraps.add(LightningTrap);
 
                 break;
