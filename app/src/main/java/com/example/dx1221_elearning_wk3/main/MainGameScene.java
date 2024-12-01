@@ -35,6 +35,9 @@ public class MainGameScene extends GameScene {
 
     private PlayerEntity player;
 
+    private Bitmap[] _backgroundLayers = new Bitmap[6]; // Array for 6 layers
+    private float[] _layerPositions = new float[6];     // Position for each layer
+    private float[] _layerSpeeds = {50f, 100f, 150f, 200f, 250f, 300f}; // Speeds for parallax effect
 
 
 
@@ -44,12 +47,32 @@ public class MainGameScene extends GameScene {
         screenHeight = GameActivity.instance.getResources().getDisplayMetrics().heightPixels;
         screenWidth = GameActivity.instance.getResources().getDisplayMetrics().widthPixels;
 
-        Bitmap bmp = BitmapFactory.decodeResource(GameActivity.instance.getResources(), R.drawable.gamescene);
+    /*    Bitmap bmp = BitmapFactory.decodeResource(GameActivity.instance.getResources(), R.drawable.gamescene);
         _backgroundBitmap = Bitmap.createScaledBitmap(bmp, screenWidth,screenHeight,true);
-        _backgroundBitmap1 = Bitmap.createScaledBitmap(bmp, screenWidth,screenHeight,true);
+        _backgroundBitmap1 = Bitmap.createScaledBitmap(bmp, screenWidth,screenHeight,true);*/
+
+        // Load background layers
+        int[] layerResources = {
+                R.drawable.layer1,
+                R.drawable.layer2,
+                R.drawable.layer3,
+                R.drawable.layer4,
+                R.drawable.layer5,
+                R.drawable.layer6
+        };
+
+        for (int i = 0; i < _backgroundLayers.length; i++) {
+            Bitmap bmp = BitmapFactory.decodeResource(GameActivity.instance.getResources(), layerResources[i]);
+            _backgroundLayers[i] = Bitmap.createScaledBitmap(bmp, screenWidth, screenHeight, true);
+        }
+
+        // Initialize positions
+        for (int i = 0; i < _layerPositions.length; i++) {
+            _layerPositions[i] = 0;
+        }
 
 
-         Bitmap lArrow  = BitmapFactory.decodeResource(GameActivity.instance.getResources(), R.drawable.left_button);
+        Bitmap lArrow  = BitmapFactory.decodeResource(GameActivity.instance.getResources(), R.drawable.left_button);
          Bitmap rArrow = BitmapFactory.decodeResource(GameActivity.instance.getResources(), R.drawable.right_button);
          leftArrow = Bitmap.createScaledBitmap(lArrow, (int)(screenHeight * 0.2f) ,(int)(screenHeight * 0.2f),true);
          rightArrow = Bitmap.createScaledBitmap(rArrow, (int)(screenHeight * 0.2f) ,(int)(screenHeight * 0.2f),true);
@@ -70,7 +93,15 @@ public class MainGameScene extends GameScene {
 
     @Override
     public void onUpdate(float dt) {
+/*
         _backgroundPosition = (_backgroundPosition - dt * 500f) % (float)screenWidth;
+*/
+        for (int i = 0; i < _backgroundLayers.length; i++) {
+            _layerPositions[i] -= _layerSpeeds[i] * dt;
+            if (_layerPositions[i] <= -screenWidth) {
+                _layerPositions[i] += screenWidth;
+            }
+        }
 
         for(GameEntity entity : _gameEntities)
         {
@@ -107,8 +138,12 @@ public class MainGameScene extends GameScene {
 
     @Override
     public void onRender(Canvas canvas) {
-        canvas.drawBitmap(_backgroundBitmap, _backgroundPosition, 0, null );
-        canvas.drawBitmap(_backgroundBitmap1, _backgroundPosition + screenWidth, 0, null );
+
+        // Draw background layers
+        for (int i = 0; i < _backgroundLayers.length; i++) {
+            canvas.drawBitmap(_backgroundLayers[i], _layerPositions[i], 0, null);
+            canvas.drawBitmap(_backgroundLayers[i], _layerPositions[i] + screenWidth, 0, null);
+        }
 
         for(GameEntity entity : _gameEntities)
         {
