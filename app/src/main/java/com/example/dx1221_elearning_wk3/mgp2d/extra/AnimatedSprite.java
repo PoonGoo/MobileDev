@@ -15,7 +15,7 @@ public class AnimatedSprite {
     private int _endFrame;
     private final float _timePerFrame;
     private float _timeAccumulated = 0f;
-    private final Bitmap _bmp;
+    private Bitmap _bmp;
     private boolean _isLooping = true;
 
     private final Rect _src;
@@ -36,6 +36,10 @@ public class AnimatedSprite {
         this(bitmap, row, col, fps);
         _startFrame = startFrame;
         _endFrame = endFrame;
+    }
+    public void SetBitMap(Bitmap bmp)
+    {
+        this._bmp = bmp;
     }
 
     public void setLooping(boolean shouldLoop) { _isLooping = shouldLoop; }

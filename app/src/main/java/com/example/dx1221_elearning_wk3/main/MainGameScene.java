@@ -38,16 +38,16 @@ public class MainGameScene extends GameScene {
 
     private boolean isColliding(GameEntity entityA, GameEntity entityB) {
         // Calculate boundaries for entityA
-        float aLeft = entityA.getPosition().x - entityA.getSize().x / 2;
-        float aRight = entityA.getPosition().x + entityA.getSize().x / 2;
-        float aTop = entityA.getPosition().y - entityA.getSize().y / 2;
-        float aBtm = entityA.getPosition().y + entityA.getSize().y / 2;
+        float aLeft = entityA.getPosition().x ;
+        float aRight = entityA.getPosition().x + entityA.getSize().x;
+        float aTop = entityA.getPosition().y;
+        float aBtm = entityA.getPosition().y + entityA.getSize().y;
 
         // Calculate boundaries for entityB
-        float bLeft = entityB.getPosition().x - entityB.getSize().x / 2;
-        float bRight = entityB.getPosition().x + entityB.getSize().x / 2;
-        float bTop = entityB.getPosition().y - entityB.getSize().y / 2;
-        float bBtm = entityB.getPosition().y + entityB.getSize().y / 2;
+        float bLeft = entityB.getPosition().x;
+        float bRight = entityB.getPosition().x + entityB.getSize().x;
+        float bTop = entityB.getPosition().y;
+        float bBtm = entityB.getPosition().y + entityB.getSize().y;
 
         // Check for overlap between entityA and entityB
         return (aLeft < bRight && aRight > bLeft && aTop < bBtm && aBtm > bTop);
@@ -73,7 +73,7 @@ public class MainGameScene extends GameScene {
         _gameEntities.add(new TouchHandler());
         _gameEntities.add(player);
         _gameEntities.add(new MovementButton(leftArrow, new Vector2(screenWidth * 0.1f, screenHeight * 0.7f), MovementButton.MovementType.LEFT));
-        _gameEntities.add(new MovementButton(rightArrow, new Vector2(screenWidth * 0.3f, screenHeight * 0.7f), MovementButton.MovementType.RIGHT));
+        _gameEntities.add(new MovementButton(rightArrow, new Vector2(screenWidth * 0.2f, screenHeight * 0.7f), MovementButton.MovementType.RIGHT));
 
         _bgMusic = MediaPlayer.create(GameActivity.instance.getApplicationContext(), R.raw.shinytech);
         _bgMusic.setLooping(true);
@@ -103,6 +103,16 @@ public class MainGameScene extends GameScene {
                         }
                     }
 
+                }
+
+                if((((TouchHandler) entity).Pressed() || ((TouchHandler) entity).SecondPressed()) && (((TouchHandler) entity).SecondTouchPos.x >= screenWidth / 2f))
+                {
+                    Log.d("Fly", "FlyPressed");
+                    player.Fly(dt);
+                }
+                else
+                {
+                    player.EndFly();
                 }
 
 
