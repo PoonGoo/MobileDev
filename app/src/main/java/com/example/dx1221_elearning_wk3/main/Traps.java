@@ -8,15 +8,36 @@ import com.example.dx1221_elearning_wk3.mgp2d.core.Vector2;
 
 public abstract class Traps extends GameEntity {
 
-    public Traps(Bitmap trapAsset, Vector2 SpawnPos)
-    {
+    Bitmap bmp;
 
+    boolean isActive;
+    public Traps(Bitmap trapAsset)
+    {
+        isActive = false;
+        bmp = trapAsset;
+
+    }
+
+    public void Spawn(Vector2 spawnPt)
+    {
+        isActive = true;
+        _position = spawnPt;
+    }
+
+    public void HandleCollision(PlayerEntity player)
+    {
+        player.TakeDamage();
     }
 
     @Override
     public void onRender(Canvas canvas) {
+        if(!isActive)
+            return;
+
+        canvas.drawBitmap(bmp, _position.x, _position.y , null);
+
 
     }
 
-    public abstract void DoEffect();
+    public abstract void DoEffect(double dt);
 }

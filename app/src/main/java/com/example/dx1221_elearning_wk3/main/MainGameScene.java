@@ -36,22 +36,7 @@ public class MainGameScene extends GameScene {
     private PlayerEntity player;
 
 
-    private boolean isColliding(GameEntity entityA, GameEntity entityB) {
-        // Calculate boundaries for entityA
-        float aLeft = entityA.getPosition().x ;
-        float aRight = entityA.getPosition().x + entityA.getSize().x;
-        float aTop = entityA.getPosition().y;
-        float aBtm = entityA.getPosition().y + entityA.getSize().y;
 
-        // Calculate boundaries for entityB
-        float bLeft = entityB.getPosition().x;
-        float bRight = entityB.getPosition().x + entityB.getSize().x;
-        float bTop = entityB.getPosition().y;
-        float bBtm = entityB.getPosition().y + entityB.getSize().y;
-
-        // Check for overlap between entityA and entityB
-        return (aLeft < bRight && aRight > bLeft && aTop < bBtm && aBtm > bTop);
-    }
 
     @Override
     public void onCreate() {
@@ -94,7 +79,7 @@ public class MainGameScene extends GameScene {
             {
                 for(GameEntity other : _gameEntities)
                 {
-                    if(other instanceof MovementButton && isColliding(entity, other))
+                    if(other instanceof MovementButton && entity.isColliding(other))
                     {
                         Log.d("MovementButton", "Movement Button Pressed");
                         if(((TouchHandler) entity).Pressed())
