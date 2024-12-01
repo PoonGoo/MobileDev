@@ -40,10 +40,10 @@ public class PlayerEntity extends GameEntity {
     public PlayerEntity()
     {
 
-        moveSpeed = 10f;
-        fallSpeed = 15f;
+        moveSpeed = 30f;
+        fallSpeed = 20f;
         gravity = 9.81f;
-        flySpeed = 20f;
+        flySpeed = 25f;
 
         flying = false;
 

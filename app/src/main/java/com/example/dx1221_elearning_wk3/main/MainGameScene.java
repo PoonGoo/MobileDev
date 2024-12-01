@@ -21,8 +21,8 @@ public class MainGameScene extends GameScene {
     private Bitmap _backgroundBitmap;
     private Bitmap _backgroundBitmap1;
     private float _backgroundPosition;
-    private int screenWidth;
-    private int screenHeight;
+    public static int screenWidth;
+    public static int screenHeight;
 
     public Bitmap leftArrow;
 
@@ -35,10 +35,15 @@ public class MainGameScene extends GameScene {
 
     private PlayerEntity player;
 
+    private TrapManager trapManager;
+    private float TimeBeforeTrapSpawn;
+
+
     private Bitmap[] _backgroundLayers = new Bitmap[6]; // Array for 6 layers
     private float[] _layerPositions = new float[6];     // Position for each layer
     private float[] _layerSpeeds = {50f, 100f, 150f, 200f, 250f, 300f}; // Speeds for parallax effect
 
+    public static float WorldSpeed = 200f;
 
 
     @Override
@@ -46,6 +51,8 @@ public class MainGameScene extends GameScene {
         super.onCreate();
         screenHeight = GameActivity.instance.getResources().getDisplayMetrics().heightPixels;
         screenWidth = GameActivity.instance.getResources().getDisplayMetrics().widthPixels;
+
+        TimeBeforeTrapSpawn = 3f;
 
     /*    Bitmap bmp = BitmapFactory.decodeResource(GameActivity.instance.getResources(), R.drawable.gamescene);
         _backgroundBitmap = Bitmap.createScaledBitmap(bmp, screenWidth,screenHeight,true);
@@ -82,6 +89,7 @@ public class MainGameScene extends GameScene {
         _gameEntities.add(player);
         _gameEntities.add(new MovementButton(leftArrow, new Vector2(screenWidth * 0.1f, screenHeight * 0.7f), MovementButton.MovementType.LEFT));
         _gameEntities.add(new MovementButton(rightArrow, new Vector2(screenWidth * 0.2f, screenHeight * 0.7f), MovementButton.MovementType.RIGHT));
+        trapManager = TrapManager.getInstance();
 
         _bgMusic = MediaPlayer.create(GameActivity.instance.getApplicationContext(), R.raw.shinytech);
         _bgMusic.setLooping(true);
@@ -134,6 +142,19 @@ public class MainGameScene extends GameScene {
 
             }
         }
+
+        trapManager.onUpdate(dt);
+        trapManager.HandleCollision(player);
+        if(TimeBeforeTrapSpawn >= 0f)
+        {
+            TimeBeforeTrapSpawn -= dt;
+        }
+        else
+        {
+            TimeBeforeTrapSpawn = 3f;
+            trapManager.SpawnTrap(player);
+
+        }
     }
 
     @Override
@@ -148,7 +169,8 @@ public class MainGameScene extends GameScene {
         for(GameEntity entity : _gameEntities)
         {
             entity.onRender(canvas);
-
         }
+
+        trapManager.onRender(canvas);
     }
 }
