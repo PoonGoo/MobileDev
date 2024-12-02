@@ -19,10 +19,14 @@ import java.util.Collections;
 import java.util.Dictionary;
 import java.util.Enumeration;
 import java.util.Hashtable;
-
+import android.media.SoundPool;
+import android.media.AudioAttributes;
 
 public class ColorPuzzle extends Puzzle
 {
+    SoundPool soundPool;
+    int correctSoundId;
+    int wrongSoundId;
 
     Bitmap blue;
     Bitmap green;
@@ -54,6 +58,20 @@ public class ColorPuzzle extends Puzzle
      Dictionary<ColorButton, Integer> ButtonToColor;
     public ColorPuzzle()
     {
+        AudioAttributes audioAttributes = new AudioAttributes.Builder()
+                .setUsage(AudioAttributes.USAGE_GAME)
+                .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                .build();
+
+        soundPool = new SoundPool.Builder()
+                .setMaxStreams(2)
+                .setAudioAttributes(audioAttributes)
+                .build();
+
+        // Load sound files
+        correctSoundId = soundPool.load(GameActivity.instance, R.raw.correct_sound, 1);
+        wrongSoundId = soundPool.load(GameActivity.instance, R.raw.wrong_sound, 1);
+
         QuestionTxt = new Paint();
 
         QuestionTxt.setTextSize(150);
@@ -136,8 +154,6 @@ public class ColorPuzzle extends Puzzle
     {
         Log.d("Update Color Puzzle", "Updating Color Puzzle");
         //Random generate correct answer
-
-
         currentButtonsShown.get(0).Spawn(new Vector2(Background.getWidth() * 0.17f + Background.getWidth() * 0.2f, Background.getHeight() * 0.5f));
         currentButtonsShown.get(1).Spawn(new Vector2(Background.getWidth() * 0.47f + Background.getWidth() * 0.2f, Background.getHeight() * 0.5f));
         currentButtonsShown.get(2).Spawn(new Vector2(Background.getWidth() * 0.77f + Background.getWidth() * 0.2f, Background.getHeight() * 0.5f));
@@ -152,6 +168,7 @@ public class ColorPuzzle extends Puzzle
                 if(currentButtonsShown.get(i) == correctButton)
                 {
                     Log.d("ButtonPressed", "Correct");
+                    soundPool.play(correctSoundId, 1, 1, 1, 0, 1);
                     PlayerEntity.getInstance().Heal();
                     PuzzlesManager.getInstance().EndPuzzle(this);
 
@@ -159,6 +176,7 @@ public class ColorPuzzle extends Puzzle
                 else
                 {
                     Log.d("ButtonPressed", "Wrong");
+                    soundPool.play(wrongSoundId, 1, 1, 1, 0, 1);
                     PlayerEntity.getInstance().TakeDamage();
                     PuzzlesManager.getInstance().EndPuzzle(this);
                 }
@@ -178,5 +196,15 @@ public class ColorPuzzle extends Puzzle
         }
 
         canvas.drawText("Choose this color",0 + MainGameScene.screenWidth / 2f + Background.getWidth() * 0.075f, Background.getHeight() * 0.3f,QuestionTxt);
+    }
+
+    @Override
+    protected void finalize() throws Throwable
+    {
+        super.finalize();
+        if (soundPool != null) {
+            soundPool.release();
+            soundPool = null;
+        }
     }
 }

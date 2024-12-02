@@ -122,7 +122,7 @@ public class MainGameScene extends GameScene {
         puzzlesManager = PuzzlesManager.getInstance();
         _gameEntities.add(touchHandler);
 
-        _bgMusic = MediaPlayer.create(GameActivity.instance.getApplicationContext(), R.raw.shinytech);
+        _bgMusic = MediaPlayer.create(GameActivity.instance.getApplicationContext(), R.raw.main_game_music);
         _bgMusic.setLooping(true);
 /*
         _bgMusic.setVolume();
