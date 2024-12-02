@@ -12,21 +12,35 @@ public class ColorButton extends GameEntity
 
     Bitmap ButtonColor;
 
-    public ColorButton(Bitmap bmp, Vector2 pos)
+    boolean isActive;
+
+    public ColorButton(Bitmap bmp)
+    {
+        ButtonColor = bmp;
+        isActive = false;
+        _size = new Vector2(bmp.getWidth(), bmp.getHeight());
+    }
+
+    public void Spawn(Vector2 pos)
     {
         this._position = pos;
-        ButtonColor = bmp;
+        isActive = true;
     }
 
     @Override
     public void onRender(Canvas canvas)
     {
-        canvas.drawBitmap(ButtonColor, 0 + _position.x, _position.y, null);
+        if(!isActive)
+            return;
+        canvas.drawBitmap(ButtonColor, _position.x, _position.y, null);
 
     }
 
     public boolean isClicked()
     {
+        if(!isActive)
+            return false;
+
         return TouchHandler.getInstance().Pressed() && isColliding(TouchHandler.getInstance());
     }
 }

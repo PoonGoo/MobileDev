@@ -1,7 +1,6 @@
 package com.example.dx1221_elearning_wk3.main;
 
 import android.graphics.Canvas;
-import android.telephony.IccOpenLogicalChannelResponse;
 import android.util.Log;
 
 import com.example.dx1221_elearning_wk3.mgp2d.core.GameEntity;
@@ -31,9 +30,12 @@ public class PuzzlesManager extends GameEntity
     {
         isPlayingPuzzle = false;
     }
+
     @Override
     public void onUpdate(float dt)
     {
+        Log.d("Update Color Puzzle", "Updating Color Puzzle");
+
         if(activePuzzle != null)
         {
             activePuzzle.PlayPuzzle(dt);
@@ -46,6 +48,7 @@ public class PuzzlesManager extends GameEntity
         int RandomPuzzle = (int)(Math.random() * PuzzleType.values().length);
         Log.d("Spawn Trap", "" + PuzzleType.values()[RandomPuzzle]);
 
+        RandomPuzzle = 0;
 
         switch(PuzzleType.values()[RandomPuzzle])
         {

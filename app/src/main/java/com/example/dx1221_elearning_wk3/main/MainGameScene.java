@@ -5,9 +5,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.media.MediaPlayer;
 import android.os.Vibrator;
-import android.provider.MediaStore;
 import android.util.Log;
-import android.widget.Button;
 
 import com.example.dx1221_elearning_wk3.R;
 import com.example.dx1221_elearning_wk3.mgp2d.core.GameActivity;
@@ -94,7 +92,7 @@ public class MainGameScene extends GameScene {
         _gameEntities.add(new MovementButton(leftArrow, new Vector2(screenWidth * 0.1f, screenHeight * 0.7f), MovementButton.MovementType.LEFT));
         _gameEntities.add(new MovementButton(rightArrow, new Vector2(screenWidth * 0.2f, screenHeight * 0.7f), MovementButton.MovementType.RIGHT));
         trapManager = TrapManager.getInstance();
-        touchHandler = touchHandler.getInstance();
+        touchHandler = TouchHandler.getInstance();
 
         puzzlesManager = PuzzlesManager.getInstance();
         _gameEntities.add(touchHandler);
@@ -162,7 +160,10 @@ public class MainGameScene extends GameScene {
         else
         {
             puzzlesManager.onUpdate(dt);
+            TouchHandler.getInstance().onUpdate(dt);
+
         }
+
 
 
     }
