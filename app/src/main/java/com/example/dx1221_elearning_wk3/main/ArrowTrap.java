@@ -8,20 +8,39 @@ import com.example.dx1221_elearning_wk3.R;
 import com.example.dx1221_elearning_wk3.mgp2d.core.GameActivity;
 import com.example.dx1221_elearning_wk3.mgp2d.core.Vector2;
 
+import com.example.dx1221_elearning_wk3.mgp2d.extra.AnimatedSprite;
+
 public class ArrowTrap extends Traps
 {
     private float TimerBeforeShoot;
     private float projectileSpeed;
 
     private boolean showIndicator;
-    private Bitmap IndicatorAsset;
+
+    private AnimatedSprite indicatorSprite;
+    private int indicatorHeight;
+    private int indicatorWidth;
+    private float indicatorOffsetX = 0f;
+
     public ArrowTrap(Bitmap trapAsset) {
         super(trapAsset);
         projectileSpeed = 1000f;
         TimerBeforeShoot = 2f;
-        Bitmap indicatorBmp = BitmapFactory.decodeResource(GameActivity.instance.getResources(), R.drawable.warning_sign);
-        IndicatorAsset = Bitmap.createScaledBitmap(indicatorBmp, indicatorBmp.getWidth(), indicatorBmp.getHeight(), true);
         showIndicator = true;
+
+
+        Bitmap originalIndicatorBmp = BitmapFactory.decodeResource(GameActivity.instance.getResources(), R.drawable.alert_ps);
+        Bitmap scaledIndicatorBmp = Bitmap.createScaledBitmap(
+                originalIndicatorBmp,
+                (int) (originalIndicatorBmp.getWidth() * 1.5),
+                (int) (originalIndicatorBmp.getHeight() * 1.5),
+                true
+        );
+
+        indicatorSprite = new AnimatedSprite(scaledIndicatorBmp, 1, 9, 30);
+        indicatorHeight = scaledIndicatorBmp.getHeight();
+        indicatorWidth = scaledIndicatorBmp.getWidth() / 9;
+
     }
 
     @Override
@@ -33,9 +52,13 @@ public class ArrowTrap extends Traps
             _position.x -= projectileSpeed * (float)dt;
             showIndicator = false;
         }
+        
+        if (showIndicator) {
+            indicatorSprite.update((float) dt);
+        }
 
    }
-
+        
     @Override
     public void DoCollision(PlayerEntity player) {
         super.DoCollision(player);
@@ -45,9 +68,11 @@ public class ArrowTrap extends Traps
     @Override
     public void onRender(Canvas canvas) {
         super.onRender(canvas);
-        if(showIndicator)
-        {
-            canvas.drawBitmap(IndicatorAsset, _position.x - IndicatorAsset.getWidth(), _position.y, null);
+        if (showIndicator) {
+            indicatorSprite.render(canvas,
+                    (int) (_position.x + indicatorOffsetX - indicatorWidth / 2),
+                    (int) (_position.y - indicatorHeight / 2),
+                    null);
         }
 
     }

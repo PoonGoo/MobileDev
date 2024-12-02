@@ -6,21 +6,38 @@ import android.graphics.Canvas;
 
 import com.example.dx1221_elearning_wk3.R;
 import com.example.dx1221_elearning_wk3.mgp2d.core.GameActivity;
+import com.example.dx1221_elearning_wk3.mgp2d.extra.AnimatedSprite;
 
 public class CoconutTrap extends Traps{
     private float TimerBeforeDrop;
     private float projectileSpeed;
 
     private boolean showIndicator;
-    private Bitmap IndicatorAsset;
+
+    private AnimatedSprite indicatorSprite;
+    private int indicatorHeight;
+    private int indicatorWidth;
+    private float indicatorOffsetY = 50f;
+
 
     public CoconutTrap(Bitmap trapAsset) {
         super(trapAsset);
         projectileSpeed = 1000f;
         TimerBeforeDrop = 1f;
         showIndicator = true;
-        Bitmap indicatorBmp = BitmapFactory.decodeResource(GameActivity.instance.getResources(), R.drawable.warning_sign);
-        IndicatorAsset = Bitmap.createScaledBitmap(indicatorBmp, indicatorBmp.getWidth(), indicatorBmp.getHeight(), true);
+
+        Bitmap originalIndicatorBmp = BitmapFactory.decodeResource(GameActivity.instance.getResources(), R.drawable.alert_ps);
+        Bitmap scaledIndicatorBmp = Bitmap.createScaledBitmap(
+                originalIndicatorBmp,
+                (int) (originalIndicatorBmp.getWidth() * 1.5),
+                (int) (originalIndicatorBmp.getHeight() * 1.5),
+                true
+        );
+
+        indicatorSprite = new AnimatedSprite(scaledIndicatorBmp, 1, 9, 30);
+
+        indicatorHeight = scaledIndicatorBmp.getHeight();
+        indicatorWidth = scaledIndicatorBmp.getWidth() / 9;
 
     }
 
@@ -41,6 +58,10 @@ public class CoconutTrap extends Traps{
     public void DoCollision(PlayerEntity player) {
         super.DoCollision(player);
         TrapManager.getInstance().DisableTrap(this);
+        if (showIndicator)
+        {
+            indicatorSprite.update((float) dt);
+        }
 
     }
 
@@ -49,7 +70,9 @@ public class CoconutTrap extends Traps{
         super.onRender(canvas);
         if(showIndicator)
         {
-            canvas.drawBitmap(IndicatorAsset, _position.x , _position.y + IndicatorAsset.getWidth() , null);
-        }
+            indicatorSprite.render(canvas,
+                    (int) (_position.x - indicatorWidth / 2),
+                    (int) (_position.y + indicatorHeight + indicatorOffsetY),
+                    null);        }
     }
 }
