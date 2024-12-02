@@ -5,6 +5,8 @@ import android.util.Log;
 
 import com.example.dx1221_elearning_wk3.mgp2d.core.GameEntity;
 
+import java.util.Random;
+
 public class PuzzlesManager extends GameEntity
 {
 
@@ -12,6 +14,8 @@ public class PuzzlesManager extends GameEntity
 
     private boolean isPlayingPuzzle;
     private static PuzzlesManager instance = null;
+
+    float PuzzleTimer ;
 
     enum PuzzleType
     {
@@ -29,16 +33,23 @@ public class PuzzlesManager extends GameEntity
     private PuzzlesManager()
     {
         isPlayingPuzzle = false;
+        PuzzleTimer = 5f;
     }
 
     @Override
     public void onUpdate(float dt)
     {
-        Log.d("Update Color Puzzle", "Updating Color Puzzle");
 
         if(activePuzzle != null)
         {
+            PuzzleTimer -= dt;
             activePuzzle.PlayPuzzle(dt);
+
+            if(PuzzleTimer <= 0)
+            {
+                EndPuzzle(activePuzzle);
+            }
+
         }
 
     }
@@ -47,8 +58,8 @@ public class PuzzlesManager extends GameEntity
     {
         int RandomPuzzle = (int)(Math.random() * PuzzleType.values().length);
         Log.d("Spawn Trap", "" + PuzzleType.values()[RandomPuzzle]);
-
-        RandomPuzzle = 0;
+        RandomPuzzle = 1;
+        PuzzleTimer = 5f;
 
         switch(PuzzleType.values()[RandomPuzzle])
         {

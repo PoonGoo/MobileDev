@@ -35,6 +35,15 @@ public class PlayerEntity extends GameEntity {
 
     public int Health;
 
+    private static PlayerEntity instance;
+
+    public static synchronized PlayerEntity getInstance()
+    {
+        if(instance == null)
+            instance = new PlayerEntity();
+
+        return instance;
+    }
     public PlayerEntity()
     {
 

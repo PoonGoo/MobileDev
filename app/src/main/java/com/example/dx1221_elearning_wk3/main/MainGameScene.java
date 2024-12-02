@@ -58,7 +58,7 @@ public class MainGameScene extends GameScene {
         screenWidth = GameActivity.instance.getResources().getDisplayMetrics().widthPixels;
 
         TimeBeforeTrapSpawn = 3f;
-        TimeBeforePuzzleSpawn = 100f;
+        TimeBeforePuzzleSpawn = 1f;
 
     /*    Bitmap bmp = BitmapFactory.decodeResource(GameActivity.instance.getResources(), R.drawable.gamescene);
         _backgroundBitmap = Bitmap.createScaledBitmap(bmp, screenWidth,screenHeight,true);

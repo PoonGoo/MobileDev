@@ -127,9 +127,9 @@ public class ColorPuzzle extends Puzzle
 
         Collections.shuffle(currentButtonsShown);
 
-
-
     }
+
+
 
     @Override
     public void PlayPuzzle(double dt)
@@ -152,12 +152,14 @@ public class ColorPuzzle extends Puzzle
                 if(currentButtonsShown.get(i) == correctButton)
                 {
                     Log.d("ButtonPressed", "Correct");
+                    PuzzlesManager.getInstance().EndPuzzle(this);
 
                 }
                 else
                 {
                     Log.d("ButtonPressed", "Wrong");
-
+                    PlayerEntity.getInstance().TakeDamage();
+                    PuzzlesManager.getInstance().EndPuzzle(this);
                 }
             }
         }
