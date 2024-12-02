@@ -1,9 +1,13 @@
 package com.example.dx1221_elearning_wk3.main;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 
+import com.example.dx1221_elearning_wk3.R;
+import com.example.dx1221_elearning_wk3.mgp2d.core.GameActivity;
 import com.example.dx1221_elearning_wk3.mgp2d.core.GameEntity;
 import com.example.dx1221_elearning_wk3.mgp2d.core.Vector2;
 
@@ -13,8 +17,10 @@ MathOptions extends GameEntity
     private boolean isActive;
     private Paint numberPaint;
 
-    private int optionNumber;
-    public MathOptions(int optionNumber)
+    public int optionNumber;
+
+    private Bitmap borderBMP;
+    public MathOptions(int optionNumber, Bitmap bmp)
     {
         isActive = false;
         numberPaint = new Paint();
@@ -23,7 +29,8 @@ MathOptions extends GameEntity
         numberPaint.setTextAlign(Paint.Align.CENTER);
         this.optionNumber = optionNumber;
 
-        _size = new Vector2(numberPaint.getTextScaleX(), numberPaint.getTextScaleX());
+        borderBMP = bmp;
+        _size = new Vector2(bmp.getWidth(), bmp.getHeight());
 
     }
 
@@ -37,8 +44,10 @@ MathOptions extends GameEntity
     @Override
     public void onRender(Canvas canvas)
     {
+        canvas.drawBitmap(borderBMP, _position.x, _position.y,null);
+        canvas.drawText(String.valueOf(optionNumber),_position.x + borderBMP.getWidth() * 0.5f, _position.y + borderBMP.getHeight() * 0.8f, numberPaint);
 
-        canvas.drawText(String.valueOf(optionNumber),_position.x + _size.x, _position.y + _size.y, numberPaint);
+
     }
 
     public boolean isClicked()

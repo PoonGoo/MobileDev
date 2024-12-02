@@ -43,6 +43,9 @@ public class MathPuzzle extends Puzzle
         QuestionTxt.setColor(Color.WHITE);
 
         Bitmap Backgroundbmp = BitmapFactory.decodeResource(GameActivity.instance.getResources(), R.drawable.equation_puzzle);
+        Bitmap border = BitmapFactory.decodeResource(GameActivity.instance.getResources(), R.drawable.math_border);
+
+        Bitmap borderBMP = Bitmap.createScaledBitmap(border, (int)(border.getWidth() ), (int)(border.getHeight() ), true   );
         Background = Bitmap.createScaledBitmap(Backgroundbmp, (int)(MainGameScene.screenWidth * 0.8f), (int)(MainGameScene.screenHeight * 0.8f), true   );
         NumOptions = 3;
         int QType = (int)(Math.random() * QuestionType.values().length);
@@ -71,14 +74,30 @@ public class MathPuzzle extends Puzzle
 
         }
 
+        Log.d("Equations", "Firstnumber: " + FirstNumber + " Second Number: " + SecondNumber + "Total: " + Total);
+
         Options = new ArrayList<>();
 
-        correctOption = new MathOptions(Total);
+        correctOption = new MathOptions(Total, borderBMP);
         Options.add(correctOption);
+        boolean Added = false;
         for(int i = 0; i < NumOptions - 1; i++)
         {
+            Added = false;
             int tempRandomToAdd = (int)(Math.random() * 20 - 10); //Random between -10 and 10
-            MathOptions tempOption = new MathOptions(Total + tempRandomToAdd);
+            MathOptions tempOption = new MathOptions(Total + tempRandomToAdd, borderBMP);
+            for(int j = 0; j < Options.size(); j++)
+            {
+                if(Options.get(j).optionNumber == tempOption.optionNumber)
+                {
+                    i--;
+                    Added = true;
+                }
+            }
+            if(Added)
+            {
+                continue;
+            }
             Options.add(tempOption);
         }
 
@@ -88,9 +107,9 @@ public class MathPuzzle extends Puzzle
     @Override
     public void PlayPuzzle(double dt)
     {
-        Options.get(0).Spawn(new Vector2(Background.getWidth() * 0.2f + Background.getWidth() * 0.2f, Background.getHeight() * 0.7f));
-        Options.get(1).Spawn(new Vector2(Background.getWidth() * 0.5f + Background.getWidth() * 0.2f, Background.getHeight() * 0.7f));
-        Options.get(2).Spawn(new Vector2(Background.getWidth() * 0.8f + Background.getWidth() * 0.2f, Background.getHeight() * 0.7f));
+        Options.get(0).Spawn(new Vector2(Background.getWidth() * 0.15f + Background.getWidth() * 0.2f , Background.getHeight() * 0.6f));
+        Options.get(1).Spawn(new Vector2(Background.getWidth() * 0.45f + Background.getWidth() * 0.2f, Background.getHeight() * 0.6f));
+        Options.get(2).Spawn(new Vector2(Background.getWidth() * 0.75f + Background.getWidth() * 0.2f, Background.getHeight() * 0.6f));
 
         for(int i = 0; i < Options.size(); i++)
         {
