@@ -36,6 +36,7 @@ public class MainGameScene extends GameScene {
     private PlayerEntity player;
 
     private TrapManager trapManager;
+    private TouchHandler touchHandler;
     private float TimeBeforeTrapSpawn;
 
 
@@ -85,12 +86,12 @@ public class MainGameScene extends GameScene {
          rightArrow = Bitmap.createScaledBitmap(rArrow, (int)(screenHeight * 0.2f) ,(int)(screenHeight * 0.2f),true);
          player = new PlayerEntity();
         _gameEntities.add(new BackgroundEntity());
-        _gameEntities.add(new TouchHandler());
         _gameEntities.add(player);
         _gameEntities.add(new MovementButton(leftArrow, new Vector2(screenWidth * 0.1f, screenHeight * 0.7f), MovementButton.MovementType.LEFT));
         _gameEntities.add(new MovementButton(rightArrow, new Vector2(screenWidth * 0.2f, screenHeight * 0.7f), MovementButton.MovementType.RIGHT));
         trapManager = TrapManager.getInstance();
-
+        touchHandler = touchHandler.getInstance();
+        _gameEntities.add(touchHandler);
         _bgMusic = MediaPlayer.create(GameActivity.instance.getApplicationContext(), R.raw.shinytech);
         _bgMusic.setLooping(true);
 /*
@@ -147,7 +148,9 @@ public class MainGameScene extends GameScene {
         trapManager.HandleCollision(player);
         if(TimeBeforeTrapSpawn >= 0f)
         {
+            
             TimeBeforeTrapSpawn -= dt;
+
         }
         else
         {

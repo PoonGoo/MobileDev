@@ -6,6 +6,8 @@ import android.graphics.Canvas;
 
 import com.example.dx1221_elearning_wk3.R;
 import com.example.dx1221_elearning_wk3.mgp2d.core.GameActivity;
+import com.example.dx1221_elearning_wk3.mgp2d.core.Vector2;
+
 import com.example.dx1221_elearning_wk3.mgp2d.extra.AnimatedSprite;
 
 public class ArrowTrap extends Traps
@@ -25,6 +27,7 @@ public class ArrowTrap extends Traps
         projectileSpeed = 1000f;
         TimerBeforeShoot = 2f;
         showIndicator = true;
+
 
         Bitmap originalIndicatorBmp = BitmapFactory.decodeResource(GameActivity.instance.getResources(), R.drawable.alert_ps);
         Bitmap scaledIndicatorBmp = Bitmap.createScaledBitmap(
@@ -49,10 +52,17 @@ public class ArrowTrap extends Traps
             _position.x -= projectileSpeed * (float)dt;
             showIndicator = false;
         }
+        
         if (showIndicator) {
             indicatorSprite.update((float) dt);
         }
 
+   }
+        
+    @Override
+    public void DoCollision(PlayerEntity player) {
+        super.DoCollision(player);
+        TrapManager.getInstance().DisableTrap(this);
     }
 
     @Override
