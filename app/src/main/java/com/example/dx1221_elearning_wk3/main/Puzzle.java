@@ -9,7 +9,7 @@ import com.example.dx1221_elearning_wk3.R;
 import com.example.dx1221_elearning_wk3.mgp2d.core.GameActivity;
 import com.example.dx1221_elearning_wk3.mgp2d.core.GameEntity;
 
-public abstract class Puzzle extends GameEntity
+public abstract class Puzzle
 {
     Bitmap Background;
 
@@ -21,7 +21,6 @@ public abstract class Puzzle extends GameEntity
     }
 
     public abstract void PlayPuzzle(double dt);
-    @Override
     public void onRender(Canvas canvas)
     {
         canvas.drawBitmap(Background, 0 + Background.getWidth() * 0.2f , 0, null);

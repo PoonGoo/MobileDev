@@ -71,11 +71,6 @@ public class TouchHandler extends GameEntity {
 
     }
 
-    private void HandlePuzzleTouch()
-    {
-
-    }
-
     private void HandleMovementTouch()
     {
         MotionEvent motionEvent = GameActivity.instance.getMotionEvent();
@@ -160,4 +155,53 @@ public class TouchHandler extends GameEntity {
 
         }
     }
+    private void HandlePuzzleTouch()
+    {
+        MotionEvent motionEvent = GameActivity.instance.getMotionEvent();
+        if(motionEvent == null) return;
+
+        int action = motionEvent.getActionMasked();
+        int actionIndex = motionEvent.getActionIndex();
+        int pointerID = motionEvent.getPointerId(actionIndex);
+
+        _position = new Vector2(0,0);
+
+
+        // Handle the first pointer (Primary touch)
+        if (_currentPointerID == -1 && (action == MotionEvent.ACTION_DOWN || action == MotionEvent.ACTION_POINTER_DOWN))
+        {
+            _currentPointerID = pointerID;
+            isPressed = true;
+        }
+        else if (_currentPointerID == pointerID && (action == MotionEvent.ACTION_UP || action == MotionEvent.ACTION_POINTER_UP))
+        {
+            _currentPointerID = -1;
+            isPressed = false;
+        }
+
+
+        Log.d("TouchIDS", "Current Pointer " + _currentPointerID + "Second Pointer: " + _secondPointerID);
+
+
+        if(_currentPointerID != -1)
+        {
+
+            //If there is a finger touching the screen
+            for(int i = 0; i < motionEvent.getPointerCount(); i++)
+            {
+                if(motionEvent.getPointerId(i) == _currentPointerID)
+                {
+                    _position.x = motionEvent.getX(i);
+                    _position.y = motionEvent.getY(i);
+                }
+
+            }
+            Log.d("TouchPositions", "Current Pointer " + _position.x + " " + _position.y  + "Second Pointer: " + SecondTouchPos.x + " " + SecondTouchPos.y);
+
+
+        }
+    }
 }
+
+
+
