@@ -22,6 +22,13 @@
         </activity>
 
         <activity
+            android:name=".main.LoseMenu"
+            android:screenOrientation="sensorLandscape"
+            tools:ignore="DiscouragedApi,MissingClass">
+
+        </activity>
+
+        <activity
             android:name=".main.HelpPage"
             android:screenOrientation="sensorLandscape"
             tools:ignore="DiscouragedApi">

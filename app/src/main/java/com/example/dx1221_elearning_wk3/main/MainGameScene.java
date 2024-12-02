@@ -1,5 +1,6 @@
 package com.example.dx1221_elearning_wk3.main;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -74,6 +75,13 @@ public class MainGameScene extends GameScene {
         scoreIncrementTimer = 0f;
 
         speedMultipler = 1;
+        for(int i = 0; i < _layerSpeeds.length; i++)
+        {
+            _layerSpeeds[i] = 50 + i * 50;
+        }
+
+        WorldSpeed = 200f;
+
     
         int[] layerResources = {
                 R.drawable.layer1,
@@ -93,7 +101,6 @@ public class MainGameScene extends GameScene {
         for (int i = 0; i < _layerPositions.length; i++) {
             _layerPositions[i] = 0;
         }
-
 
         Bitmap lArrow  = BitmapFactory.decodeResource(GameActivity.instance.getResources(), R.drawable.left_button);
          Bitmap rArrow = BitmapFactory.decodeResource(GameActivity.instance.getResources(), R.drawable.right_button);
@@ -123,9 +130,36 @@ public class MainGameScene extends GameScene {
         _bgMusic.start();
     }
 
-    @Override
-    public void onUpdate(float dt) {
+    void ResetVariables()
+    {
+        TimeBeforeTrapSpawn = 3f;
+        TimeBeforePuzzleSpawn = 5f;
 
+        score = 0;
+        scoreIncrementTimer = 0f;
+
+        speedMultipler = 1;
+        for(int i = 0; i < _layerSpeeds.length; i++)
+        {
+            _layerSpeeds[i] = 50 + i * 50;
+        }
+
+        WorldSpeed = 200f;
+
+        PlayerEntity.getInstance().Reset();
+        TrapManager.getInstance().Clear();
+        PuzzlesManager.getInstance().Clear();
+    }
+    @Override
+    public void onUpdate(float dt)
+    {
+        if(PlayerEntity.getInstance().isDead())
+        {
+            ResetVariables();
+            GameActivity.instance.startActivity(new Intent().setClass(GameActivity.instance, LoseMenu.class));
+            GameScene.exitCurrent();
+
+        }
         if(!puzzlesManager.playingPuzzle())
         {
             speedMultipler +=  dt * 0.03f;
@@ -237,6 +271,8 @@ public class MainGameScene extends GameScene {
             }
         }
     }
+
+
 
     @Override
     public void onRender(Canvas canvas) {

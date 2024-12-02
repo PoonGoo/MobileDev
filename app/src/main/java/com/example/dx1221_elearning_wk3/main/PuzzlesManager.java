@@ -56,7 +56,6 @@ public class PuzzlesManager extends GameEntity
     {
         int RandomPuzzle = (int)(Math.random() * PuzzleType.values().length);
         PuzzleTimer = 5f;
-
         switch(PuzzleType.values()[RandomPuzzle])
         {
             case COLOR:
@@ -74,6 +73,14 @@ public class PuzzlesManager extends GameEntity
 
         }
         isPlayingPuzzle = true;
+    }
+
+    public void Clear()
+    {
+        isPlayingPuzzle = false;
+        PuzzleTimer = 5f;
+        activePuzzle = null;
+
     }
 
     public void EndPuzzle(Puzzle puzzle)

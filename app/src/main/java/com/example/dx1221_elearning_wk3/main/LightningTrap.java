@@ -45,6 +45,11 @@ public class LightningTrap extends Traps {
 
         // Update the animation
         lightningSprite.update((float) dt);
+
+        if(_position.x <= 0)
+        {
+            TrapManager.getInstance().DisableTrap(this);
+        }
     }
 
     @Override

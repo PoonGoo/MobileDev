@@ -50,6 +50,7 @@ public class MathPuzzle extends Puzzle
         NumOptions = 3;
         int QType = (int)(Math.random() * QuestionType.values().length);
         questionType = QuestionType.values()[QType];
+
         switch(QuestionType.values()[QType])
         {
             case ADDITION:
@@ -148,7 +149,7 @@ public class MathPuzzle extends Puzzle
                 canvas.drawText(FirstNumber + " + " + SecondNumber, 0 + MainGameScene.screenWidth / 2f + Background.getWidth() * 0.075f, Background.getHeight() * 0.5f, QuestionTxt);
                 break;
             case SUBTRACT:
-                canvas.drawText(FirstNumber + " -" + SecondNumber, 0 + MainGameScene.screenWidth / 2f + Background.getWidth() * 0.075f, Background.getHeight() * 0.5f, QuestionTxt);
+                canvas.drawText(FirstNumber + " - " + SecondNumber, 0 + MainGameScene.screenWidth / 2f + Background.getWidth() * 0.075f, Background.getHeight() * 0.5f, QuestionTxt);
                 break;
         }
 
