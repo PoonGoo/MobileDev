@@ -155,10 +155,17 @@ public class MainGameScene extends GameScene {
     {
         if(PlayerEntity.getInstance().isDead())
         {
-            ResetVariables();
-            GameActivity.instance.startActivity(new Intent().setClass(GameActivity.instance, LoseMenu.class));
-            GameScene.exitCurrent();
+            MediaPlayer loseGameSound = MediaPlayer.create(GameActivity.instance.getApplicationContext(), R.raw.lose_game_sound);
+            loseGameSound.setOnCompletionListener(MediaPlayer::release); // Release MediaPlayer after playback
+            loseGameSound.start();
 
+            Intent loseMenuIntent = new Intent(GameActivity.instance, LoseMenu.class);
+            loseMenuIntent.putExtra("finalScore", score);
+            GameActivity.instance.startActivity(loseMenuIntent);
+
+            // Reset variables after intent
+            ResetVariables();
+            GameScene.exitCurrent();
         }
         if(!puzzlesManager.playingPuzzle())
         {
