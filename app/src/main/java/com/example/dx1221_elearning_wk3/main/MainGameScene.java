@@ -58,7 +58,7 @@ public class MainGameScene extends GameScene {
         screenWidth = GameActivity.instance.getResources().getDisplayMetrics().widthPixels;
 
         TimeBeforeTrapSpawn = 3f;
-        TimeBeforePuzzleSpawn = 1f;
+        TimeBeforePuzzleSpawn = 100f;
 
     /*    Bitmap bmp = BitmapFactory.decodeResource(GameActivity.instance.getResources(), R.drawable.gamescene);
         _backgroundBitmap = Bitmap.createScaledBitmap(bmp, screenWidth,screenHeight,true);
@@ -174,9 +174,14 @@ public class MainGameScene extends GameScene {
 
         for (GameEntity entity : _gameEntities)
         {
-            if (entity instanceof TouchHandler && entity.isColliding(homeIconPosition, homeIcon.getWidth(), homeIcon.getHeight())) {
-                if (((TouchHandler) entity).Pressed()) {
-                    if (!HomeDialog.isShowing()) {
+            if (entity instanceof TouchHandler)
+            {
+                if (((TouchHandler) entity).Pressed() && entity.isColliding(homeIconPosition, homeIcon.getWidth(), homeIcon.getHeight()))
+                {
+                    Log.d("Dialogue Handler", "Pressed");
+
+                    if (!HomeDialog.isShowing())
+                    {
                         HomeDialog homeDialog = new HomeDialog();
                         homeDialog.show(GameActivity.instance.getFragmentManager(), "HomeDialog");
                     }
