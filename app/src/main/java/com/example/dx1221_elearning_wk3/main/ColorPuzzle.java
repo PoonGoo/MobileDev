@@ -8,8 +8,12 @@ import com.example.dx1221_elearning_wk3.mgp2d.core.GameActivity;
 
 import java.util.ArrayList;
 
+
+
 public class ColorPuzzle extends Puzzle
 {
+
+    
 
     public ColorPuzzle()
     {
