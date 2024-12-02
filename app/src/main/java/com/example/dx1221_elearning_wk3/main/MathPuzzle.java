@@ -13,6 +13,8 @@ import com.example.dx1221_elearning_wk3.mgp2d.core.Vector2;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import android.media.AudioAttributes;
+import android.media.SoundPool;
 
 public class MathPuzzle extends Puzzle
 {
@@ -29,6 +31,11 @@ public class MathPuzzle extends Puzzle
 
     private int NumOptions;
 
+    private SoundPool soundPool;
+    private int correctSoundId;
+    private int wrongSoundId;
+
+
     ArrayList<MathOptions> Options;
 
     MathOptions correctOption;
@@ -37,6 +44,19 @@ public class MathPuzzle extends Puzzle
     QuestionType questionType;
     public MathPuzzle()
     {
+        AudioAttributes audioAttributes = new AudioAttributes.Builder()
+                .setUsage(AudioAttributes.USAGE_GAME)
+                .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                .build();
+
+        soundPool = new SoundPool.Builder()
+                .setMaxStreams(2)
+                .setAudioAttributes(audioAttributes)
+                .build();
+
+        correctSoundId = soundPool.load(GameActivity.instance, R.raw.correct_sound, 1);
+        wrongSoundId = soundPool.load(GameActivity.instance, R.raw.wrong_sound, 1);
+
         QuestionTxt = new Paint();
         QuestionTxt.setTextSize(100);
         QuestionTxt.setTextAlign(Paint.Align.CENTER);
@@ -118,6 +138,7 @@ public class MathPuzzle extends Puzzle
                 if(Options.get(i) == correctOption)
                 {
                     Log.d("ButtonPressed", "Correct");
+                    soundPool.play(correctSoundId, 1, 1, 1, 0, 1);
                     PlayerEntity.getInstance().Heal();
 
                     PuzzlesManager.getInstance().EndPuzzle(this);
@@ -126,6 +147,7 @@ public class MathPuzzle extends Puzzle
                 else
                 {
                     Log.d("ButtonPressed", "Wrong");
+                    soundPool.play(wrongSoundId, 1, 1, 1, 0, 1);
                     PlayerEntity.getInstance().TakeDamage();
                     PuzzlesManager.getInstance().EndPuzzle(this);
                 }
@@ -151,6 +173,15 @@ public class MathPuzzle extends Puzzle
                 canvas.drawText(FirstNumber + " -" + SecondNumber, 0 + MainGameScene.screenWidth / 2f + Background.getWidth() * 0.075f, Background.getHeight() * 0.5f, QuestionTxt);
                 break;
         }
+    }
 
+    @Override
+    protected void finalize() throws Throwable
+    {
+        super.finalize();
+        if (soundPool != null) {
+            soundPool.release();
+            soundPool = null;
+        }
     }
 }
