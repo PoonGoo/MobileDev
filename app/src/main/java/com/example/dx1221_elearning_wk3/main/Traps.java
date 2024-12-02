@@ -28,7 +28,8 @@ public abstract class Traps extends GameEntity {
     public void DoCollision(PlayerEntity player)
     {
         player.TakeDamage();
-            }
+
+    }
 
     @Override
     public void onRender(Canvas canvas) {

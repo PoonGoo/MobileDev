@@ -152,6 +152,7 @@ public class ColorPuzzle extends Puzzle
                 if(currentButtonsShown.get(i) == correctButton)
                 {
                     Log.d("ButtonPressed", "Correct");
+                    PlayerEntity.getInstance().Heal();
                     PuzzlesManager.getInstance().EndPuzzle(this);
 
                 }

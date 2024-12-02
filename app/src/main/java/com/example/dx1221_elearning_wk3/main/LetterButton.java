@@ -15,7 +15,9 @@ public class LetterButton extends GameEntity
 
     Bitmap ballContainer;
 
-    private char letter;
+    public char letter;
+
+
 
     public LetterButton(Bitmap bmp, char character)
     {
@@ -38,6 +40,12 @@ public class LetterButton extends GameEntity
     public void onRender(Canvas canvas)
     {
         canvas.drawBitmap(ballContainer,_position.x, _position.y, null);
-        canvas.drawText(String.valueOf(letter), _position.x, _position.y, wordTxt);
+        canvas.drawText(String.valueOf(letter), _position.x + ballContainer.getWidth() * 0.5f, _position.y + ballContainer.getHeight() * 0.55f, wordTxt);
+    }
+
+    public boolean isClicked()
+    {
+
+        return TouchHandler.getInstance().Pressed() && isColliding(TouchHandler.getInstance());
     }
 }

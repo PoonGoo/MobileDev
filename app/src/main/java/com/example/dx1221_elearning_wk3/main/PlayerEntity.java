@@ -41,6 +41,8 @@ public class PlayerEntity extends GameEntity {
     Rect heartRect;
     int hearts = 3;
 
+    int maxHearts = 3;
+
 
     public static synchronized PlayerEntity getInstance()
     {
@@ -77,9 +79,18 @@ public class PlayerEntity extends GameEntity {
         _size = new Vector2(bmp.getWidth()/10, bmp.getHeight());
     }
 
+    public void Heal()
+    {
+        if(hearts >= maxHearts)
+            return;
+
+        hearts++;
+    }
+
     public void TakeDamage()
     {
-        if (hearts > 0) {
+        if (hearts > 0)
+        {
             hearts--; // Reduce heart count when the player takes damage
         }
     }
@@ -92,6 +103,7 @@ public class PlayerEntity extends GameEntity {
         _animatedSprite.update(dt);
         Log.d("Sprite Width", " " + sprite.getWidth());
         HandleGravity(dt);
+        HandleDeath();
 
     }
 

@@ -107,8 +107,19 @@ public class TrapManager extends GameEntity
                 break;
 
             case LIGHTNING:
+
                 Traps LightningTrap = new LightningTrap(LightningAsset);
-                LightningTrap.Spawn(new Vector2((float)GameWidth, (float)(Math.random() * GameHeight)));
+                float posHeight = (float)(Math.random() * GameHeight);
+                if(posHeight - LightningAsset.getHeight() <= 0)
+                {
+                    posHeight  = 0f + LightningAsset.getHeight();
+                }
+                else if(posHeight + LightningAsset.getHeight() >= GameHeight)
+                {
+                    posHeight = GameHeight - LightningAsset.getHeight();
+                }
+
+                LightningTrap.Spawn(new Vector2((float)GameWidth, posHeight));
 
                 ActiveTraps.add(LightningTrap);
 

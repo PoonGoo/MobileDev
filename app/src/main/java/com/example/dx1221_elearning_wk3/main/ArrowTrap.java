@@ -49,7 +49,7 @@ public class ArrowTrap extends Traps
         TimerBeforeShoot -= (float)dt;
         if(TimerBeforeShoot <= 0)
         {
-            _position.x -= projectileSpeed * (float)dt;
+            _position.x -= projectileSpeed * MainGameScene.speedMultipler * (float)dt;
             showIndicator = false;
         }
         
