@@ -120,7 +120,11 @@ public class TrapManager extends GameEntity
     {
         for(int i = 0; i < ActiveTraps.size();i++)
         {
-            ActiveTraps.get(i).HandleCollision(player);
+            if(ActiveTraps.get(i).isColliding(player))
+            {
+                ActiveTraps.get(i).DoCollision(player);
+
+            }
         }
     }
 
@@ -131,6 +135,18 @@ public class TrapManager extends GameEntity
         for(int i = 0; i < ActiveTraps.size(); i++)
         {
             ActiveTraps.get(i).onRender(canvas);
+        }
+    }
+
+    public void DisableTrap(Traps trap)
+    {
+        for(int i = 0; i < ActiveTraps.size(); i++)
+        {
+            if(ActiveTraps.get(i) == trap)
+            {
+                ActiveTraps.remove(i);
+                trap = null;
+            }
         }
     }
 }

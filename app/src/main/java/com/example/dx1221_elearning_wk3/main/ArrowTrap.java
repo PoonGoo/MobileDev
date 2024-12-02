@@ -6,6 +6,7 @@ import android.graphics.Canvas;
 
 import com.example.dx1221_elearning_wk3.R;
 import com.example.dx1221_elearning_wk3.mgp2d.core.GameActivity;
+import com.example.dx1221_elearning_wk3.mgp2d.core.Vector2;
 
 public class ArrowTrap extends Traps
 {
@@ -21,7 +22,6 @@ public class ArrowTrap extends Traps
         Bitmap indicatorBmp = BitmapFactory.decodeResource(GameActivity.instance.getResources(), R.drawable.warning_sign);
         IndicatorAsset = Bitmap.createScaledBitmap(indicatorBmp, indicatorBmp.getWidth(), indicatorBmp.getHeight(), true);
         showIndicator = true;
-
     }
 
     @Override
@@ -34,7 +34,12 @@ public class ArrowTrap extends Traps
             showIndicator = false;
         }
 
+   }
 
+    @Override
+    public void DoCollision(PlayerEntity player) {
+        super.DoCollision(player);
+        TrapManager.getInstance().DisableTrap(this);
     }
 
     @Override

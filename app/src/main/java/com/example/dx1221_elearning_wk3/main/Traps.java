@@ -15,6 +15,7 @@ public abstract class Traps extends GameEntity {
     {
         isActive = false;
         bmp = trapAsset;
+        _size =  new Vector2(bmp.getWidth(), bmp.getHeight());
 
     }
 
@@ -24,10 +25,10 @@ public abstract class Traps extends GameEntity {
         _position = spawnPt;
     }
 
-    public void HandleCollision(PlayerEntity player)
+    public void DoCollision(PlayerEntity player)
     {
         player.TakeDamage();
-    }
+            }
 
     @Override
     public void onRender(Canvas canvas) {
@@ -35,7 +36,6 @@ public abstract class Traps extends GameEntity {
             return;
 
         canvas.drawBitmap(bmp, _position.x, _position.y , null);
-
 
     }
 

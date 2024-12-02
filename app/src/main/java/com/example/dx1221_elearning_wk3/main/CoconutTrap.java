@@ -35,6 +35,12 @@ public class CoconutTrap extends Traps{
             _position.y += projectileSpeed * (float)dt;
         }
 
+    }
+
+    @Override
+    public void DoCollision(PlayerEntity player) {
+        super.DoCollision(player);
+        TrapManager.getInstance().DisableTrap(this);
 
     }
 

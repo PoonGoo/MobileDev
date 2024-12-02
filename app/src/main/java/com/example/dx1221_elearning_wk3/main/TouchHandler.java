@@ -1,6 +1,7 @@
 package com.example.dx1221_elearning_wk3.main;
 
 import android.graphics.Canvas;
+import android.text.method.Touch;
 import android.util.Log;
 import android.view.MotionEvent;
 
@@ -9,6 +10,9 @@ import com.example.dx1221_elearning_wk3.mgp2d.core.GameEntity;
 import com.example.dx1221_elearning_wk3.mgp2d.core.Vector2;
 
 public class TouchHandler extends GameEntity {
+
+
+    private static TouchHandler instance = null;
 
     private int _currentPointerID;
 
@@ -21,7 +25,14 @@ public class TouchHandler extends GameEntity {
 
     int gameWidth;
 
-    public TouchHandler()
+    public static synchronized  TouchHandler getInstance()
+    {
+        if(instance == null)
+            instance = new TouchHandler();
+        return instance;
+    }
+
+    private TouchHandler()
     {
         _currentPointerID = -1;
         _secondPointerID = -1;
@@ -43,8 +54,16 @@ public class TouchHandler extends GameEntity {
 
 
     @Override
-    public void onUpdate(float dt) {
-        HandleTouch();
+    public void onUpdate(float dt)
+    {
+        if(!PuzzlesManager.getInstance().playingPuzzle())
+        {
+            HandleMovementTouch();
+        }
+        else
+        {
+            HandlePuzzleTouch();
+        }
     }
 
     @Override
@@ -52,7 +71,12 @@ public class TouchHandler extends GameEntity {
 
     }
 
-    private void HandleTouch()
+    private void HandlePuzzleTouch()
+    {
+
+    }
+
+    private void HandleMovementTouch()
     {
         MotionEvent motionEvent = GameActivity.instance.getMotionEvent();
         if(motionEvent == null) return;

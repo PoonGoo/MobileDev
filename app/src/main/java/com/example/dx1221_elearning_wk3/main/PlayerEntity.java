@@ -35,8 +35,6 @@ public class PlayerEntity extends GameEntity {
 
     public int Health;
 
-
-
     public PlayerEntity()
     {
 
@@ -71,6 +69,7 @@ public class PlayerEntity extends GameEntity {
     @Override
     public void onUpdate(float dt)
     {
+
         super.onUpdate(dt);
         _animatedSprite.update(dt);
         Log.d("Sprite Width", " " + sprite.getWidth());
