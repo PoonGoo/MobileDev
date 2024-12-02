@@ -47,6 +47,9 @@ public class MainGameScene extends GameScene {
 
     public static float WorldSpeed = 200f;
 
+    private Bitmap homeIcon;
+    private Vector2 homeIconPosition;
+
 
     @Override
     public void onCreate() {
@@ -84,6 +87,11 @@ public class MainGameScene extends GameScene {
 
         Bitmap lArrow  = BitmapFactory.decodeResource(GameActivity.instance.getResources(), R.drawable.left_button);
          Bitmap rArrow = BitmapFactory.decodeResource(GameActivity.instance.getResources(), R.drawable.right_button);
+
+        Bitmap bmp = BitmapFactory.decodeResource(GameActivity.instance.getResources(), R.drawable.home_icon);
+        homeIcon = Bitmap.createScaledBitmap(bmp, (int) (screenHeight * 0.1f), (int) (screenHeight * 0.1f), true);
+        homeIconPosition = new Vector2(screenWidth * 0.02f, screenHeight * 0.02f); // Top-left position with some margin
+
          leftArrow = Bitmap.createScaledBitmap(lArrow, (int)(screenHeight * 0.2f) ,(int)(screenHeight * 0.2f),true);
          rightArrow = Bitmap.createScaledBitmap(rArrow, (int)(screenHeight * 0.2f) ,(int)(screenHeight * 0.2f),true);
          player = new PlayerEntity();
@@ -164,6 +172,17 @@ public class MainGameScene extends GameScene {
 
         }
 
+        for (GameEntity entity : _gameEntities)
+        {
+            if (entity instanceof TouchHandler && entity.isColliding(homeIconPosition, homeIcon.getWidth(), homeIcon.getHeight())) {
+                if (((TouchHandler) entity).Pressed()) {
+                    if (!HomeDialog.isShowing()) {
+                        HomeDialog homeDialog = new HomeDialog();
+                        homeDialog.show(GameActivity.instance.getFragmentManager(), "HomeDialog");
+                    }
+                }
+            }
+        }
 
 
     }
@@ -217,6 +236,7 @@ public class MainGameScene extends GameScene {
             puzzlesManager.onRender(canvas);
         }
 
+        canvas.drawBitmap(homeIcon, homeIconPosition.x, homeIconPosition.y, null);
 
     }
 }
