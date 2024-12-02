@@ -3,6 +3,8 @@ package com.example.dx1221_elearning_wk3.main;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.media.MediaPlayer;
 import android.os.Vibrator;
 import android.util.Log;
@@ -50,6 +52,11 @@ public class MainGameScene extends GameScene {
     private Bitmap homeIcon;
     private Vector2 homeIconPosition;
 
+    private int score;
+    private float scoreIncrementTimer;
+    private final float scoreIncrementInterval = 0.1f;
+    private final int scoreIncrementAmt = 1;
+
 
     @Override
     public void onCreate() {
@@ -58,7 +65,10 @@ public class MainGameScene extends GameScene {
         screenWidth = GameActivity.instance.getResources().getDisplayMetrics().widthPixels;
 
         TimeBeforeTrapSpawn = 3f;
-        TimeBeforePuzzleSpawn = 1f;
+        TimeBeforePuzzleSpawn = 100f;
+
+        score = 0;
+        scoreIncrementTimer = 0f;
 
     /*    Bitmap bmp = BitmapFactory.decodeResource(GameActivity.instance.getResources(), R.drawable.gamescene);
         _backgroundBitmap = Bitmap.createScaledBitmap(bmp, screenWidth,screenHeight,true);
@@ -120,6 +130,12 @@ public class MainGameScene extends GameScene {
         if(!puzzlesManager.playingPuzzle())
         {
             HandleBackground(dt);
+
+            scoreIncrementTimer += dt;
+            if (scoreIncrementTimer >= scoreIncrementInterval) {
+                score += scoreIncrementAmt;
+                scoreIncrementTimer -= scoreIncrementInterval;
+            }
 
             for(GameEntity entity : _gameEntities)
             {
@@ -242,6 +258,12 @@ public class MainGameScene extends GameScene {
         }
 
         canvas.drawBitmap(homeIcon, homeIconPosition.x, homeIconPosition.y, null);
+
+        Paint paint = new Paint();
+        paint.setColor(Color.WHITE);
+        paint.setTextSize(50); // Adjust size as needed
+        paint.setTextAlign(Paint.Align.RIGHT);
+        canvas.drawText("Score: " + score, screenWidth - 20, 60, paint);
 
     }
 }

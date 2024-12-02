@@ -37,6 +37,11 @@ public class PlayerEntity extends GameEntity {
 
     private static PlayerEntity instance;
 
+    Bitmap heartImage;
+    Rect heartRect;
+    int hearts = 3;
+
+
     public static synchronized PlayerEntity getInstance()
     {
         if(instance == null)
@@ -63,16 +68,20 @@ public class PlayerEntity extends GameEntity {
         bmp = BitmapFactory.decodeResource(GameActivity.instance.getResources(), R.drawable.cat_player);
         sprite = Bitmap.createScaledBitmap(bmp, (int) (bmp.getWidth() * 1.5f), (int) (bmp.getHeight() * 1.5f), true);
 
+        // Load heart image for health display
+        heartImage = BitmapFactory.decodeResource(GameActivity.instance.getResources(), R.drawable.heart);
+        heartRect = new Rect(0, 0, heartImage.getWidth(), heartImage.getHeight());
+
         //FPS for sprites can be in 10, 12, 24, 30
         _animatedSprite = new AnimatedSprite(sprite, 1, 10, 30);
-
-
         _size = new Vector2(bmp.getWidth()/10, bmp.getHeight());
     }
 
     public void TakeDamage()
     {
-        this.Health--;
+        if (hearts > 0) {
+            hearts--; // Reduce heart count when the player takes damage
+        }
     }
 
     @Override
@@ -88,9 +97,7 @@ public class PlayerEntity extends GameEntity {
 
     void HandleDeath()
     {
-        if(Health <= 0)
-        {
-            //Die
+        if (Health <= 0 || hearts <= 0) {
             Die();
         }
     }
@@ -164,5 +171,19 @@ public class PlayerEntity extends GameEntity {
         canvas.drawBitmap(_sprite, _srcRect, _dstRect, null);*/
 
         _animatedSprite.render(canvas, (int) _position.x, (int) _position.y, null);
+
+        // Render hearts below the score (position them accordingly)
+        int heartSpacing = 5; // Space between hearts
+        int heartX = gameWidth - (heartImage.getWidth() * 3) - (heartSpacing * 2);
+        int heartY = 50;
+
+        for (int i = 0; i < hearts; i++) {
+            // Draw heart for each remaining life
+            heartRect.left = heartX + i * (heartImage.getWidth() + heartSpacing);
+            heartRect.right = heartRect.left + heartImage.getWidth();
+            heartRect.top = heartY;
+            heartRect.bottom = heartY + heartImage.getHeight();
+            canvas.drawBitmap(heartImage, null, heartRect, null);
+        }
     }
 }
