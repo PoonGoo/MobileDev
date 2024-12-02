@@ -58,7 +58,7 @@ public class PuzzlesManager extends GameEntity
     {
         int RandomPuzzle = (int)(Math.random() * PuzzleType.values().length);
         Log.d("Spawn Trap", "" + PuzzleType.values()[RandomPuzzle]);
-        RandomPuzzle = 1;
+        RandomPuzzle = 3;
         PuzzleTimer = 5f;
 
         switch(PuzzleType.values()[RandomPuzzle])
