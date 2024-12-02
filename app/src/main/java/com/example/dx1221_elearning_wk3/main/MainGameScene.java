@@ -72,12 +72,9 @@ public class MainGameScene extends GameScene {
 
         score = 0;
         scoreIncrementTimer = 0f;
-        speedMultipler = 1;
-    /*    Bitmap bmp = BitmapFactory.decodeResource(GameActivity.instance.getResources(), R.drawable.gamescene);
-        _backgroundBitmap = Bitmap.createScaledBitmap(bmp, screenWidth,screenHeight,true);
-        _backgroundBitmap1 = Bitmap.createScaledBitmap(bmp, screenWidth,screenHeight,true);*/
 
-        // Load background layers
+        speedMultipler = 1;
+    
         int[] layerResources = {
                 R.drawable.layer1,
                 R.drawable.layer2,
@@ -117,6 +114,7 @@ public class MainGameScene extends GameScene {
 
         puzzlesManager = PuzzlesManager.getInstance();
         _gameEntities.add(touchHandler);
+
         _bgMusic = MediaPlayer.create(GameActivity.instance.getApplicationContext(), R.raw.shinytech);
         _bgMusic.setLooping(true);
 /*
@@ -127,9 +125,7 @@ public class MainGameScene extends GameScene {
 
     @Override
     public void onUpdate(float dt) {
-/*
-        _backgroundPosition = (_backgroundPosition - dt * 500f) % (float)screenWidth;
-*/
+
         if(!puzzlesManager.playingPuzzle())
         {
             speedMultipler +=  dt * 0.03f;
