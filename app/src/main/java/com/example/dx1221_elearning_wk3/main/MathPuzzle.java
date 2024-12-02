@@ -118,6 +118,8 @@ public class MathPuzzle extends Puzzle
                 if(Options.get(i) == correctOption)
                 {
                     Log.d("ButtonPressed", "Correct");
+                    PlayerEntity.getInstance().Heal();
+
                     PuzzlesManager.getInstance().EndPuzzle(this);
 
                 }

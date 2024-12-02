@@ -49,7 +49,7 @@ public class CoconutTrap extends Traps{
         {
             showIndicator = false;
 
-            _position.y += projectileSpeed * (float)dt;
+            _position.y += projectileSpeed * MainGameScene.speedMultipler * (float)dt;
         }
         if (showIndicator)
         {

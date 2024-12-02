@@ -28,7 +28,7 @@ public class LightningTrap extends Traps {
         lightningSprite = new AnimatedSprite(scaledLightningBmp, 1, 8, 30);
         lightningFrameHeight = scaledLightningBmp.getHeight();
         lightningFrameWidth = scaledLightningBmp.getWidth() / 8;
-        _size = new Vector2(scaledLightningBmp.getWidth() / 8f, scaledLightningBmp.getHeight());
+        _size = new Vector2(scaledLightningBmp.getWidth() / 8f, scaledLightningBmp.getHeight() * 0.3f);
     }
 
     @Override
