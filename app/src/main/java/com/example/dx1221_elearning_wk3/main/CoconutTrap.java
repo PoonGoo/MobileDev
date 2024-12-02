@@ -51,6 +51,10 @@ public class CoconutTrap extends Traps{
 
             _position.y += projectileSpeed * (float)dt;
         }
+        if (showIndicator)
+        {
+            indicatorSprite.update((float)dt);
+        }
 
     }
 
@@ -58,10 +62,7 @@ public class CoconutTrap extends Traps{
     public void DoCollision(PlayerEntity player) {
         super.DoCollision(player);
         TrapManager.getInstance().DisableTrap(this);
-        if (showIndicator)
-        {
-            indicatorSprite.update((float) dt);
-        }
+
 
     }
 
