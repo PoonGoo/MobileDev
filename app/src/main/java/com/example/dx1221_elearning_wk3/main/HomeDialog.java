@@ -18,17 +18,17 @@ public class HomeDialog extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         _isShowing = true;
-        GameActivity.instance.setTimeScale(0); // Pause game
+        GameActivity.instance.setTimeScale(0);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setMessage("Return to main menu?");
         builder.setPositiveButton("Yes", (dialog, which) -> {
             _isShowing = false;
-            GameActivity.instance.finish(); // Close the game activity
+            GameActivity.instance.finish();
         });
         builder.setNegativeButton("No", (dialog, which) -> {
             _isShowing = false;
-            GameActivity.instance.setTimeScale(1); // Resume game
+            GameActivity.instance.setTimeScale(1);
         });
 
         return builder.create();
@@ -38,13 +38,13 @@ public class HomeDialog extends DialogFragment {
     public void onCancel(DialogInterface dialog) {
         super.onCancel(dialog);
         _isShowing = false;
-        GameActivity.instance.setTimeScale(1); // Resume game
+        GameActivity.instance.setTimeScale(1);
     }
 
     @Override
     public void onDismiss(DialogInterface dialog) {
         super.onDismiss(dialog);
         _isShowing = false;
-        GameActivity.instance.setTimeScale(1); // Resume game
+        GameActivity.instance.setTimeScale(1);
     }
 }

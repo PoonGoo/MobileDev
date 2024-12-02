@@ -20,7 +20,7 @@ public class MainMenu extends Activity implements View.OnClickListener // Correc
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.mainmenu);
-        _helpButton = findViewById(R.id.helpBtn);
+        _helpButton = findViewById(R.id.settingsBtn);
         _helpButton.setOnClickListener(this);
         _startButton = findViewById(R.id.playBtn);
         _startButton.setOnClickListener(this);
