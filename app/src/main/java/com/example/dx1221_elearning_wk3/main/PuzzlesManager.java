@@ -1,6 +1,7 @@
 package com.example.dx1221_elearning_wk3.main;
 
 import android.graphics.Canvas;
+import android.telephony.IccOpenLogicalChannelResponse;
 import android.util.Log;
 
 import com.example.dx1221_elearning_wk3.mgp2d.core.GameEntity;
@@ -49,17 +50,24 @@ public class PuzzlesManager extends GameEntity
         switch(PuzzleType.values()[RandomPuzzle])
         {
             case COLOR:
+                Puzzle ColorPuzzle = new ColorPuzzle();
+                activePuzzle = ColorPuzzle;
                 break;
 
             case MATH:
+                Puzzle MathPuzzle = new MathPuzzle();
+                activePuzzle = MathPuzzle;
                 break;
 
             case MEMORY:
+                Puzzle MemoryPuzzle = new MemoryPuzzle();
+                activePuzzle = MemoryPuzzle;
                 break;
 
             case WORD:
+                Puzzle WordPuzzle = new WordPuzzle();
+                activePuzzle = WordPuzzle;
                 break;
-
 
         }
         isPlayingPuzzle = true;
@@ -87,6 +95,9 @@ public class PuzzlesManager extends GameEntity
 
     @Override
     public void onRender(Canvas canvas) {
-
+        if(activePuzzle != null)
+        {
+            activePuzzle.onRender(canvas);
+        }
     }
 }

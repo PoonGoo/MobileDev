@@ -37,7 +37,10 @@ public class MainGameScene extends GameScene {
 
     private TrapManager trapManager;
     private TouchHandler touchHandler;
+
+    private PuzzlesManager puzzlesManager;
     private float TimeBeforeTrapSpawn;
+    private float TimeBeforePuzzleSpawn;
 
 
     private Bitmap[] _backgroundLayers = new Bitmap[6]; // Array for 6 layers
@@ -54,6 +57,7 @@ public class MainGameScene extends GameScene {
         screenWidth = GameActivity.instance.getResources().getDisplayMetrics().widthPixels;
 
         TimeBeforeTrapSpawn = 3f;
+        TimeBeforePuzzleSpawn = 1f;
 
     /*    Bitmap bmp = BitmapFactory.decodeResource(GameActivity.instance.getResources(), R.drawable.gamescene);
         _backgroundBitmap = Bitmap.createScaledBitmap(bmp, screenWidth,screenHeight,true);
@@ -91,6 +95,8 @@ public class MainGameScene extends GameScene {
         _gameEntities.add(new MovementButton(rightArrow, new Vector2(screenWidth * 0.2f, screenHeight * 0.7f), MovementButton.MovementType.RIGHT));
         trapManager = TrapManager.getInstance();
         touchHandler = touchHandler.getInstance();
+
+        puzzlesManager = PuzzlesManager.getInstance();
         _gameEntities.add(touchHandler);
         _bgMusic = MediaPlayer.create(GameActivity.instance.getApplicationContext(), R.raw.shinytech);
         _bgMusic.setLooping(true);
@@ -105,58 +111,85 @@ public class MainGameScene extends GameScene {
 /*
         _backgroundPosition = (_backgroundPosition - dt * 500f) % (float)screenWidth;
 */
-        for (int i = 0; i < _backgroundLayers.length; i++) {
-            _layerPositions[i] -= _layerSpeeds[i] * dt;
-            if (_layerPositions[i] <= -screenWidth) {
-                _layerPositions[i] += screenWidth;
-            }
-        }
-
-        for(GameEntity entity : _gameEntities)
+        if(!puzzlesManager.playingPuzzle())
         {
-            entity.onUpdate(dt);
-            if(entity instanceof TouchHandler)
+            HandleBackground(dt);
+
+            for(GameEntity entity : _gameEntities)
             {
-                for(GameEntity other : _gameEntities)
+                entity.onUpdate(dt);
+                if(entity instanceof TouchHandler)
                 {
-                    if(other instanceof MovementButton && entity.isColliding(other))
+                    for(GameEntity other : _gameEntities)
                     {
-                        Log.d("MovementButton", "Movement Button Pressed");
-                        if(((TouchHandler) entity).Pressed())
+                        if(other instanceof MovementButton && entity.isColliding(other))
                         {
-                            ((MovementButton) other).Move(dt,player);
+                            Log.d("MovementButton", "Movement Button Pressed");
+                            if(((TouchHandler) entity).Pressed())
+                            {
+                                ((MovementButton) other).Move(dt,player);
+                            }
                         }
+
                     }
 
-                }
-
-                if((((TouchHandler) entity).Pressed() || ((TouchHandler) entity).SecondPressed()) && (((TouchHandler) entity).SecondTouchPos.x >= screenWidth / 2f))
-                {
-                    Log.d("Fly", "FlyPressed");
-                    player.Fly(dt);
-                }
-                else
-                {
-                    player.EndFly();
-                }
+                    if((((TouchHandler) entity).Pressed() || ((TouchHandler) entity).SecondPressed()) && (((TouchHandler) entity).SecondTouchPos.x >= screenWidth / 2f))
+                    {
+                        Log.d("Fly", "FlyPressed");
+                        player.Fly(dt);
+                    }
+                    else
+                    {
+                        player.EndFly();
+                    }
 
 
+                }
             }
+            HandleTrapManger(dt);
+
+            if(TimeBeforePuzzleSpawn >= 0)
+            {
+                TimeBeforePuzzleSpawn-= dt;
+            }
+            else
+            {
+                TimeBeforePuzzleSpawn = 10;
+                puzzlesManager.StartPuzzle();
+            }
+
+        }
+        else
+        {
+            puzzlesManager.onUpdate(dt);
         }
 
+
+    }
+
+    private void HandleTrapManger(float dt)
+    {
         trapManager.onUpdate(dt);
         trapManager.HandleCollision(player);
         if(TimeBeforeTrapSpawn >= 0f)
         {
-            
             TimeBeforeTrapSpawn -= dt;
-
         }
         else
         {
             TimeBeforeTrapSpawn = 3f;
             trapManager.SpawnTrap(player);
 
+        }
+    }
+
+    private void HandleBackground(float dt)
+    {
+        for (int i = 0; i < _backgroundLayers.length; i++) {
+            _layerPositions[i] -= _layerSpeeds[i] * dt;
+            if (_layerPositions[i] <= -screenWidth) {
+                _layerPositions[i] += screenWidth;
+            }
         }
     }
 
@@ -169,11 +202,20 @@ public class MainGameScene extends GameScene {
             canvas.drawBitmap(_backgroundLayers[i], _layerPositions[i] + screenWidth, 0, null);
         }
 
-        for(GameEntity entity : _gameEntities)
+        if(!puzzlesManager.playingPuzzle())
         {
-            entity.onRender(canvas);
+            for(GameEntity entity : _gameEntities)
+            {
+                entity.onRender(canvas);
+            }
+            trapManager.onRender(canvas);
+
+        }
+        else
+        {
+            puzzlesManager.onRender(canvas);
         }
 
-        trapManager.onRender(canvas);
+
     }
 }
