@@ -46,8 +46,11 @@ public class MainGameScene extends GameScene {
     private Bitmap[] _backgroundLayers = new Bitmap[6]; // Array for 6 layers
     private float[] _layerPositions = new float[6];     // Position for each layer
     private float[] _layerSpeeds = {50f, 100f, 150f, 200f, 250f, 300f}; // Speeds for parallax effect
+    private float[] _baseLayerSpeeds = {50f, 100f, 150f, 200f, 250f, 300f}; // Speeds for parallax effect
 
     public static float WorldSpeed = 200f;
+
+    public static float speedMultipler;
 
     private Bitmap homeIcon;
     private Vector2 homeIconPosition;
@@ -65,11 +68,13 @@ public class MainGameScene extends GameScene {
         screenWidth = GameActivity.instance.getResources().getDisplayMetrics().widthPixels;
 
         TimeBeforeTrapSpawn = 3f;
-        TimeBeforePuzzleSpawn = 100f;
+        TimeBeforePuzzleSpawn = 5f;
 
         score = 0;
         scoreIncrementTimer = 0f;
 
+        speedMultipler = 1;
+    
         int[] layerResources = {
                 R.drawable.layer1,
                 R.drawable.layer2,
@@ -99,7 +104,7 @@ public class MainGameScene extends GameScene {
 
          leftArrow = Bitmap.createScaledBitmap(lArrow, (int)(screenHeight * 0.2f) ,(int)(screenHeight * 0.2f),true);
          rightArrow = Bitmap.createScaledBitmap(rArrow, (int)(screenHeight * 0.2f) ,(int)(screenHeight * 0.2f),true);
-         player = new PlayerEntity();
+         player = PlayerEntity.getInstance();
         _gameEntities.add(new BackgroundEntity());
         _gameEntities.add(player);
         _gameEntities.add(new MovementButton(leftArrow, new Vector2(screenWidth * 0.1f, screenHeight * 0.7f), MovementButton.MovementType.LEFT));
@@ -123,6 +128,9 @@ public class MainGameScene extends GameScene {
 
         if(!puzzlesManager.playingPuzzle())
         {
+            speedMultipler +=  dt * 0.03f;
+            Log.d("Speed Multiplier", " " + speedMultipler);
+            WorldSpeed = _layerSpeeds[3];
             HandleBackground(dt);
 
             scoreIncrementTimer += dt;
@@ -220,7 +228,9 @@ public class MainGameScene extends GameScene {
 
     private void HandleBackground(float dt)
     {
-        for (int i = 0; i < _backgroundLayers.length; i++) {
+        for (int i = 0; i < _backgroundLayers.length; i++)
+        {
+            _layerSpeeds[i] =  _baseLayerSpeeds[i] * speedMultipler;
             _layerPositions[i] -= _layerSpeeds[i] * dt;
             if (_layerPositions[i] <= -screenWidth) {
                 _layerPositions[i] += screenWidth;

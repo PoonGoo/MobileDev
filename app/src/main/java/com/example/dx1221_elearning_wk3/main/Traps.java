@@ -41,6 +41,7 @@ public abstract class Traps extends GameEntity {
             vibrator.vibrate(VibrationEffect.createOneShot(100, VibrationEffect.DEFAULT_AMPLITUDE));
 
         }
+
     }
 
     @Override

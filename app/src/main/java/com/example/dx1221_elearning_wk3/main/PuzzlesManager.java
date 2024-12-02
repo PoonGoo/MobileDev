@@ -22,9 +22,6 @@ public class PuzzlesManager extends GameEntity
         COLOR,
 
         MATH,
-
-        MEMORY,
-
         WORD,
 
     }
@@ -47,6 +44,7 @@ public class PuzzlesManager extends GameEntity
 
             if(PuzzleTimer <= 0)
             {
+                PlayerEntity.getInstance().TakeDamage();
                 EndPuzzle(activePuzzle);
             }
 
@@ -57,31 +55,22 @@ public class PuzzlesManager extends GameEntity
     public void StartPuzzle()
     {
         int RandomPuzzle = (int)(Math.random() * PuzzleType.values().length);
-        Log.d("Spawn Trap", "" + PuzzleType.values()[RandomPuzzle]);
-        RandomPuzzle = 3;
         PuzzleTimer = 5f;
 
         switch(PuzzleType.values()[RandomPuzzle])
         {
             case COLOR:
-                Puzzle ColorPuzzle = new ColorPuzzle();
-                activePuzzle = ColorPuzzle;
+                activePuzzle = new ColorPuzzle();
                 break;
 
             case MATH:
-                Puzzle MathPuzzle = new MathPuzzle();
-                activePuzzle = MathPuzzle;
-                break;
-
-            case MEMORY:
-                Puzzle MemoryPuzzle = new MemoryPuzzle();
-                activePuzzle = MemoryPuzzle;
+                activePuzzle = new MathPuzzle();
                 break;
 
             case WORD:
-                Puzzle WordPuzzle = new WordPuzzle();
-                activePuzzle = WordPuzzle;
+                activePuzzle = new WordPuzzle();
                 break;
+
 
         }
         isPlayingPuzzle = true;
