@@ -1,7 +1,6 @@
 package com.example.dx1221_elearning_wk3.main;
 
 import android.graphics.Canvas;
-import android.text.method.Touch;
 import android.util.Log;
 import android.view.MotionEvent;
 
@@ -56,6 +55,7 @@ public class TouchHandler extends GameEntity {
     @Override
     public void onUpdate(float dt)
     {
+        Log.d("Updating", "true");
         if(!PuzzlesManager.getInstance().playingPuzzle())
         {
             HandleMovementTouch();
@@ -157,6 +157,8 @@ public class TouchHandler extends GameEntity {
     }
     private void HandlePuzzleTouch()
     {
+        Log.d("TouchIDS", "Current Pointer " + _currentPointerID + "Second Pointer: " + _secondPointerID);
+
         MotionEvent motionEvent = GameActivity.instance.getMotionEvent();
         if(motionEvent == null) return;
 
