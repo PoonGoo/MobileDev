@@ -9,10 +9,10 @@
 
     <Button
         android:id="@+id/restartBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="23dp"
+        android:layout_width="105dp"
+        android:layout_height="47dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="12dp"
         android:text="Restart"
         app:layout_constraintBottom_toTopOf="@+id/mainMenuBtn"
         app:layout_constraintEnd_toEndOf="@+id/mainMenuBtn"
@@ -22,10 +22,11 @@
         android:id="@+id/mainMenuBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="35dp"
+        android:layout_marginBottom="16dp"
         android:text="Main Menu"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.499"
         app:layout_constraintStart_toStartOf="parent"
         tools:ignore="HardcodedText" />
 

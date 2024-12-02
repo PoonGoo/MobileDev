@@ -170,6 +170,11 @@ public class MainGameScene extends GameScene {
         if(!puzzlesManager.playingPuzzle())
         {
             speedMultipler +=  dt * 0.03f;
+
+            if(speedMultipler >= 10f)
+            {
+                speedMultipler = 10f;
+            }
             Log.d("Speed Multiplier", " " + speedMultipler);
             WorldSpeed = _layerSpeeds[3];
             HandleBackground(dt);
