@@ -57,10 +57,11 @@ public class TrapManager extends GameEntity
         //TODO: Init trap assets (Animation if have)
         Bitmap ArrowBmp = BitmapFactory.decodeResource(GameActivity.instance.getResources(), R.drawable.arrow);
         Bitmap CoconutBmp = BitmapFactory.decodeResource(GameActivity.instance.getResources(), R.drawable.coconut1);
-        LightningAsset = BitmapFactory.decodeResource(GameActivity.instance.getResources(), R.drawable.coconut1);
+        Bitmap LightningBmp = BitmapFactory.decodeResource(GameActivity.instance.getResources(), R.drawable.lightning_trap_sliced);
 
         CoconutAsset = Bitmap.createScaledBitmap(CoconutBmp, 100, 100 ,true);
         ArrowAsset = Bitmap.createScaledBitmap(ArrowBmp, ArrowBmp.getWidth() * 2, ArrowBmp.getHeight() * 2 ,true);
+        LightningAsset = LightningBmp;
 
         GameHeight = GameActivity.instance.getResources().getDisplayMetrics().heightPixels;
         GameWidth = GameActivity.instance.getResources().getDisplayMetrics().widthPixels;
