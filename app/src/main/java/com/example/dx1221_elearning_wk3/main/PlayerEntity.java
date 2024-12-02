@@ -43,7 +43,6 @@ public class PlayerEntity extends GameEntity {
 
     int maxHearts = 3;
 
-
     public static synchronized PlayerEntity getInstance()
     {
         if(instance == null)
@@ -53,6 +52,8 @@ public class PlayerEntity extends GameEntity {
     }
     public PlayerEntity()
     {
+        hearts = 3;
+        maxHearts = 3;
 
         moveSpeed = 30f;
         fallSpeed = 20f;
@@ -87,6 +88,21 @@ public class PlayerEntity extends GameEntity {
         hearts++;
     }
 
+    public void Reset()
+    {
+        hearts = 3;
+        maxHearts = 3;
+
+        moveSpeed = 30f;
+        fallSpeed = 20f;
+        gravity = 9.81f;
+        flySpeed = 25f;
+
+        flying = false;
+
+        _position.x  = gameWidth / 2f;
+        _position.y = gameHeight / 2f;
+    }
     public void TakeDamage()
     {
         if (hearts > 0)
@@ -103,20 +119,13 @@ public class PlayerEntity extends GameEntity {
         _animatedSprite.update(dt);
         Log.d("Sprite Width", " " + sprite.getWidth());
         HandleGravity(dt);
-        HandleDeath();
-
     }
 
-    void HandleDeath()
-    {
-        if (Health <= 0 || hearts <= 0) {
-            Die();
-        }
-    }
 
-    void Die()
-    {
 
+    public boolean isDead()
+    {
+        return (hearts <= 0);
     }
 
     public void FlipLeft()

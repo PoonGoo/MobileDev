@@ -128,6 +128,11 @@ public class TrapManager extends GameEntity
 
     }
 
+    public void Clear()
+    {
+        ActiveTraps.clear();
+    }
+
     public void HandleCollision(PlayerEntity player)
     {
         for(int i = 0; i < ActiveTraps.size();i++)

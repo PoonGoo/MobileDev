@@ -38,6 +38,7 @@ public abstract class GameEntity {
 
         // Check for overlap between entityA and entityB
         return (aLeft < bRight && aRight > bLeft && aTop < bBtm && aBtm > bTop);
+
     }
     
     public boolean isColliding(Vector2 point, float rectX, float rectY) {
