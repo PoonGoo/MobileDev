@@ -21,6 +21,7 @@ public abstract class Puzzle
     }
 
     public abstract void PlayPuzzle(double dt);
+    public abstract void RandomizePuzzle();
     public void onRender(Canvas canvas)
     {
         canvas.drawBitmap(Background, 0 + Background.getWidth() * 0.2f , 0, null);

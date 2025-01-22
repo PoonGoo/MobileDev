@@ -35,6 +35,9 @@ public class MathPuzzle extends Puzzle
     private int correctSoundId;
     private int wrongSoundId;
 
+    private static Bitmap Backgroundbmp;
+    private static Bitmap borderBMP;
+    private static Bitmap border;
 
     ArrayList<MathOptions> Options;
 
@@ -62,12 +65,51 @@ public class MathPuzzle extends Puzzle
         QuestionTxt.setTextAlign(Paint.Align.CENTER);
         QuestionTxt.setColor(Color.WHITE);
 
-        Bitmap Backgroundbmp = BitmapFactory.decodeResource(GameActivity.instance.getResources(), R.drawable.equation_puzzle);
-        Bitmap border = BitmapFactory.decodeResource(GameActivity.instance.getResources(), R.drawable.math_border);
+        Backgroundbmp = BitmapFactory.decodeResource(GameActivity.instance.getResources(), R.drawable.equation_puzzle);
+        border = BitmapFactory.decodeResource(GameActivity.instance.getResources(), R.drawable.math_border);
 
-        Bitmap borderBMP = Bitmap.createScaledBitmap(border, (int)(border.getWidth() ), (int)(border.getHeight() ), true   );
+        borderBMP = Bitmap.createScaledBitmap(border, (int)(border.getWidth() ), (int)(border.getHeight() ), true   );
         Background = Bitmap.createScaledBitmap(Backgroundbmp, (int)(MainGameScene.screenWidth * 0.8f), (int)(MainGameScene.screenHeight * 0.8f), true   );
+
         NumOptions = 3;
+
+
+    }
+    @Override
+    public void PlayPuzzle(double dt)
+    {
+        Options.get(0).Spawn(new Vector2(Background.getWidth() * 0.15f + Background.getWidth() * 0.2f , Background.getHeight() * 0.6f));
+        Options.get(1).Spawn(new Vector2(Background.getWidth() * 0.45f + Background.getWidth() * 0.2f, Background.getHeight() * 0.6f));
+        Options.get(2).Spawn(new Vector2(Background.getWidth() * 0.75f + Background.getWidth() * 0.2f, Background.getHeight() * 0.6f));
+
+        for(int i = 0; i < Options.size(); i++)
+        {
+            if(Options.get(i).isClicked())
+            {
+                if(Options.get(i) == correctOption)
+                {
+                    Log.d("ButtonPressed", "Correct");
+                    soundPool.play(correctSoundId, 1, 1, 1, 0, 1);
+                    PlayerEntity.getInstance().Heal();
+
+                    PuzzlesManager.getInstance().EndPuzzle();
+
+                }
+                else
+                {
+                    Log.d("ButtonPressed", "Wrong");
+                    soundPool.play(wrongSoundId, 1, 1, 1, 0, 1);
+                    PlayerEntity.getInstance().TakeDamage();
+                    PuzzlesManager.getInstance().EndPuzzle();
+                }
+            }
+        }
+
+    }
+
+    @Override
+    public void RandomizePuzzle()
+    {
         int QType = (int)(Math.random() * QuestionType.values().length);
         questionType = QuestionType.values()[QType];
 
@@ -95,8 +137,6 @@ public class MathPuzzle extends Puzzle
 
         }
 
-        Log.d("Equations", "Firstnumber: " + FirstNumber + " Second Number: " + SecondNumber + "Total: " + Total);
-
         Options = new ArrayList<>();
 
         correctOption = new MathOptions(Total, borderBMP);
@@ -123,38 +163,6 @@ public class MathPuzzle extends Puzzle
         }
 
         Collections.shuffle(Options);
-
-    }
-    @Override
-    public void PlayPuzzle(double dt)
-    {
-        Options.get(0).Spawn(new Vector2(Background.getWidth() * 0.15f + Background.getWidth() * 0.2f , Background.getHeight() * 0.6f));
-        Options.get(1).Spawn(new Vector2(Background.getWidth() * 0.45f + Background.getWidth() * 0.2f, Background.getHeight() * 0.6f));
-        Options.get(2).Spawn(new Vector2(Background.getWidth() * 0.75f + Background.getWidth() * 0.2f, Background.getHeight() * 0.6f));
-
-        for(int i = 0; i < Options.size(); i++)
-        {
-            if(Options.get(i).isClicked())
-            {
-                if(Options.get(i) == correctOption)
-                {
-                    Log.d("ButtonPressed", "Correct");
-                    soundPool.play(correctSoundId, 1, 1, 1, 0, 1);
-                    PlayerEntity.getInstance().Heal();
-
-                    PuzzlesManager.getInstance().EndPuzzle(this);
-
-                }
-                else
-                {
-                    Log.d("ButtonPressed", "Wrong");
-                    soundPool.play(wrongSoundId, 1, 1, 1, 0, 1);
-                    PlayerEntity.getInstance().TakeDamage();
-                    PuzzlesManager.getInstance().EndPuzzle(this);
-                }
-            }
-        }
-
     }
 
     @Override

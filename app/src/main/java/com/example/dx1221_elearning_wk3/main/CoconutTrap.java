@@ -19,6 +19,8 @@ public class CoconutTrap extends Traps{
     private int indicatorWidth;
     private float indicatorOffsetY = 50f;
 
+    private static Bitmap originalIndicatorBmp;
+    private static Bitmap scaledIndicatorBmp;
 
     public CoconutTrap(Bitmap trapAsset) {
         super(trapAsset);
@@ -26,14 +28,16 @@ public class CoconutTrap extends Traps{
         TimerBeforeDrop = 1f;
         showIndicator = true;
 
-        Bitmap originalIndicatorBmp = BitmapFactory.decodeResource(GameActivity.instance.getResources(), R.drawable.alert_ps);
-        Bitmap scaledIndicatorBmp = Bitmap.createScaledBitmap(
-                originalIndicatorBmp,
-                (int) (originalIndicatorBmp.getWidth() * 1.5),
-                (int) (originalIndicatorBmp.getHeight() * 1.5),
-                true
-        );
-
+        if(originalIndicatorBmp == null && scaledIndicatorBmp == null)
+        {
+            originalIndicatorBmp = BitmapFactory.decodeResource(GameActivity.instance.getResources(), R.drawable.alert_ps);
+            scaledIndicatorBmp = Bitmap.createScaledBitmap(
+                    originalIndicatorBmp,
+                    (int) (originalIndicatorBmp.getWidth() * 1.5),
+                    (int) (originalIndicatorBmp.getHeight() * 1.5),
+                    true
+            );
+        }
         indicatorSprite = new AnimatedSprite(scaledIndicatorBmp, 1, 9, 30);
 
         indicatorHeight = scaledIndicatorBmp.getHeight();

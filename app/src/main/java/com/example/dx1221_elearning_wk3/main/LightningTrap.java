@@ -9,13 +9,17 @@ import com.example.dx1221_elearning_wk3.mgp2d.extra.AnimatedSprite;
 
 public class LightningTrap extends Traps {
 
-    private AnimatedSprite lightningSprite;
+    private static AnimatedSprite lightningSprite;
     private int lightningFrameWidth;
     private int lightningFrameHeight;
 
     private boolean didCollision = false;
 
-    public LightningTrap(Bitmap lightningAsset) {
+    private static Vector2 size;
+
+    public LightningTrap(Bitmap lightningAsset)
+    {
+
         super(lightningAsset);
 
         Bitmap scaledLightningBmp = Bitmap.createScaledBitmap(
@@ -25,10 +29,17 @@ public class LightningTrap extends Traps {
                 true
         );
 
-        lightningSprite = new AnimatedSprite(scaledLightningBmp, 1, 8, 30);
+        if(lightningSprite == null)
+        {
+            lightningSprite = new AnimatedSprite(scaledLightningBmp, 1, 8, 30);
+        }
+        if(size == null)
+        {
+            size = new Vector2(scaledLightningBmp.getWidth() / 8f, scaledLightningBmp.getHeight() * 0.3f);
+        }
         lightningFrameHeight = scaledLightningBmp.getHeight();
         lightningFrameWidth = scaledLightningBmp.getWidth() / 8;
-        _size = new Vector2(scaledLightningBmp.getWidth() / 8f, scaledLightningBmp.getHeight() * 0.3f);
+        _size = size;
     }
 
     @Override
@@ -56,8 +67,8 @@ public class LightningTrap extends Traps {
     public void onRender(Canvas canvas) {
         // Render the animated lightning sprite
         lightningSprite.render(canvas,
-                (int) (_position.x - lightningFrameWidth / 2f),
-                (int) (_position.y - lightningFrameHeight / 2f),
+                (int)(_position.x - lightningFrameWidth / 2f),
+                (int)(_position.y - lightningFrameHeight / 2f),
                 null);
     }
 }

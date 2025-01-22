@@ -17,4 +17,9 @@ public class MemoryPuzzle extends Puzzle{
     public void PlayPuzzle(double dt) {
 
     }
+
+    @Override
+    public void RandomizePuzzle() {
+
+    }
 }

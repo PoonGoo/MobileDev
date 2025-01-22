@@ -12,6 +12,10 @@ public class PuzzlesManager extends GameEntity
 
     Puzzle activePuzzle;
 
+    private static ColorPuzzle colorPuzzle;
+    private static MathPuzzle mathPuzzle;
+    private static WordPuzzle wordPuzzle;
+
     private boolean isPlayingPuzzle;
     private static PuzzlesManager instance = null;
 
@@ -31,6 +35,10 @@ public class PuzzlesManager extends GameEntity
     {
         isPlayingPuzzle = false;
         PuzzleTimer = 5f;
+
+        colorPuzzle = new ColorPuzzle();
+        mathPuzzle = new MathPuzzle();
+        wordPuzzle = new WordPuzzle();
     }
 
     @Override
@@ -45,7 +53,7 @@ public class PuzzlesManager extends GameEntity
             if(PuzzleTimer <= 0)
             {
                 PlayerEntity.getInstance().TakeDamage();
-                EndPuzzle(activePuzzle);
+                EndPuzzle();
             }
 
         }
@@ -59,19 +67,21 @@ public class PuzzlesManager extends GameEntity
         switch(PuzzleType.values()[RandomPuzzle])
         {
             case COLOR:
-                activePuzzle = new ColorPuzzle();
+                activePuzzle = colorPuzzle;
+
                 break;
 
             case MATH:
-                activePuzzle = new MathPuzzle();
+                activePuzzle = mathPuzzle;
                 break;
 
             case WORD:
-                activePuzzle = new WordPuzzle();
+                activePuzzle = wordPuzzle;
                 break;
 
 
         }
+        activePuzzle.RandomizePuzzle();
         isPlayingPuzzle = true;
     }
 
@@ -83,9 +93,8 @@ public class PuzzlesManager extends GameEntity
 
     }
 
-    public void EndPuzzle(Puzzle puzzle)
+    public void EndPuzzle()
     {
-        puzzle = null;
         activePuzzle = null;
         isPlayingPuzzle = false;
     }

@@ -20,16 +20,19 @@ public class WordPuzzle extends Puzzle
 
     String[] wordList = {"QUIZ", "JINX", "VAMP", "HAWK", "WHIP", "CROW", "ZEST", "BOLD", "GRIN"};
 
-    ArrayList<Character> characters;
-    ArrayList<LetterButton> letterButtons;
+    private static ArrayList<Character> characters;
+    private static ArrayList<LetterButton> letterButtons;
 
     String WordToMake;
 
-    ArrayList<Character> userCharacters;
+    private static ArrayList<Character> userCharacters;
 
     float circleOffset = -500f;
 
     Paint wordPaint;
+
+    private static Bitmap letterScaled;
+    private static Bitmap letterHolder;
 
     public WordPuzzle()
     {
@@ -38,15 +41,63 @@ public class WordPuzzle extends Puzzle
         wordPaint.setTextAlign(Paint.Align.LEFT);
         wordPaint.setColor(Color.WHITE);
 
-        characters = new ArrayList<>();
-        letterButtons = new ArrayList<>();
-        userCharacters = new ArrayList<>();
+        if(characters == null)
+        {
+            characters = new ArrayList<>();
+        }
+        if(letterButtons == null)
+        {
+            letterButtons = new ArrayList<>();
+        }
+        if(userCharacters == null)
+        {
+            userCharacters = new ArrayList<>();
+        }
+
         Bitmap Backgroundbmp = BitmapFactory.decodeResource(GameActivity.instance.getResources(), R.drawable.word_puzzle);
         Background = Bitmap.createScaledBitmap(Backgroundbmp, (int)(MainGameScene.screenWidth * 1f), (int)(MainGameScene.screenHeight * 1f), true   );
 
 
-        Bitmap letterHolder = BitmapFactory.decodeResource(GameActivity.instance.getResources(), R.drawable.word_container);
-        Bitmap letterScaled = Bitmap.createScaledBitmap(letterHolder, (int) (letterHolder.getWidth() * 3f), (int) (letterHolder.getHeight() * 3f), true);
+        letterHolder = BitmapFactory.decodeResource(GameActivity.instance.getResources(), R.drawable.word_container);
+        letterScaled = Bitmap.createScaledBitmap(letterHolder, (int) (letterHolder.getWidth() * 3f), (int) (letterHolder.getHeight() * 3f), true);
+
+
+    }
+
+    @Override
+    public void PlayPuzzle(double dt)
+    {
+
+        for(int i = 0; i < letterButtons.size();i++)
+        {
+            if(letterButtons.get(i).isClicked() && !userCharacters.contains(letterButtons.get(i).letter))
+            {
+                userCharacters.add(letterButtons.get(i).letter);
+            }
+        }
+
+        if(!TouchHandler.getInstance().Pressed())
+        {
+            if(convertToString(userCharacters).equals(WordToMake))
+            {
+                PlayerEntity.getInstance().Heal();
+                PuzzlesManager.getInstance().EndPuzzle();
+            }else
+            {
+                userCharacters.clear();
+            }
+        }
+
+        Log.d("User Characters", " " + convertToString(userCharacters));
+
+    }
+
+    @Override
+    public void RandomizePuzzle()
+    {
+        letterButtons.clear();
+        characters.clear();
+        userCharacters.clear();
         int RandomWordindex = (int)(Math.random() * wordList.length);
 
         WordToMake = wordList[RandomWordindex];
@@ -69,35 +120,6 @@ public class WordPuzzle extends Puzzle
         letterButtons.get(1).Spawn(new Vector2(circleOffset + MainGameScene.screenWidth / 2f + letterScaled.getWidth() , MainGameScene.screenHeight / 2f));
         letterButtons.get(2).Spawn(new Vector2(circleOffset + MainGameScene.screenWidth / 2f, MainGameScene.screenHeight / 2f - letterScaled.getHeight() ));
         letterButtons.get(3).Spawn(new Vector2(circleOffset + MainGameScene.screenWidth / 2f, MainGameScene.screenHeight / 2f + letterScaled.getHeight()));
-
-    }
-
-    @Override
-    public void PlayPuzzle(double dt)
-    {
-
-        for(int i = 0; i < letterButtons.size();i++)
-        {
-            if(letterButtons.get(i).isClicked() && !userCharacters.contains(letterButtons.get(i).letter))
-            {
-                userCharacters.add(letterButtons.get(i).letter);
-            }
-        }
-
-        if(!TouchHandler.getInstance().Pressed())
-        {
-            if(convertToString(userCharacters).equals(WordToMake))
-            {
-                PlayerEntity.getInstance().Heal();
-                PuzzlesManager.getInstance().EndPuzzle(this);
-            }else
-            {
-                userCharacters.clear();
-            }
-        }
-
-        Log.d("User Characters", " " + convertToString(userCharacters));
-
     }
 
     private String convertToString(ArrayList<Character> charList) {
