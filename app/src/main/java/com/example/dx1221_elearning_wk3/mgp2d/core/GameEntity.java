@@ -3,7 +3,10 @@ package com.example.dx1221_elearning_wk3.mgp2d.core;
 import android.graphics.Canvas;
 import android.util.Log;
 
-public abstract class GameEntity {
+public abstract class GameEntity
+{
+    public boolean isActive;
+
     protected Vector2 _position = new Vector2(0, 0);
     public Vector2 getPosition() { return _position.copy(); }
     public void setPosition(Vector2 position) { _position = position; }
@@ -16,8 +19,19 @@ public abstract class GameEntity {
     public int getOrdinal() { return _ordinal; }
 
     private boolean _isDone = false;
-    public void destroy() { _isDone = true; }
+
+    public GameEntity()
+    {
+        isActive = true;
+    }
+    public void destroy()
+    {
+        _isDone = true;
+        isActive = false;
+    }
     public boolean canDestroy() { return _isDone; }
+
+    public String name;
 
     public void onUpdate(float dt) {}
     public abstract void onRender(Canvas canvas);
