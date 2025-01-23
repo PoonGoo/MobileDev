@@ -21,7 +21,6 @@ public abstract class Traps extends GameEntity {
     private SoundPool soundPool;
     private int takeDamageSoundId;
 
-    boolean isActive;
     public Traps(Bitmap trapAsset)
     {
         isActive = false;
@@ -54,11 +53,13 @@ public abstract class Traps extends GameEntity {
         player.TakeDamage();
         soundPool.play(takeDamageSoundId, 1, 1, 1, 0, 1);
         Vibrator vibrator = (Vibrator) GameActivity.instance.getSystemService(Context.VIBRATOR_SERVICE);
-        if (vibrator != null && vibrator.hasVibrator()) {
+        if (vibrator != null && vibrator.hasVibrator())
+        {
             // Vibrate for 200 milliseconds
             vibrator.vibrate(VibrationEffect.createOneShot(100, VibrationEffect.DEFAULT_AMPLITUDE));
 
         }
+
 
     }
 

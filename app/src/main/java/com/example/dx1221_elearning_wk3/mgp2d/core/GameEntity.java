@@ -3,7 +3,7 @@ package com.example.dx1221_elearning_wk3.mgp2d.core;
 import android.graphics.Canvas;
 import android.util.Log;
 
-public abstract class GameEntity
+public abstract class GameEntity implements Cloneable
 {
     public boolean isActive;
 
@@ -70,5 +70,8 @@ public abstract class GameEntity
         return (aLeft < bRight && aRight > bLeft && aTop < bBtm && aBtm > bTop);
 
     }
-    
+
+    public GameEntity Instantiate() throws CloneNotSupportedException {
+        return (GameEntity)super.clone();
+    }
 }

@@ -68,7 +68,6 @@ public class PuzzlesManager extends GameEntity
         {
             case COLOR:
                 activePuzzle = colorPuzzle;
-
                 break;
 
             case MATH:
@@ -78,7 +77,6 @@ public class PuzzlesManager extends GameEntity
             case WORD:
                 activePuzzle = wordPuzzle;
                 break;
-
 
         }
         activePuzzle.RandomizePuzzle();

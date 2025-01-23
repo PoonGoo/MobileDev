@@ -98,6 +98,7 @@ public class WordPuzzle extends Puzzle
         letterButtons.clear();
         characters.clear();
         userCharacters.clear();
+
         int RandomWordindex = (int)(Math.random() * wordList.length);
 
         WordToMake = wordList[RandomWordindex];

@@ -23,8 +23,8 @@ public class ObjectPoolManager
         return instance;
     }
 
-    public static GameEntity SpawnObject(GameEntity entity, Vector2 SpawnPos)
-    {
+    public static GameEntity SpawnObject(GameEntity entity, Vector2 SpawnPos) throws CloneNotSupportedException {
+
         PooledObjects pool = null;
         for(int i = 0; i < EntityPool.size(); i++)
         {
@@ -48,7 +48,11 @@ public class ObjectPoolManager
         for(int j = 0; j < pool.InactiveObjects.size(); j++)
         {
             GameEntity go  = pool.InactiveObjects.get(j);
-            if(go != null)
+            if(go == null)
+            {
+                spawnableObj = entity.Instantiate();
+            }
+            else
             {
                 spawnableObj = go;
                 break;

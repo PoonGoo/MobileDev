@@ -195,6 +195,8 @@ public class ColorPuzzle extends Puzzle
     @Override
     public void RandomizePuzzle()
     {
+        currentButtonsShown.clear();
+
         correctButton = colorButtons.get((int)(Math.random() * colorButtons.size()));
 
 
