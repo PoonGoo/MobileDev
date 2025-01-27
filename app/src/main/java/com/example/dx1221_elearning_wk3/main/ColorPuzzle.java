@@ -28,13 +28,15 @@ public class ColorPuzzle extends Puzzle
     int correctSoundId;
     int wrongSoundId;
 
-    Bitmap blue;
-    Bitmap green;
-    Bitmap grey;
-    Bitmap purple;
-    Bitmap red;
-    Bitmap yellow;
-    ArrayList<ColorButton> colorButtons;
+    private static Bitmap blue;
+    private static Bitmap green;
+    private static Bitmap grey;
+    private static Bitmap purple;
+    private static Bitmap red;
+    private static Bitmap yellow;
+
+    private static Bitmap Backgroundbmp;
+    private static ArrayList<ColorButton> colorButtons;
 
     int blueColor;
     int greenColor;
@@ -55,7 +57,7 @@ public class ColorPuzzle extends Puzzle
 
     Paint QuestionTxt;
 
-     Dictionary<ColorButton, Integer> ButtonToColor;
+    private static Dictionary<ColorButton, Integer> ButtonToColor;
     public ColorPuzzle()
     {
         AudioAttributes audioAttributes = new AudioAttributes.Builder()
@@ -77,10 +79,13 @@ public class ColorPuzzle extends Puzzle
         QuestionTxt.setTextSize(150);
         QuestionTxt.setTextAlign(Paint.Align.CENTER);
 
-        colorButtons = new ArrayList<>();
 
         currentButtonsShown = new ArrayList<>();
-        Bitmap Backgroundbmp = BitmapFactory.decodeResource(GameActivity.instance.getResources(), R.drawable.color_puzzle);
+        if(Backgroundbmp == null)
+        {
+            Backgroundbmp = BitmapFactory.decodeResource(GameActivity.instance.getResources(), R.drawable.color_puzzle);
+        }
+
         Background = Bitmap.createScaledBitmap(Backgroundbmp, (int)(MainGameScene.screenWidth * 0.8f), (int)(MainGameScene.screenHeight * 0.8f), true   );
 
         blueColor = Color.BLUE;
@@ -90,18 +95,30 @@ public class ColorPuzzle extends Puzzle
         redColor = Color.RED;
         yellowColor = Color.YELLOW;
 
-        blue = BitmapFactory.decodeResource(GameActivity.instance.getResources(), R.drawable.element_blue_diamond);
-
-        green = BitmapFactory.decodeResource(GameActivity.instance.getResources(), R.drawable.element_green_diamond);
-
-        grey = BitmapFactory.decodeResource(GameActivity.instance.getResources(), R.drawable.element_grey_diamond);
-
-        purple = BitmapFactory.decodeResource(GameActivity.instance.getResources(), R.drawable.element_purple_diamond);
-
-        red = BitmapFactory.decodeResource(GameActivity.instance.getResources(), R.drawable.element_red_diamond);
-
-        yellow = BitmapFactory.decodeResource(GameActivity.instance.getResources(), R.drawable.element_yellow_diamond);
-
+        if(blue == null)
+        {
+            blue = BitmapFactory.decodeResource(GameActivity.instance.getResources(), R.drawable.element_blue_diamond);
+        }
+        if(green == null)
+        {
+            green = BitmapFactory.decodeResource(GameActivity.instance.getResources(), R.drawable.element_green_diamond);
+        }
+        if(grey == null)
+        {
+            grey = BitmapFactory.decodeResource(GameActivity.instance.getResources(), R.drawable.element_grey_diamond);
+        }
+        if(purple == null)
+        {
+            purple = BitmapFactory.decodeResource(GameActivity.instance.getResources(), R.drawable.element_purple_diamond);
+        }
+        if(red == null)
+        {
+            red = BitmapFactory.decodeResource(GameActivity.instance.getResources(), R.drawable.element_red_diamond);
+        }
+        if(yellow == null)
+        {
+            yellow = BitmapFactory.decodeResource(GameActivity.instance.getResources(), R.drawable.element_yellow_diamond);
+        }
 
         blueButton = new ColorButton(blue);
         greenButton = new ColorButton(green);
@@ -110,44 +127,33 @@ public class ColorPuzzle extends Puzzle
         redButton = new ColorButton(red);
         yellowButton = new ColorButton(yellow);
 
-        ButtonToColor = new Hashtable<>();
-        ButtonToColor.put(blueButton, blueColor);
-        ButtonToColor.put(greenButton, greenColor);
-        ButtonToColor.put(greyButton, greyColor);
-        ButtonToColor.put(purpleButton, purpleColor );
-        ButtonToColor.put(redButton, redColor);
-        ButtonToColor.put(yellowButton, yellowColor);
-
-        colorButtons.add(blueButton);
-        colorButtons.add(greenButton);
-        colorButtons.add(greyButton);
-        colorButtons.add(purpleButton);
-        colorButtons.add(redButton);
-        colorButtons.add(yellowButton);
-
-        correctButton = colorButtons.get((int)(Math.random() * colorButtons.size()));
-
-
-        currentButtonsShown.add(correctButton);
-
-        for(int i = 0 ; i < 2 ; i++)
+        if(ButtonToColor == null)
         {
-            ColorButton tempButton = colorButtons.get((int)(Math.random() * colorButtons.size()));
-            Log.d("Temp Button", " " + tempButton);
-            if(currentButtonsShown.contains(tempButton))
-            {
-                i--;
-                continue;
-            }
-            currentButtonsShown.add(tempButton);
-
+            ButtonToColor = new Hashtable<>();
+            ButtonToColor.put(blueButton, blueColor);
+            ButtonToColor.put(greenButton, greenColor);
+            ButtonToColor.put(greyButton, greyColor);
+            ButtonToColor.put(purpleButton, purpleColor );
+            ButtonToColor.put(redButton, redColor);
+            ButtonToColor.put(yellowButton, yellowColor);
         }
 
-        Collections.shuffle(currentButtonsShown);
+        if(colorButtons == null)
+        {
+            colorButtons = new ArrayList<>();
+
+            colorButtons.add(blueButton);
+            colorButtons.add(greenButton);
+            colorButtons.add(greyButton);
+            colorButtons.add(purpleButton);
+            colorButtons.add(redButton);
+            colorButtons.add(yellowButton);
+        }
+
+
+
 
     }
-
-
 
     @Override
     public void PlayPuzzle(double dt)
@@ -170,7 +176,7 @@ public class ColorPuzzle extends Puzzle
                     Log.d("ButtonPressed", "Correct");
                     soundPool.play(correctSoundId, 1, 1, 1, 0, 1);
                     PlayerEntity.getInstance().Heal();
-                    PuzzlesManager.getInstance().EndPuzzle(this);
+                    PuzzlesManager.getInstance().EndPuzzle();
 
                 }
                 else
@@ -178,12 +184,38 @@ public class ColorPuzzle extends Puzzle
                     Log.d("ButtonPressed", "Wrong");
                     soundPool.play(wrongSoundId, 1, 1, 1, 0, 1);
                     PlayerEntity.getInstance().TakeDamage();
-                    PuzzlesManager.getInstance().EndPuzzle(this);
+                    PuzzlesManager.getInstance().EndPuzzle();
                 }
             }
         }
 
 
+    }
+
+    @Override
+    public void RandomizePuzzle()
+    {
+        currentButtonsShown.clear();
+
+        correctButton = colorButtons.get((int)(Math.random() * colorButtons.size()));
+
+
+        currentButtonsShown.add(correctButton);
+
+        for(int i = 0 ; i < 2 ; i++)
+        {
+            ColorButton tempButton = colorButtons.get((int)(Math.random() * colorButtons.size()));
+            Log.d("Temp Button", " " + tempButton);
+            if(currentButtonsShown.contains(tempButton))
+            {
+                i--;
+                continue;
+            }
+            currentButtonsShown.add(tempButton);
+
+        }
+
+        Collections.shuffle(currentButtonsShown);
     }
 
     @Override

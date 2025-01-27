@@ -12,8 +12,6 @@ public class ColorButton extends GameEntity
 
     Bitmap ButtonColor;
 
-
-
     boolean isActive;
 
     public ColorButton(Bitmap bmp)
