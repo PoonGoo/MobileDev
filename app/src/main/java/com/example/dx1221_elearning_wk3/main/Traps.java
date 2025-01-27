@@ -63,13 +63,15 @@ public abstract class Traps extends GameEntity {
 
     }
 
+    public void reset() {
+        isActive = false;
+        _position = new Vector2(0, 0);
+    }
+
     @Override
     public void onRender(Canvas canvas) {
-        if(!isActive)
-            return;
-
-        canvas.drawBitmap(bmp, _position.x, _position.y , null);
-
+        if (!isActive) return;
+        canvas.drawBitmap(bmp, _position.x, _position.y, null);
     }
 
     public abstract void DoEffect(double dt);
