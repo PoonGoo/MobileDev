@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Rect;
+import android.hardware.SensorEvent;
 import android.util.Log;
 import android.view.MotionEvent;
 
@@ -119,6 +120,21 @@ public class PlayerEntity extends GameEntity {
         _animatedSprite.update(dt);
         Log.d("Sprite Width", " " + sprite.getWidth());
         HandleGravity(dt);
+
+        if (GameActivity.instance.areSensorsWorking())
+        {
+            SensorEvent sensorEvent = GameActivity.instance.getSensorEvent();
+
+            float tilt = sensorEvent.values[1];
+
+            if (tilt < -1.0f)  // Tilt threshold for moving left
+            {
+                MoveLeft(dt);
+            } else if (tilt > 1.0f) // Tilt threshold for moving right
+            {
+                MoveRight(dt);
+            }
+        }
     }
 
 
