@@ -147,7 +147,7 @@ public class MainGameScene extends GameScene {
         WorldSpeed = 200f;
 
         PlayerEntity.getInstance().Reset();
-        TrapManager.getInstance().Clear();
+        TrapManager.getInstance().clear();
         PuzzlesManager.getInstance().Clear();
     }
     @Override
@@ -259,7 +259,7 @@ public class MainGameScene extends GameScene {
     private void HandleTrapManger(float dt)
     {
         trapManager.onUpdate(dt);
-        trapManager.HandleCollision(player);
+        trapManager.handleCollision(player);
         if(TimeBeforeTrapSpawn >= 0f)
         {
             TimeBeforeTrapSpawn -= dt;
@@ -267,7 +267,7 @@ public class MainGameScene extends GameScene {
         else
         {
             TimeBeforeTrapSpawn = 3f;
-            trapManager.SpawnTrap(player);
+            trapManager.spawnTrap(player);
 
         }
     }
