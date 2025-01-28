@@ -20,7 +20,7 @@ public class ObjectPool<T> {
 
     public T acquire() {
         if (availableObjects.isEmpty()) {
-            return factory.create();  // Create new if pool is empty
+            return factory.create();
         }
         return availableObjects.remove(availableObjects.size() - 1);
     }
