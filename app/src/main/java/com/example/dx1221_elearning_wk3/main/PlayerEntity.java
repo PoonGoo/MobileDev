@@ -130,9 +130,12 @@ public class PlayerEntity extends GameEntity {
             if (tilt < -1.0f)  // Tilt threshold for moving left
             {
                 MoveLeft(dt);
+                FlipLeft();
+
             } else if (tilt > 1.0f) // Tilt threshold for moving right
             {
                 MoveRight(dt);
+                FlipRight();
             }
         }
     }

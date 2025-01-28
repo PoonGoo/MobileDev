@@ -82,7 +82,7 @@ public class MainGameScene extends GameScene {
 
         WorldSpeed = 200f;
 
-    
+
         int[] layerResources = {
                 R.drawable.layer1,
                 R.drawable.layer2,
@@ -103,7 +103,7 @@ public class MainGameScene extends GameScene {
         }
 
         Bitmap lArrow  = BitmapFactory.decodeResource(GameActivity.instance.getResources(), R.drawable.left_button);
-         Bitmap rArrow = BitmapFactory.decodeResource(GameActivity.instance.getResources(), R.drawable.right_button);
+        Bitmap rArrow = BitmapFactory.decodeResource(GameActivity.instance.getResources(), R.drawable.right_button);
 
         Bitmap bmp = BitmapFactory.decodeResource(GameActivity.instance.getResources(), R.drawable.home_icon);
         homeIcon = Bitmap.createScaledBitmap(bmp, (int) (screenHeight * 0.1f), (int) (screenHeight * 0.1f), true);
@@ -118,6 +118,7 @@ public class MainGameScene extends GameScene {
         _gameEntities.add(new MovementButton(rightArrow, new Vector2(screenWidth * 0.2f, screenHeight * 0.7f), MovementButton.MovementType.RIGHT));
         trapManager = TrapManager.getInstance();
         touchHandler = TouchHandler.getInstance();
+
 
         puzzlesManager = PuzzlesManager.getInstance();
         _gameEntities.add(touchHandler);
