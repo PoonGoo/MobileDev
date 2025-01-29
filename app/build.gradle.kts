@@ -4,12 +4,12 @@ plugins {
 
 android {
     namespace = "com.example.dx1221_elearning_wk3"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.example.dx1221_elearning_wk3"
         minSdk = 24
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 
@@ -39,6 +39,5 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
-    implementation(libs.play.services.games)
-    implementation(libs.play.services.auth)
+    implementation(libs.play.services.games.v2.v2012)
 }
