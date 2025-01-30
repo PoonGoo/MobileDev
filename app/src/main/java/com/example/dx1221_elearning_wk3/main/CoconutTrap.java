@@ -60,8 +60,17 @@ public class CoconutTrap extends Traps{
             indicatorSprite.update((float)dt);
         }
 
+        if(_position.y >= MainGameScene.screenHeight)
+        {
+            TrapManager.getInstance().DisableTrap(this);
+        }
     }
 
+    @Override
+    public void reset() {
+        super.reset();
+        showIndicator = true;
+    }
     @Override
     public void DoCollision(PlayerEntity player) {
         super.DoCollision(player);

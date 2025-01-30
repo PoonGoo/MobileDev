@@ -3,6 +3,7 @@ package com.example.dx1221_elearning_wk3.main;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button; // Corrected import
 
@@ -24,7 +25,8 @@ public class MainMenu extends Activity implements View.OnClickListener // Correc
     private Button _helpButton;
     private Button _startButton;
 
-
+    private Button _leaderboardButton;
+    private Button _achievementButton;
 
 
 
@@ -35,6 +37,13 @@ public class MainMenu extends Activity implements View.OnClickListener // Correc
         setContentView(R.layout.mainmenu);
         _helpButton = findViewById(R.id.settingsBtn);
         _helpButton.setOnClickListener(this);
+
+        _leaderboardButton = findViewById(R.id.leaderboardbtn);
+        _leaderboardButton.setOnClickListener(this);
+
+        _achievementButton = findViewById(R.id.achievementbtn);
+        _achievementButton.setOnClickListener(this);
+
         _startButton = findViewById(R.id.playBtn);
         _startButton.setOnClickListener(this);
 
@@ -67,12 +76,35 @@ public class MainMenu extends Activity implements View.OnClickListener // Correc
 
     public void ShowLeaderBoard()
     {
+        PlayGames.getLeaderboardsClient(this).getLeaderboardIntent(getString(R.string.leaderboard)).addOnCompleteListener(task -> {
+            if(task.isSuccessful())
+            {
+                Log.d("Leaderboard", "Leaderboard opened succ");
+                startActivityForResult(task.getResult(), 0);
 
+            }
+            else
+            {
+                Log.d("Leaderboard", "Leaderboard opened failed");
+            }
+        });
 
     }
 
     public void ShowAchievements()
     {
+        PlayGames.getAchievementsClient(this).getAchievementsIntent().addOnCompleteListener(task -> {
+            if(task.isSuccessful())
+            {
+                Log.d("Achievements", "Achievements opened succ");
+                startActivityForResult(task.getResult(), 0);
+
+            }
+            else
+            {
+                Log.d("Achievements", "Achievements opened failed");
+            }
+        });
 
     }
 
@@ -81,6 +113,14 @@ public class MainMenu extends Activity implements View.OnClickListener // Correc
     {
         if(v == _helpButton) {
             startActivity(new Intent(this, HelpPage.class));
+        }
+        else if(v == _leaderboardButton)
+        {
+            ShowLeaderBoard();
+        }
+        else if(v == _achievementButton)
+        {
+            ShowAchievements();
         }
         else if(v == _startButton)
         {

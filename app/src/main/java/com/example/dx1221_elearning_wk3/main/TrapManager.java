@@ -65,8 +65,8 @@ public class TrapManager extends GameEntity {
 
     @Override
     public void onUpdate(float dt) {
-        for (int i = 0; i < activeTraps.size(); i++) {
-            Log.d("Active Traps:", "" + i + activeTraps.get(i));
+        for (int i = 0; i < activeTraps.size(); i++)
+        {
             activeTraps.get(i).DoEffect(dt);
         }
     }
@@ -106,24 +106,31 @@ public class TrapManager extends GameEntity {
     }
 
     public void DisableTrap(Traps trap) {
-        activeTraps.remove(trap);
 
-        if (trap instanceof ArrowTrap) {
+        if (trap instanceof ArrowTrap)
+        {
             arrowTrapPool.release((ArrowTrap) trap);
-        } else if (trap instanceof CoconutTrap) {
+        } else if (trap instanceof CoconutTrap)
+        {
             coconutTrapPool.release((CoconutTrap) trap);
-        } else if (trap instanceof LightningTrap) {
+        } else if (trap instanceof LightningTrap)
+        {
             lightningTrapPool.release((LightningTrap) trap);
         }
-
         trap.reset();
+
+        activeTraps.remove(trap);
+
     }
 
-    public void handleCollision(PlayerEntity player) {
+    public void handleCollision(PlayerEntity player)
+    {
         for (int i = 0; i < activeTraps.size(); i++) {
+            Log.d("Active Traps Size: ", String.valueOf(activeTraps.get(i)));
+            Log.d("Active Traps Size: ", "Index = " + String.valueOf(i));
+
             if (activeTraps.get(i).isColliding(player)) {
                 activeTraps.get(i).DoCollision(player);
-                DisableTrap(activeTraps.get(i));
             }
         }
     }
@@ -135,10 +142,11 @@ public class TrapManager extends GameEntity {
         }
     }
 
-    public void clear() {
-        for (Traps trap : activeTraps) {
-            DisableTrap(trap);
-        }
-        activeTraps.clear();
+    public void clear()
+    {
+//        for (Traps trap : activeTraps)
+//        {
+//            DisableTrap(trap);
+//        }
     }
 }

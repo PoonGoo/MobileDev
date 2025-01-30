@@ -35,6 +35,7 @@ public class SplashPage extends Activity {
                         throw new RuntimeException(e);
                     }
                 }
+
                 startActivity(new Intent(SplashPage.this, MainMenu.class));
                 finish();
             }

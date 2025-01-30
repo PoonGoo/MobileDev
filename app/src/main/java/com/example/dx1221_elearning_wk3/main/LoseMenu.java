@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.example.dx1221_elearning_wk3.R;
 import com.example.dx1221_elearning_wk3.mgp2d.core.GameActivity;
 import com.example.dx1221_elearning_wk3.mgp2d.core.GameScene;
+import com.google.android.gms.games.PlayGames;
 
 public class LoseMenu extends Activity implements View.OnClickListener
 {
@@ -31,6 +32,11 @@ public class LoseMenu extends Activity implements View.OnClickListener
         // Retrieve and display score
         TextView _scoreText = findViewById(R.id.scoreText);
         int finalScore = getIntent().getIntExtra("finalScore", 0); // Default to 0 if no score is passed
+        PlayGames.getLeaderboardsClient(this).submitScore(getString(R.string.leaderboard), finalScore);
+        if(finalScore >= 200)
+        {
+            PlayGames.getAchievementsClient(this).unlock(getString(R.string.novice_achivement));
+        }
         _scoreText.setText("Your Score: " + finalScore);
 
     }
