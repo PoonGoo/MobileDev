@@ -29,6 +29,7 @@ public class MainMenu extends Activity implements View.OnClickListener // Correc
     private Button _achievementButton;
 
 
+    private static GamesSignInClient signInClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -54,7 +55,7 @@ public class MainMenu extends Activity implements View.OnClickListener // Correc
 
     private void initGoogleClientAndSignIn()
     {
-        GamesSignInClient signInClient = PlayGames.getGamesSignInClient(this);
+        signInClient = PlayGames.getGamesSignInClient(this);
         signInClient.isAuthenticated().addOnCompleteListener(task ->
         {
              boolean isAuthenticated = task.isSuccessful() && task.getResult().isAuthenticated();
@@ -71,7 +72,16 @@ public class MainMenu extends Activity implements View.OnClickListener // Correc
         });
 
 
+    }
 
+    private void SignIn()
+    {
+        signInClient.signIn().addOnCompleteListener(task -> {
+            if(task.isSuccessful())
+            {
+                PlayGames.getPlayersClient(this);
+            }
+        });
     }
 
     public void ShowLeaderBoard()
@@ -83,9 +93,10 @@ public class MainMenu extends Activity implements View.OnClickListener // Correc
                 startActivityForResult(task.getResult(), 0);
 
             }
-            else
-            {
+            else {
                 Log.d("Leaderboard", "Leaderboard opened failed");
+                SignIn();
+
             }
         });
 
@@ -103,6 +114,8 @@ public class MainMenu extends Activity implements View.OnClickListener // Correc
             else
             {
                 Log.d("Achievements", "Achievements opened failed");
+                SignIn();
+
             }
         });
 
