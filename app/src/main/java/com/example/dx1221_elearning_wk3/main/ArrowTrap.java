@@ -49,6 +49,12 @@ public class ArrowTrap extends Traps
     }
 
     @Override
+    public void reset() {
+        super.reset();
+        showIndicator = true;
+    }
+
+    @Override
     public void DoEffect(double dt)
     {
         TimerBeforeShoot -= (float)dt;
@@ -60,6 +66,11 @@ public class ArrowTrap extends Traps
         
         if (showIndicator) {
             indicatorSprite.update((float) dt);
+        }
+
+        if(_position.x <= 0)
+        {
+            TrapManager.getInstance().DisableTrap(this);
         }
 
    }

@@ -154,20 +154,7 @@ public class MainGameScene extends GameScene {
     @Override
     public void onUpdate(float dt)
     {
-        if(PlayerEntity.getInstance().isDead())
-        {
-            MediaPlayer loseGameSound = MediaPlayer.create(GameActivity.instance.getApplicationContext(), R.raw.lose_game_sound);
-            loseGameSound.setOnCompletionListener(MediaPlayer::release); // Release MediaPlayer after playback
-            loseGameSound.start();
 
-            Intent loseMenuIntent = new Intent(GameActivity.instance, LoseMenu.class);
-            loseMenuIntent.putExtra("finalScore", score);
-            GameActivity.instance.startActivity(loseMenuIntent);
-
-            // Reset variables after intent
-            ResetVariables();
-            GameScene.exitCurrent();
-        }
         if(!puzzlesManager.playingPuzzle())
         {
             speedMultipler +=  dt * 0.03f;
@@ -254,7 +241,20 @@ public class MainGameScene extends GameScene {
             }
         }
 
+        if(PlayerEntity.getInstance().isDead())
+        {
+            MediaPlayer loseGameSound = MediaPlayer.create(GameActivity.instance.getApplicationContext(), R.raw.lose_game_sound);
+            loseGameSound.setOnCompletionListener(MediaPlayer::release); // Release MediaPlayer after playback
+            loseGameSound.start();
 
+            Intent loseMenuIntent = new Intent(GameActivity.instance, LoseMenu.class);
+            loseMenuIntent.putExtra("finalScore", score);
+            GameActivity.instance.startActivity(loseMenuIntent);
+
+            // Reset variables after intent
+            ResetVariables();
+            GameScene.exitCurrent();
+        }
     }
 
     private void HandleTrapManger(float dt)
