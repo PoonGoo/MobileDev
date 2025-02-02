@@ -100,6 +100,7 @@ public class WordPuzzle extends Puzzle
         {
             if (convertToString(userCharacters).equals(WordToMake))
             {
+
                 soundPool.play(correctSoundId, volume, volume, 1, 0, 1);
                 PlayerEntity.getInstance().Heal();
                 PuzzlesManager.getInstance().EndPuzzle();
