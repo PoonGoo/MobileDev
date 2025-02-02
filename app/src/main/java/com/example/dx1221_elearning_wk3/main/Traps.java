@@ -50,6 +50,12 @@ public abstract class Traps extends GameEntity {
     @SuppressLint({"MissingPermission", "NewApi"})
     public void DoCollision(PlayerEntity player)
     {
+        if(PowerupManager.getInstance().HasShield())
+        {
+            PowerupManager.getInstance().UseShield();
+            return;
+        }
+
         player.TakeDamage();
         soundPool.play(takeDamageSoundId, 1, 1, 1, 0, 1);
         Vibrator vibrator = (Vibrator) GameActivity.instance.getSystemService(Context.VIBRATOR_SERVICE);

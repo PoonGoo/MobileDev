@@ -80,9 +80,11 @@ public class WordPuzzle extends Puzzle
         {
             if(convertToString(userCharacters).equals(WordToMake))
             {
+
                 PlayerEntity.getInstance().Heal();
                 PuzzlesManager.getInstance().EndPuzzle();
-            }else
+            }
+            else
             {
                 userCharacters.clear();
             }
