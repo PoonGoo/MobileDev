@@ -23,8 +23,8 @@ public class AccordionActivity extends AppCompatActivity implements View.OnClick
         TextView header2 = findViewById(R.id.accordion_header_2);
         TextView description2 = findViewById(R.id.accordion_description_2);
 
-        _backButton = findViewById(R.id.back_btn); // Find Back Button
-        _backButton.setOnClickListener(this); // Set click listener
+        _backButton = findViewById(R.id.back_btn);
+        _backButton.setOnClickListener(this);
 
         description1.setVisibility(View.GONE);
         description2.setVisibility(View.GONE);
@@ -36,7 +36,7 @@ public class AccordionActivity extends AppCompatActivity implements View.OnClick
     @Override
     public void onClick(View v) {
         if (v == _backButton) {
-            startActivity(new Intent(this, MainMenu.class)); // Go back to Main Menu
+            startActivity(new Intent(this, MainMenu.class));
         }
     }
 

@@ -3,61 +3,47 @@ package com.example.dx1221_elearning_wk3.main;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
-
-import com.example.dx1221_elearning_wk3.mgp2d.core.GameActivity;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-public class SharedPrefManager
-{
-    public static SharedPrefManager instance;
+public class SharedPrefManager {
+    private static SharedPrefManager instance;
+
+    private SharedPrefManager() {}
 
     public static synchronized SharedPrefManager getInstance() {
         if (instance == null)
             instance = new SharedPrefManager();
-
         return instance;
     }
 
-    public void writeToSharedPreferences(String filename, String key, int value)
-    {
-        SharedPreferences sharedPref =
-                GameActivity.instance.getSharedPreferences(filename, Context.MODE_PRIVATE);
+    public void writeToSharedPreferences(Context context, String filename, String key, int value) {
+        SharedPreferences sharedPref = context.getSharedPreferences(filename, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putInt(key, value);
         editor.apply();
     }
 
-    public int readFromSharedPreferences(String filename, String key)
-    {
-        SharedPreferences sharedpref =
-                GameActivity.instance.getSharedPreferences(filename, Context.MODE_PRIVATE);
-        return sharedpref.getInt(key, 0);
+    public int readFromSharedPreferences(Context context, String filename, String key) {
+        SharedPreferences sharedPref = context.getSharedPreferences(filename, Context.MODE_PRIVATE);
+        return sharedPref.getInt(key, 50);
     }
 
-    public String readFromAssets(String filename) {
+    public String readFromAssets(Context context, String filename) {
         StringBuilder result = new StringBuilder();
-        try
-        {
-            InputStream inputStream = GameActivity.instance.getAssets().open(filename);
+        try {
+            InputStream inputStream = context.getAssets().open(filename);
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-            String line = reader.readLine();
-            while(line != null) {
+            String line;
+            while ((line = reader.readLine()) != null) {
                 result.append(line);
-                line = reader.readLine();
             }
             reader.close();
-        }
-
-        catch (IOException e)
-        {
+        } catch (IOException e) {
             Log.e("ERROR", "readFromAssets: ", e);
         }
-
         return result.toString();
     }
-
 }

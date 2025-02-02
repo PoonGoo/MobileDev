@@ -124,7 +124,7 @@ public class MainMenu extends Activity implements View.OnClickListener // Correc
     public void onClick(View v)
     {
         if(v == _settingsButton) {
-            startActivity(new Intent(this, settingsActivity.class));
+            startActivity(new Intent(this, SettingsActivity.class));
         }
         else if(v == _leaderboardButton)
         {
