@@ -78,27 +78,25 @@ public class MathPuzzle extends Puzzle
     @Override
     public void PlayPuzzle(double dt)
     {
+        int soundVolume = SharedPrefManager.getInstance().readFromSharedPreferences(GameActivity.instance, "settings", "sound_volume");
+        float volume = soundVolume / 100f;
+
         Options.get(0).Spawn(new Vector2(Background.getWidth() * 0.15f + Background.getWidth() * 0.2f , Background.getHeight() * 0.6f));
         Options.get(1).Spawn(new Vector2(Background.getWidth() * 0.45f + Background.getWidth() * 0.2f, Background.getHeight() * 0.6f));
         Options.get(2).Spawn(new Vector2(Background.getWidth() * 0.75f + Background.getWidth() * 0.2f, Background.getHeight() * 0.6f));
 
         for(int i = 0; i < Options.size(); i++)
         {
-            if(Options.get(i).isClicked())
-            {
+            if(Options.get(i).isClicked()) {
                 if(Options.get(i) == correctOption)
                 {
-                    Log.d("ButtonPressed", "Correct");
-                    soundPool.play(correctSoundId, 1, 1, 1, 0, 1);
+                    soundPool.play(correctSoundId, volume, volume, 1, 0, 1);
                     PlayerEntity.getInstance().Heal();
-
                     PuzzlesManager.getInstance().EndPuzzle();
-
                 }
                 else
                 {
-                    Log.d("ButtonPressed", "Wrong");
-                    soundPool.play(wrongSoundId, 1, 1, 1, 0, 1);
+                    soundPool.play(wrongSoundId, volume, volume, 1, 0, 1);
                     PlayerEntity.getInstance().TakeDamage();
                     PuzzlesManager.getInstance().EndPuzzle();
                 }
