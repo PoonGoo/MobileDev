@@ -32,7 +32,9 @@ public class MainGameScene extends GameScene {
     Vector<GameEntity> _gameEntities = new Vector<>();
     private MediaPlayer _ringSound;
     private MediaPlayer _bgMusic;
+/*
     private Vibrator _vibrator;
+*/
 
     private PlayerEntity player;
 
@@ -155,7 +157,6 @@ public class MainGameScene extends GameScene {
     @Override
     public void onUpdate(float dt)
     {
-
         if(!puzzlesManager.playingPuzzle())
         {
             speedMultipler +=  dt * 0.03f;
@@ -244,8 +245,13 @@ public class MainGameScene extends GameScene {
 
         if(PlayerEntity.getInstance().isDead())
         {
+            int soundVolume = SharedPrefManager.getInstance().readFromSharedPreferences(GameActivity.instance, "settings", "sound_volume");
+            float volume = soundVolume / 100f;
+            
             MediaPlayer loseGameSound = MediaPlayer.create(GameActivity.instance.getApplicationContext(), R.raw.lose_game_sound);
-            loseGameSound.setOnCompletionListener(MediaPlayer::release); // Release MediaPlayer after playback
+            loseGameSound.setVolume(volume, volume);
+
+            loseGameSound.setOnCompletionListener(MediaPlayer::release);
             loseGameSound.start();
 
             Intent loseMenuIntent = new Intent(GameActivity.instance, LoseMenu.class);

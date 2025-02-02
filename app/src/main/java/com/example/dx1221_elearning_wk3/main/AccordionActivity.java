@@ -43,10 +43,10 @@ public class AccordionActivity extends AppCompatActivity implements View.OnClick
     private void toggleVisibility(View view) {
         if (view.getVisibility() == View.GONE) {
             view.setVisibility(View.VISIBLE);
-            ObjectAnimator.ofFloat(view, "alpha", 0f, 1f).setDuration(300).start(); // Fade-in effect
+            ObjectAnimator.ofFloat(view, "alpha", 0f, 1f).setDuration(300).start();
         } else {
-            ObjectAnimator.ofFloat(view, "alpha", 1f, 0f).setDuration(300).start(); // Fade-out effect
-            view.postDelayed(() -> view.setVisibility(View.GONE), 300); // Delay hiding after fade-out
+            ObjectAnimator.ofFloat(view, "alpha", 1f, 0f).setDuration(300).start();
+            view.postDelayed(() -> view.setVisibility(View.GONE), 300);
         }
     }
 }
