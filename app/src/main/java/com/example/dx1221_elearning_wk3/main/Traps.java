@@ -50,12 +50,12 @@ public abstract class Traps extends GameEntity {
     @SuppressLint({"MissingPermission", "NewApi"})
     public void DoCollision(PlayerEntity player)
     {
-
-        if(PowerupManager.getInstance().HasShield())
-        {
-            PowerupManager.getInstance().UseShield();
-            return;
-        }
+//
+//        if(PowerupManager.getInstance().HasShield())
+//        {
+//            PowerupManager.getInstance().UseShield();
+//            return;
+//        }
 
         int soundVolume = SharedPrefManager.getInstance().readFromSharedPreferences(GameActivity.instance, "settings", "sound_volume");
         float volume = soundVolume / 100f;

@@ -31,7 +31,7 @@ public class MainGameScene extends GameScene {
 
     Vector<GameEntity> _gameEntities = new Vector<>();
     private MediaPlayer _ringSound;
-    private MediaPlayer _bgMusic;
+    private static MediaPlayer _bgMusic;
 /*
     private Vibrator _vibrator;
 */
@@ -252,6 +252,7 @@ public class MainGameScene extends GameScene {
             {
                 _bgMusic.stop();
                 _bgMusic.release();
+                _bgMusic = null;
             }
 
             MediaPlayer loseGameSound = MediaPlayer.create(GameActivity.instance.getApplicationContext(), R.raw.lose_game_sound);
@@ -292,10 +293,14 @@ public class MainGameScene extends GameScene {
         int musicVolume = SharedPrefManager.getInstance().readFromSharedPreferences(GameActivity.instance, "settings", "music_volume");
         int soundVolume = SharedPrefManager.getInstance().readFromSharedPreferences(GameActivity.instance, "settings", "sound_volume");
 
-        _bgMusic = MediaPlayer.create(GameActivity.instance.getApplicationContext(), R.raw.main_game_music);
-        _bgMusic.setLooping(true);
-        _bgMusic.setVolume(musicVolume / 100f, musicVolume / 100f);
-        _bgMusic.start();
+        if(_bgMusic == null)
+        {
+            _bgMusic = MediaPlayer.create(GameActivity.instance.getApplicationContext(), R.raw.main_game_music);
+            _bgMusic.setLooping(true);
+            _bgMusic.setVolume(musicVolume / 100f, musicVolume / 100f);
+            _bgMusic.start();
+        }
+
     }
 
     private void HandleBackground(float dt)

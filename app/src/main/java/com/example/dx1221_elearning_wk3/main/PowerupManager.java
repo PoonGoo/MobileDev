@@ -41,6 +41,7 @@ public class PowerupManager extends GameEntity
             shields.remove(shields.get(shields.size()));
         }
     }
+
     public boolean HasShield()
     {
         return (!shields.isEmpty());
