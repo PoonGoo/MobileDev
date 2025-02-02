@@ -159,6 +159,7 @@ public class ColorPuzzle extends Puzzle
     public void PlayPuzzle(double dt)
     {
         Log.d("Update Color Puzzle", "Updating Color Puzzle");
+
         //Random generate correct answer
         currentButtonsShown.get(0).Spawn(new Vector2(Background.getWidth() * 0.17f + Background.getWidth() * 0.2f, Background.getHeight() * 0.5f));
         currentButtonsShown.get(1).Spawn(new Vector2(Background.getWidth() * 0.47f + Background.getWidth() * 0.2f, Background.getHeight() * 0.5f));
@@ -167,22 +168,22 @@ public class ColorPuzzle extends Puzzle
         int ColorOfText = ButtonToColor.get(correctButton);
         QuestionTxt.setColor(ColorOfText);
 
+        int soundVolume = SharedPrefManager.getInstance().readFromSharedPreferences(GameActivity.instance, "settings", "sound_volume");
+        float volume = soundVolume / 100f;
+
         for(int i = 0; i < currentButtonsShown.size(); i++)
         {
             if(currentButtonsShown.get(i).isClicked())
             {
-                if(currentButtonsShown.get(i) == correctButton)
+                if (currentButtonsShown.get(i) == correctButton)
                 {
-                    Log.d("ButtonPressed", "Correct");
-                    soundPool.play(correctSoundId, 1, 1, 1, 0, 1);
+                    soundPool.play(correctSoundId, volume, volume, 1, 0, 1);
                     PlayerEntity.getInstance().Heal();
                     PuzzlesManager.getInstance().EndPuzzle();
-
                 }
                 else
                 {
-                    Log.d("ButtonPressed", "Wrong");
-                    soundPool.play(wrongSoundId, 1, 1, 1, 0, 1);
+                    soundPool.play(wrongSoundId, volume, volume, 1, 0, 1);
                     PlayerEntity.getInstance().TakeDamage();
                     PuzzlesManager.getInstance().EndPuzzle();
                 }

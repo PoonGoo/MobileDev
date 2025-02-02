@@ -32,7 +32,9 @@ public class MainGameScene extends GameScene {
     Vector<GameEntity> _gameEntities = new Vector<>();
     private MediaPlayer _ringSound;
     private MediaPlayer _bgMusic;
+/*
     private Vibrator _vibrator;
+*/
 
     private PlayerEntity player;
 
@@ -123,13 +125,13 @@ public class MainGameScene extends GameScene {
         puzzlesManager = PuzzlesManager.getInstance();
         _gameEntities.add(touchHandler);
 
-        int musicVolume = SharedPrefManager.getInstance().readFromSharedPreferences(GameActivity.instance, "settings", "music_volume");
+/*        int musicVolume = SharedPrefManager.getInstance().readFromSharedPreferences(GameActivity.instance, "settings", "music_volume");
         int soundVolume = SharedPrefManager.getInstance().readFromSharedPreferences(GameActivity.instance, "settings", "sound_volume");
 
         _bgMusic = MediaPlayer.create(GameActivity.instance.getApplicationContext(), R.raw.main_game_music);
         _bgMusic.setLooping(true);
-        _bgMusic.setVolume(musicVolume / 100f, musicVolume / 100f); // Convert to float (0.0 - 1.0)
-        _bgMusic.start();
+        _bgMusic.setVolume(musicVolume / 100f, musicVolume / 100f);
+        _bgMusic.start();*/
     }
 
     void ResetVariables()
@@ -155,7 +157,6 @@ public class MainGameScene extends GameScene {
     @Override
     public void onUpdate(float dt)
     {
-
         if(!puzzlesManager.playingPuzzle())
         {
             speedMultipler +=  dt * 0.03f;
@@ -244,8 +245,19 @@ public class MainGameScene extends GameScene {
 
         if(PlayerEntity.getInstance().isDead())
         {
+            int soundVolume = SharedPrefManager.getInstance().readFromSharedPreferences(GameActivity.instance, "settings", "sound_volume");
+            float volume = soundVolume / 100f;
+
+            if (_bgMusic != null)
+            {
+                _bgMusic.stop();
+                _bgMusic.release();
+            }
+
             MediaPlayer loseGameSound = MediaPlayer.create(GameActivity.instance.getApplicationContext(), R.raw.lose_game_sound);
-            loseGameSound.setOnCompletionListener(MediaPlayer::release); // Release MediaPlayer after playback
+            loseGameSound.setVolume(volume, volume);
+
+            loseGameSound.setOnCompletionListener(MediaPlayer::release);
             loseGameSound.start();
 
             Intent loseMenuIntent = new Intent(GameActivity.instance, LoseMenu.class);
@@ -272,6 +284,18 @@ public class MainGameScene extends GameScene {
             trapManager.spawnTrap(player);
 
         }
+    }
+
+    @Override
+    public void onEnter() {
+        super.onEnter();
+        int musicVolume = SharedPrefManager.getInstance().readFromSharedPreferences(GameActivity.instance, "settings", "music_volume");
+        int soundVolume = SharedPrefManager.getInstance().readFromSharedPreferences(GameActivity.instance, "settings", "sound_volume");
+
+        _bgMusic = MediaPlayer.create(GameActivity.instance.getApplicationContext(), R.raw.main_game_music);
+        _bgMusic.setLooping(true);
+        _bgMusic.setVolume(musicVolume / 100f, musicVolume / 100f);
+        _bgMusic.start();
     }
 
     private void HandleBackground(float dt)

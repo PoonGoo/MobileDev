@@ -50,20 +50,24 @@ public abstract class Traps extends GameEntity {
     @SuppressLint({"MissingPermission", "NewApi"})
     public void DoCollision(PlayerEntity player)
     {
+
         if(PowerupManager.getInstance().HasShield())
         {
             PowerupManager.getInstance().UseShield();
             return;
         }
 
+        int soundVolume = SharedPrefManager.getInstance().readFromSharedPreferences(GameActivity.instance, "settings", "sound_volume");
+        float volume = soundVolume / 100f;
+
+
         player.TakeDamage();
-        soundPool.play(takeDamageSoundId, 1, 1, 1, 0, 1);
+        soundPool.play(takeDamageSoundId, volume, volume, 1, 0, 1);
+
         Vibrator vibrator = (Vibrator) GameActivity.instance.getSystemService(Context.VIBRATOR_SERVICE);
         if (vibrator != null && vibrator.hasVibrator())
         {
-            // Vibrate for 200 milliseconds
             vibrator.vibrate(VibrationEffect.createOneShot(100, VibrationEffect.DEFAULT_AMPLITUDE));
-
         }
 
 

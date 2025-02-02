@@ -5,6 +5,8 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.media.AudioAttributes;
+import android.media.SoundPool;
 import android.util.Log;
 
 import com.example.dx1221_elearning_wk3.R;
@@ -34,6 +36,11 @@ public class WordPuzzle extends Puzzle
     private static Bitmap letterScaled;
     private static Bitmap letterHolder;
 
+    private SoundPool soundPool;
+    private int correctSoundId;
+    private int wrongSoundId;
+
+
     public WordPuzzle()
     {
         wordPaint = new Paint();
@@ -61,12 +68,25 @@ public class WordPuzzle extends Puzzle
         letterHolder = BitmapFactory.decodeResource(GameActivity.instance.getResources(), R.drawable.word_container);
         letterScaled = Bitmap.createScaledBitmap(letterHolder, (int) (letterHolder.getWidth() * 3f), (int) (letterHolder.getHeight() * 3f), true);
 
+        AudioAttributes audioAttributes = new AudioAttributes.Builder()
+                .setUsage(AudioAttributes.USAGE_GAME)
+                .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                .build();
 
+        soundPool = new SoundPool.Builder()
+                .setMaxStreams(2)
+                .setAudioAttributes(audioAttributes)
+                .build();
+
+        correctSoundId = soundPool.load(GameActivity.instance, R.raw.correct_sound, 1);
+        wrongSoundId = soundPool.load(GameActivity.instance, R.raw.wrong_sound, 1);
     }
 
     @Override
     public void PlayPuzzle(double dt)
     {
+        int soundVolume = SharedPrefManager.getInstance().readFromSharedPreferences(GameActivity.instance, "settings", "sound_volume");
+        float volume = soundVolume / 100f;
 
         for(int i = 0; i < letterButtons.size();i++)
         {
@@ -78,14 +98,16 @@ public class WordPuzzle extends Puzzle
 
         if(!TouchHandler.getInstance().Pressed())
         {
-            if(convertToString(userCharacters).equals(WordToMake))
+            if (convertToString(userCharacters).equals(WordToMake))
             {
 
+                soundPool.play(correctSoundId, volume, volume, 1, 0, 1);
                 PlayerEntity.getInstance().Heal();
                 PuzzlesManager.getInstance().EndPuzzle();
             }
             else
             {
+                soundPool.play(wrongSoundId, volume, volume, 1, 0, 1);
                 userCharacters.clear();
             }
         }
