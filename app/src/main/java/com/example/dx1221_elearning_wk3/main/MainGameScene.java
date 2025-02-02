@@ -125,13 +125,13 @@ public class MainGameScene extends GameScene {
         puzzlesManager = PuzzlesManager.getInstance();
         _gameEntities.add(touchHandler);
 
-        int musicVolume = SharedPrefManager.getInstance().readFromSharedPreferences(GameActivity.instance, "settings", "music_volume");
+/*        int musicVolume = SharedPrefManager.getInstance().readFromSharedPreferences(GameActivity.instance, "settings", "music_volume");
         int soundVolume = SharedPrefManager.getInstance().readFromSharedPreferences(GameActivity.instance, "settings", "sound_volume");
 
         _bgMusic = MediaPlayer.create(GameActivity.instance.getApplicationContext(), R.raw.main_game_music);
         _bgMusic.setLooping(true);
-        _bgMusic.setVolume(musicVolume / 100f, musicVolume / 100f); // Convert to float (0.0 - 1.0)
-        _bgMusic.start();
+        _bgMusic.setVolume(musicVolume / 100f, musicVolume / 100f);
+        _bgMusic.start();*/
     }
 
     void ResetVariables()
@@ -247,7 +247,13 @@ public class MainGameScene extends GameScene {
         {
             int soundVolume = SharedPrefManager.getInstance().readFromSharedPreferences(GameActivity.instance, "settings", "sound_volume");
             float volume = soundVolume / 100f;
-            
+
+            if (_bgMusic != null)
+            {
+                _bgMusic.stop();
+                _bgMusic.release();
+            }
+
             MediaPlayer loseGameSound = MediaPlayer.create(GameActivity.instance.getApplicationContext(), R.raw.lose_game_sound);
             loseGameSound.setVolume(volume, volume);
 
@@ -278,6 +284,18 @@ public class MainGameScene extends GameScene {
             trapManager.spawnTrap(player);
 
         }
+    }
+
+    @Override
+    public void onEnter() {
+        super.onEnter();
+        int musicVolume = SharedPrefManager.getInstance().readFromSharedPreferences(GameActivity.instance, "settings", "music_volume");
+        int soundVolume = SharedPrefManager.getInstance().readFromSharedPreferences(GameActivity.instance, "settings", "sound_volume");
+
+        _bgMusic = MediaPlayer.create(GameActivity.instance.getApplicationContext(), R.raw.main_game_music);
+        _bgMusic.setLooping(true);
+        _bgMusic.setVolume(musicVolume / 100f, musicVolume / 100f);
+        _bgMusic.start();
     }
 
     private void HandleBackground(float dt)
