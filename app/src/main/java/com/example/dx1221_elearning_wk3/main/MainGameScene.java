@@ -123,11 +123,12 @@ public class MainGameScene extends GameScene {
         puzzlesManager = PuzzlesManager.getInstance();
         _gameEntities.add(touchHandler);
 
+        int musicVolume = SharedPrefManager.getInstance().readFromSharedPreferences(GameActivity.instance, "settings", "music_volume");
+        int soundVolume = SharedPrefManager.getInstance().readFromSharedPreferences(GameActivity.instance, "settings", "sound_volume");
+
         _bgMusic = MediaPlayer.create(GameActivity.instance.getApplicationContext(), R.raw.main_game_music);
         _bgMusic.setLooping(true);
-/*
-        _bgMusic.setVolume();
-*/
+        _bgMusic.setVolume(musicVolume / 100f, musicVolume / 100f); // Convert to float (0.0 - 1.0)
         _bgMusic.start();
     }
 

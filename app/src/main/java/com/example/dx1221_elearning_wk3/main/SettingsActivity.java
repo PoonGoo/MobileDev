@@ -1,39 +1,41 @@
 package com.example.dx1221_elearning_wk3.main;
 
-import android.content.SharedPreferences;
-import android.widget.SeekBar;
-
-import androidx.appcompat.app.AppCompatActivity;
+import android.content.Intent;
 import android.os.Bundle;
-
+import android.view.View;
+import android.widget.Button;
+import android.widget.SeekBar;
+import androidx.appcompat.app.AppCompatActivity;
 import com.example.dx1221_elearning_wk3.R;
 
-public class SettingsActivity extends AppCompatActivity {
-    private SeekBar musicSlider;
-    private SharedPreferences sharedPreferences;
-    private SharedPreferences.Editor editor;
+public class SettingsActivity extends AppCompatActivity implements View.OnClickListener {
+    private SeekBar musicSlider, soundSlider;
+    private SharedPrefManager sharedPrefManager;
+    private Button _backButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.settingspage); // Link your settings XML layout
+        setContentView(R.layout.settingspage);
 
-        // SharedPreferences setup
-        sharedPreferences = getSharedPreferences("GameSettings", MODE_PRIVATE);
-        editor = sharedPreferences.edit();
+        sharedPrefManager = SharedPrefManager.getInstance();
 
-        // Initialize music slider
         musicSlider = findViewById(R.id.music_slider);
-        float savedVolume = sharedPreferences.getFloat("MusicVolume", 0.5f); // Load saved volume (default 50%)
-        musicSlider.setProgress((int) (savedVolume * 100));
+        soundSlider = findViewById(R.id.sound_slider);
+        _backButton = findViewById(R.id.back_btn);
 
-        // Save volume changes
+        _backButton.setOnClickListener(this);
+
+        int musicVolume = sharedPrefManager.readFromSharedPreferences(this, "settings", "music_volume");
+        int soundVolume = sharedPrefManager.readFromSharedPreferences(this, "settings", "sound_volume");
+
+        musicSlider.setProgress(musicVolume);
+        soundSlider.setProgress(soundVolume);
+
         musicSlider.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                float volume = progress / 100f;
-                editor.putFloat("MusicVolume", volume);
-                editor.apply();
+                sharedPrefManager.writeToSharedPreferences(SettingsActivity.this, "settings", "music_volume", progress);
             }
 
             @Override
@@ -43,7 +45,25 @@ public class SettingsActivity extends AppCompatActivity {
             public void onStopTrackingTouch(SeekBar seekBar) {}
         });
 
-        // Back button logic
-        findViewById(R.id.back_btn).setOnClickListener(v -> finish());
+        soundSlider.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                sharedPrefManager.writeToSharedPreferences(SettingsActivity.this, "settings", "sound_volume", progress);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {}
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {}
+        });
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v == _backButton) {
+            startActivity(new Intent(this, MainMenu.class)); // Go back to Main Menu
+            finish(); // Close SettingsActivity
+        }
     }
 }

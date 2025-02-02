@@ -7,22 +7,17 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button; // Corrected import
 
-import androidx.annotation.NonNull;
-
 import com.example.dx1221_elearning_wk3.R;
 import com.example.dx1221_elearning_wk3.mgp2d.core.GameActivity;
 import com.example.dx1221_elearning_wk3.mgp2d.core.GameScene;
-import com.google.android.gms.games.AuthenticationResult;
 import com.google.android.gms.games.GamesSignInClient;
 import com.google.android.gms.games.PlayGames;
 import com.google.android.gms.games.PlayGamesSdk;
-import com.google.android.gms.games.Player;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 
 public class MainMenu extends Activity implements View.OnClickListener // Corrected typo
 {
     private Button _helpButton;
+    private Button _settingsButton;
     private Button _startButton;
 
     private Button _leaderboardButton;
@@ -36,8 +31,12 @@ public class MainMenu extends Activity implements View.OnClickListener // Correc
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.mainmenu);
-        _helpButton = findViewById(R.id.settingsBtn);
+
+        _helpButton = findViewById(R.id.helpBtn);
         _helpButton.setOnClickListener(this);
+
+        _settingsButton = findViewById(R.id.settingsBtn);
+        _settingsButton.setOnClickListener(this);
 
         _leaderboardButton = findViewById(R.id.leaderboardbtn);
         _leaderboardButton.setOnClickListener(this);
@@ -124,8 +123,8 @@ public class MainMenu extends Activity implements View.OnClickListener // Correc
     @Override
     public void onClick(View v)
     {
-        if(v == _helpButton) {
-            startActivity(new Intent(this, HelpPage.class));
+        if(v == _settingsButton) {
+            startActivity(new Intent(this, SettingsActivity.class));
         }
         else if(v == _leaderboardButton)
         {
@@ -138,6 +137,11 @@ public class MainMenu extends Activity implements View.OnClickListener // Correc
         else if(v == _startButton)
         {
             startActivity(new Intent().setClass(this, GameActivity.class));
+            GameScene.enter(MainGameScene.class);
+        }
+        else if(v == _helpButton)
+        {
+            startActivity(new Intent(this, AccordionActivity.class));
             GameScene.enter(MainGameScene.class);
         }
     }

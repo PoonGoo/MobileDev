@@ -29,7 +29,13 @@
         </activity>
 
         <activity
-            android:name=".main.HelpPage"
+            android:name=".main.SettingsActivity"
+            android:screenOrientation="sensorLandscape"
+            tools:ignore="DiscouragedApi">
+        </activity>
+
+        <activity
+            android:name=".main.AccordionActivity"
             android:screenOrientation="sensorLandscape"
             tools:ignore="DiscouragedApi">
         </activity>

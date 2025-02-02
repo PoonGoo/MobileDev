@@ -1,40 +1,52 @@
 package com.example.dx1221_elearning_wk3.main;
 
+import android.animation.ObjectAnimator;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.example.dx1221_elearning_wk3.R;
 
-public class AccordionActivity extends AppCompatActivity {
+public class AccordionActivity extends AppCompatActivity implements View.OnClickListener {
+    private Button _backButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.helppage); // Ensure the XML is named `activity_accordion`
+        setContentView(R.layout.helppage);
 
-        // Find views for Accordion Item 1
         TextView header1 = findViewById(R.id.accordion_header_1);
         TextView description1 = findViewById(R.id.accordion_description_1);
 
-        // Find views for Accordion Item 2
         TextView header2 = findViewById(R.id.accordion_header_2);
         TextView description2 = findViewById(R.id.accordion_description_2);
 
-        // Set onClickListener for Header 1
-        header1.setOnClickListener(v -> toggleVisibility(description1));
+        _backButton = findViewById(R.id.back_btn);
+        _backButton.setOnClickListener(this);
 
-        // Set onClickListener for Header 2
+        description1.setVisibility(View.GONE);
+        description2.setVisibility(View.GONE);
+
+        header1.setOnClickListener(v -> toggleVisibility(description1));
         header2.setOnClickListener(v -> toggleVisibility(description2));
     }
 
-    // Helper method to toggle visibility
+    @Override
+    public void onClick(View v) {
+        if (v == _backButton) {
+            startActivity(new Intent(this, MainMenu.class));
+        }
+    }
+
     private void toggleVisibility(View view) {
         if (view.getVisibility() == View.GONE) {
             view.setVisibility(View.VISIBLE);
+            ObjectAnimator.ofFloat(view, "alpha", 0f, 1f).setDuration(300).start(); // Fade-in effect
         } else {
-            view.setVisibility(View.GONE);
+            ObjectAnimator.ofFloat(view, "alpha", 1f, 0f).setDuration(300).start(); // Fade-out effect
+            view.postDelayed(() -> view.setVisibility(View.GONE), 300); // Delay hiding after fade-out
         }
     }
 }
