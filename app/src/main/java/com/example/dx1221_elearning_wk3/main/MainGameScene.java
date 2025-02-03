@@ -245,6 +245,8 @@ public class MainGameScene extends GameScene {
 
         if(PlayerEntity.getInstance().isDead())
         {
+            StopBackgroundMusic();
+
             int soundVolume = SharedPrefManager.getInstance().readFromSharedPreferences(GameActivity.instance, "settings", "sound_volume");
             float volume = soundVolume / 100f;
 
@@ -271,6 +273,16 @@ public class MainGameScene extends GameScene {
         }
     }
 
+    public static void StopBackgroundMusic() {
+        if (_bgMusic != null) {
+            if (_bgMusic.isPlaying()) {
+                _bgMusic.stop();
+            }
+            _bgMusic.release();
+            _bgMusic = null;
+        }
+    }
+
     private void HandleTrapManger(float dt)
     {
         trapManager.onUpdate(dt);
@@ -289,7 +301,7 @@ public class MainGameScene extends GameScene {
 
     @Override
     public void onEnter() {
-        super.onEnter();
+     /*   super.onEnter();
         int musicVolume = SharedPrefManager.getInstance().readFromSharedPreferences(GameActivity.instance, "settings", "music_volume");
         int soundVolume = SharedPrefManager.getInstance().readFromSharedPreferences(GameActivity.instance, "settings", "sound_volume");
 
@@ -299,8 +311,17 @@ public class MainGameScene extends GameScene {
             _bgMusic.setLooping(true);
             _bgMusic.setVolume(musicVolume / 100f, musicVolume / 100f);
             _bgMusic.start();
-        }
+        }*/
 
+        super.onEnter();
+        int musicVolume = SharedPrefManager.getInstance().readFromSharedPreferences(GameActivity.instance, "settings", "music_volume");
+
+        StopBackgroundMusic();
+
+        _bgMusic = MediaPlayer.create(GameActivity.instance.getApplicationContext(), R.raw.main_game_music);
+        _bgMusic.setLooping(true);
+        _bgMusic.setVolume(musicVolume / 100f, musicVolume / 100f);
+        _bgMusic.start();
     }
 
     private void HandleBackground(float dt)

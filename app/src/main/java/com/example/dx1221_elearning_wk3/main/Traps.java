@@ -50,6 +50,7 @@ public abstract class Traps extends GameEntity {
     @SuppressLint({"MissingPermission", "NewApi"})
     public void DoCollision(PlayerEntity player)
     {
+        if (!isActive) return;
 //
 //        if(PowerupManager.getInstance().HasShield())
 //        {
