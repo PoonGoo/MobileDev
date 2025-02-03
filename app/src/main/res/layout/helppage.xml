@@ -93,7 +93,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="8dp"
-                        android:text="There are 3 puzzles:\n🔠 Word Anagram - Rearrange letters into a word.\n➕ Math Puzzle - Solve quick math problems.\n🎨 Color Puzzle - Pick the right color!"
+                        android:text="There are 3 puzzles:\n🔠 Word Anagram: Rearrange letters into a word!\n➕ Math Puzzle: Solve quick math problems!\n🎨 Color Puzzle: Pick the right color!"
                         android:visibility="gone" />
                 </LinearLayout>
 
