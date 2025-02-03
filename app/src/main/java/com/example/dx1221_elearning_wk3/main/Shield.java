@@ -30,7 +30,6 @@ public static Bitmap scaledBMP;
     public void onRender(Canvas canvas)
     {
         canvas.drawBitmap(scaledBMP, 0 + bmp.getWidth() * 0.15f , 2.0f, null);
-
     }
 
 

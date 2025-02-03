@@ -15,6 +15,8 @@ public abstract class Puzzle
 
     boolean isActive;
 
+    boolean completed = false;
+
     public Puzzle()
     {
         isActive = true;

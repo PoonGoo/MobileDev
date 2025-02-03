@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.hardware.SensorEvent;
+import android.health.connect.datatypes.units.Power;
 import android.util.Log;
 import android.view.MotionEvent;
 
@@ -84,7 +85,10 @@ public class PlayerEntity extends GameEntity {
     public void Heal()
     {
         if(hearts >= maxHearts)
+        {
+            PowerupManager.getInstance().addShield(1);
             return;
+        }
 
         hearts++;
     }
@@ -108,7 +112,7 @@ public class PlayerEntity extends GameEntity {
     {
         if (hearts > 0)
         {
-            hearts--; // Reduce heart count when the player takes damage
+            hearts--;
         }
     }
 
