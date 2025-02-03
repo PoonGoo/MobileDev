@@ -178,8 +178,10 @@ public class ColorPuzzle extends Puzzle
                 if (currentButtonsShown.get(i) == correctButton)
                 {
                     soundPool.play(correctSoundId, volume, volume, 1, 0, 1);
+
                     PlayerEntity.getInstance().Heal();
                     PuzzlesManager.getInstance().EndPuzzle();
+                    completed = true;
                 }
                 else
                 {

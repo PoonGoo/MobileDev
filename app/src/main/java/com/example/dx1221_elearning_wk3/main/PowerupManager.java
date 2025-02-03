@@ -1,6 +1,8 @@
 package com.example.dx1221_elearning_wk3.main;
 
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.provider.CalendarContract;
 
 import com.example.dx1221_elearning_wk3.mgp2d.core.GameEntity;
@@ -15,10 +17,19 @@ public class PowerupManager extends GameEntity
 
     public ArrayList<Shield> shields;
 
+    private Paint numTxt;
+
     public PowerupManager()
     {
-            shields = new ArrayList<>();
+
+        shields = new ArrayList<>();
         shieldObjectPool = new ObjectPool<>(() -> new Shield(), 3);
+        numTxt = new Paint();
+
+        numTxt.setTextSize(100);
+        numTxt.setTextAlign(Paint.Align.CENTER);
+        numTxt.setColor(Color.BLACK);
+
     }
 
 
@@ -47,6 +58,7 @@ public class PowerupManager extends GameEntity
             shieldObjectPool.release(shields.get(shields.size() - 1));
             shields.remove(shields.get(shields.size() - 1));
         }
+
     }
 
     public boolean HasShield()
@@ -61,6 +73,12 @@ public class PowerupManager extends GameEntity
         {
             shields.get(i).onRender(canvas);
         }
+        if(getInstance().HasShield())
+        {
+            canvas.drawText("x" + shields.size(), 450 , 100, numTxt);
+        }
+
+
     }
 
 }

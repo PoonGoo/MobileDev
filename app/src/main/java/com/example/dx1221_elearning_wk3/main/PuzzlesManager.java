@@ -58,12 +58,15 @@ public class PuzzlesManager extends GameEntity
 
         }
 
+
     }
 
     public void StartPuzzle()
     {
         int RandomPuzzle = (int)(Math.random() * PuzzleType.values().length);
+
         PuzzleTimer = 5f;
+
         switch(PuzzleType.values()[RandomPuzzle])
         {
             case COLOR:
@@ -79,8 +82,10 @@ public class PuzzlesManager extends GameEntity
                 break;
 
         }
+
         activePuzzle.RandomizePuzzle();
         isPlayingPuzzle = true;
+
     }
 
     public void Clear()
@@ -89,8 +94,20 @@ public class PuzzlesManager extends GameEntity
         PuzzleTimer = 5f;
         activePuzzle = null;
 
+
     }
 
+    public void ResetCompleted()
+    {
+        wordPuzzle.completed = false;
+        mathPuzzle.completed = false;
+        colorPuzzle.completed = false;
+    }
+
+    public boolean AllCompleted()
+    {
+        return (wordPuzzle.completed && mathPuzzle.completed && colorPuzzle.completed);
+    }
     public void EndPuzzle()
     {
         activePuzzle = null;

@@ -12,6 +12,7 @@ import android.util.Log;
 import com.example.dx1221_elearning_wk3.R;
 import com.example.dx1221_elearning_wk3.mgp2d.core.GameActivity;
 import com.example.dx1221_elearning_wk3.mgp2d.core.Vector2;
+import com.google.android.gms.games.PlayGames;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -41,6 +42,7 @@ public class WordPuzzle extends Puzzle
     private int wrongSoundId;
 
     private boolean clicked = false;
+
 
     public WordPuzzle()
     {
@@ -106,6 +108,9 @@ public class WordPuzzle extends Puzzle
 
                 soundPool.play(correctSoundId, volume, volume, 1, 0, 1);
                 PlayerEntity.getInstance().Heal();
+
+                completed = true;
+
                 PuzzlesManager.getInstance().EndPuzzle();
             }
             else

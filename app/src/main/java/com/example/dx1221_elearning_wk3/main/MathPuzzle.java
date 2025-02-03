@@ -92,6 +92,8 @@ public class MathPuzzle extends Puzzle
                 {
                     soundPool.play(correctSoundId, volume, volume, 1, 0, 1);
                     PlayerEntity.getInstance().Heal();
+                    completed = true;
+
                     PuzzlesManager.getInstance().EndPuzzle();
                 }
                 else

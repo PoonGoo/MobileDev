@@ -37,11 +37,20 @@ public class LoseMenu extends Activity implements View.OnClickListener
         TextView _scoreText = findViewById(R.id.scoreText);
         int finalScore = getIntent().getIntExtra("finalScore", 0); // Default to 0 if no score is passed
         PlayGames.getLeaderboardsClient(this).submitScore(getString(R.string.leaderboard), finalScore);
+        PlayGames.getAchievementsClient(this).increment(getString(R.string.inter_achievement), 1);
+        if(PuzzlesManager.getInstance().AllCompleted())
+        {
+            PlayGames.getAchievementsClient(this).unlock(getString(R.string.einstien_achievement));
+
+
+        }
+
         if(finalScore >= 200)
         {
             PlayGames.getAchievementsClient(this).unlock(getString(R.string.novice_achivement));
         }
         _scoreText.setText("Your Score: " + finalScore);
+        PuzzlesManager.getInstance().ResetCompleted();
 
     }
 

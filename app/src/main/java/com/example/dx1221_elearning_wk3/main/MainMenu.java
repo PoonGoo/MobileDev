@@ -85,11 +85,12 @@ public class MainMenu extends Activity implements View.OnClickListener // Correc
 
     public void ShowLeaderBoard()
     {
+
         PlayGames.getLeaderboardsClient(this).getLeaderboardIntent(getString(R.string.leaderboard)).addOnCompleteListener(task -> {
             if(task.isSuccessful())
             {
                 Log.d("Leaderboard", "Leaderboard opened succ");
-                startActivityForResult(task.getResult(), 0);
+                startActivityForResult(task.getResult(), 9003);
 
             }
             else {
@@ -107,7 +108,7 @@ public class MainMenu extends Activity implements View.OnClickListener // Correc
             if(task.isSuccessful())
             {
                 Log.d("Achievements", "Achievements opened succ");
-                startActivityForResult(task.getResult(), 0);
+                startActivityForResult(task.getResult(), 9003);
 
             }
             else
