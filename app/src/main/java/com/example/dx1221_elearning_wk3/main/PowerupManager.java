@@ -15,6 +15,13 @@ public class PowerupManager extends GameEntity
 
     public ArrayList<Shield> shields;
 
+    public PowerupManager()
+    {
+            shields = new ArrayList<>();
+        shieldObjectPool = new ObjectPool<>(() -> new Shield(), 3);
+    }
+
+
     public static synchronized PowerupManager getInstance()
     {
         if(instance == null)
@@ -37,8 +44,8 @@ public class PowerupManager extends GameEntity
     {
         if(HasShield())
         {
-            shieldObjectPool.release(shields.get(shields.size()));
-            shields.remove(shields.get(shields.size()));
+            shieldObjectPool.release(shields.get(shields.size() - 1));
+            shields.remove(shields.get(shields.size() - 1));
         }
     }
 

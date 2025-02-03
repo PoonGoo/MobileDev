@@ -144,9 +144,9 @@ public class TrapManager extends GameEntity {
 
     public void clear()
     {
-//        for (Traps trap : activeTraps)
-//        {
-//            DisableTrap(trap);
-//        }
+        for (Traps trap : activeTraps)
+        {
+            trap.reset();
+        }
     }
 }

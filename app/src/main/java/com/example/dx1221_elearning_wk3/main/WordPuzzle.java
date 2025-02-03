@@ -40,6 +40,7 @@ public class WordPuzzle extends Puzzle
     private int correctSoundId;
     private int wrongSoundId;
 
+    private boolean clicked = false;
 
     public WordPuzzle()
     {
@@ -80,6 +81,7 @@ public class WordPuzzle extends Puzzle
 
         correctSoundId = soundPool.load(GameActivity.instance, R.raw.correct_sound, 1);
         wrongSoundId = soundPool.load(GameActivity.instance, R.raw.wrong_sound, 1);
+
     }
 
     @Override
@@ -93,6 +95,7 @@ public class WordPuzzle extends Puzzle
             if(letterButtons.get(i).isClicked() && !userCharacters.contains(letterButtons.get(i).letter))
             {
                 userCharacters.add(letterButtons.get(i).letter);
+                clicked = true;
             }
         }
 
@@ -107,11 +110,13 @@ public class WordPuzzle extends Puzzle
             }
             else
             {
-                soundPool.play(wrongSoundId, volume, volume, 1, 0, 1);
+                if(clicked)
+                    soundPool.play(wrongSoundId, volume, volume, 1, 0, 1);
+
                 userCharacters.clear();
             }
         }
-
+        clicked = false;
         Log.d("User Characters", " " + convertToString(userCharacters));
 
     }
@@ -119,6 +124,7 @@ public class WordPuzzle extends Puzzle
     @Override
     public void RandomizePuzzle()
     {
+        clicked = false;
         letterButtons.clear();
         characters.clear();
         userCharacters.clear();
