@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -30,6 +31,9 @@ public class LoseMenu extends Activity implements View.OnClickListener
         _mainMenuBtn.setOnClickListener(this);
 
         // Retrieve and display score
+        MainGameScene.StopBackgroundMusic();
+        Log.d("EndGame", "ended game");
+
         TextView _scoreText = findViewById(R.id.scoreText);
         int finalScore = getIntent().getIntExtra("finalScore", 0); // Default to 0 if no score is passed
         PlayGames.getLeaderboardsClient(this).submitScore(getString(R.string.leaderboard), finalScore);
@@ -44,11 +48,14 @@ public class LoseMenu extends Activity implements View.OnClickListener
     @Override
     public void onClick(View v)
     {
-        if(v == _restartBtn) {
+        if(v == _restartBtn)
+        {
+            MainGameScene.StopBackgroundMusic();
             startActivity(new Intent(this, GameActivity.class));
         }
         else if(v == _mainMenuBtn)
         {
+            MainGameScene.StopBackgroundMusic();
             startActivity(new Intent().setClass(this, MainMenu.class));
             GameScene.enter(MainGameScene.class);
         }

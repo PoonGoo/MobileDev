@@ -67,9 +67,12 @@ public class CoconutTrap extends Traps{
     }
 
     @Override
-    public void reset() {
+    public void reset()
+    {
         super.reset();
         showIndicator = true;
+        TimerBeforeDrop = 2;
+
     }
     @Override
     public void DoCollision(PlayerEntity player) {

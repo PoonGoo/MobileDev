@@ -52,6 +52,7 @@ public class ArrowTrap extends Traps
     public void reset() {
         super.reset();
         showIndicator = true;
+        TimerBeforeShoot = 2;
     }
 
     @Override

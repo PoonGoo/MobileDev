@@ -66,6 +66,7 @@ public class MainGameScene extends GameScene {
 
     @Override
     public void onCreate() {
+        PowerupManager.getInstance().addShield(1);
         super.onCreate();
         screenHeight = GameActivity.instance.getResources().getDisplayMetrics().heightPixels;
         screenWidth = GameActivity.instance.getResources().getDisplayMetrics().widthPixels;
@@ -250,12 +251,12 @@ public class MainGameScene extends GameScene {
             int soundVolume = SharedPrefManager.getInstance().readFromSharedPreferences(GameActivity.instance, "settings", "sound_volume");
             float volume = soundVolume / 100f;
 
-            if (_bgMusic != null)
-            {
-                _bgMusic.stop();
-                _bgMusic.release();
-                _bgMusic = null;
-            }
+//            if (_bgMusic != null)
+//            {
+//                _bgMusic.stop();
+//                _bgMusic.release();
+//                _bgMusic = null;
+//            }
 
             MediaPlayer loseGameSound = MediaPlayer.create(GameActivity.instance.getApplicationContext(), R.raw.lose_game_sound);
             loseGameSound.setVolume(volume, volume);
@@ -270,6 +271,7 @@ public class MainGameScene extends GameScene {
             // Reset variables after intent
             ResetVariables();
             GameScene.exitCurrent();
+
         }
     }
 
@@ -315,8 +317,7 @@ public class MainGameScene extends GameScene {
 
         super.onEnter();
         int musicVolume = SharedPrefManager.getInstance().readFromSharedPreferences(GameActivity.instance, "settings", "music_volume");
-
-        StopBackgroundMusic();
+        ResetVariables();
 
         _bgMusic = MediaPlayer.create(GameActivity.instance.getApplicationContext(), R.raw.main_game_music);
         _bgMusic.setLooping(true);
@@ -354,6 +355,7 @@ public class MainGameScene extends GameScene {
                 entity.onRender(canvas);
             }
             trapManager.onRender(canvas);
+            PowerupManager.getInstance().onRender(canvas);
 
         }
         else
