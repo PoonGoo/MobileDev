@@ -24,6 +24,7 @@ public class HomeDialog extends DialogFragment {
         builder.setMessage("Return to main menu?");
         builder.setPositiveButton("Yes", (dialog, which) -> {
             _isShowing = false;
+            MainGameScene.StopBackgroundMusic();
             GameActivity.instance.finish();
         });
         builder.setNegativeButton("No", (dialog, which) -> {
